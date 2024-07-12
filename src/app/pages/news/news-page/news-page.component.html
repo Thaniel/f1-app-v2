@@ -1,0 +1,23 @@
+<app-nav-bar></app-nav-bar>
+<app-header [title]="'News'"></app-header>
+<app-header-buttons [title]="'News'" (created)="loadNews()"></app-header-buttons>
+
+<div class="container pt-4 p-5">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="col" *ngFor="let new of news">
+
+      <div class="card shadow card-clickable position-relative">
+        <img class="card-img-top card-img-small" [src]="new.imageUrl" alt="{{ new.title }}" loading="lazy" [routerLink]="['/news', new.id]">
+        <div class="card-body" [routerLink]="['/news', new.id]">
+          <h5 class="card-title">{{ new.title }}</h5>
+          <h6 class="card-subtitle">{{ new.date | date:'mediumDate' }}</h6>
+          <p class="card-text">{{ new.summary }}</p>
+        </div>
+
+        <app-edit-menu (edit)="editNew(new)" (delete)="deleteNew(new)"
+          class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
+
+      </div>
+    </div>
+  </div>
+</div>

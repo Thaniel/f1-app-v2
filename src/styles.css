@@ -1,1 +1,169 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.info-snackBar {
+    --mdc-snackbar-container-color: #424242;
+    --mat-snack-bar-button-color: white;
+    --mdc-snackbar-supporting-text-color: white;
+}
+
+.error-snackBar {
+    --mdc-snackbar-container-color: #C20000;
+    --mat-snack-bar-button-color: white;
+    --mdc-snackbar-supporting-text-color: white;
+}
+
+/*
+ * Dialog
+ * 
+ */
+.dialog-header {
+    background-color: #212121;
+    color: white !important;
+}
+
+/* 
+ * Main Button 
+ * Principal button of each component or page
+ *
+ */
+.main-button {
+    color: white !important;
+    background-color: #D40000 !important;
+}
+
+.main-button:hover {
+    color: white !important;
+    background-color: #424242 !important;
+}
+
+/* 
+ * Cards
+ * Visual effects of interacting with the cards
+ *
+ */
+.card {
+    border: none;
+}
+
+.card-clickable {
+    background-color: #f8f8f8;
+    border-bottom: 5px solid #D50000;
+}
+
+.card-clickable:hover {
+    cursor: pointer;
+    background-color: #eeeeff;
+    border-bottom: 5px solid #424242;
+}
+
+.card-img-small {
+    height: 150px;
+    width: auto;
+    object-fit: cover;
+}
+
+/*
+ * Form Style
+ *
+ *
+ */
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 
+ * Border Color
+ * Color for each team
+ *
+ */
+.mer-border-left {
+    border-left: 5px solid #00A19B;
+}
+
+.redbull-border-left {
+    border-left: 5px solid #121F45;
+}
+
+.mclaren-border-left {
+    border-left: 5px solid #FF8000;
+}
+
+.fer-border-left {
+    border-left: 5px solid #EF1A2D;
+}
+
+.alpine-border-left {
+    border-left: 5px solid #0090FF;
+}
+
+.rb-border-left {
+    border-left: 5px solid #20394C;
+}
+
+.am-border-left {
+    border-left: 5px solid #00594f;
+}
+
+.sauber-border-left {
+    border-left: 5px solid #00e701;
+}
+
+.williams-border-left {
+    border-left: 5px solid #004AFF;
+}
+
+.haas-border-left {
+    border-left: 5px solid #AEAEAE;
+}
+
+.mercedes-border-bottom {
+    border-bottom: 5px solid #00A19B;
+}
+
+.redbull-border-bottom {
+    border-bottom: 5px solid #121F45;
+}
+
+.mclaren-border-bottom {
+    border-bottom: 5px solid #FF8000;
+}
+
+.ferrari-border-bottom {
+    border-bottom: 5px solid #EF1A2D;
+}
+
+.alpine-border-bottom {
+    border-bottom: 5px solid #0090FF;
+}
+
+.rb-border-bottom {
+    border-bottom: 5px solid #20394C;
+}
+
+.astonmartin-border-bottom {
+    border-bottom: 5px solid #00594f;
+}
+
+.sauber-border-bottom {
+    border-bottom: 5px solid #00e701;
+}
+
+.williams-border-bottom {
+    border-bottom: 5px solid #004AFF;
+}
+
+.haas-border-bottom {
+    border-left: 5px solid #AEAEAE;
+}

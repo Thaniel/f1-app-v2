@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../../../../assets/f1_logo_white.png" alt="Logo" height="40" loading="lazy">
+          </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <ng-container *ngFor="let item of items">
+            <li class="nav-item" *ngIf="item.route">
+              <a class="nav-link" [routerLink]="item.route">
+                <mat-icon [fontIcon]="item.icon"></mat-icon>
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="item.url">
+              <a class="nav-link" [href]="item.url">
+                <mat-icon [fontIcon]="item.icon"></mat-icon>
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>

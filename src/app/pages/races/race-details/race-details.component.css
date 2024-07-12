@@ -1,0 +1,13 @@
+.header{
+    background-color: #D50000;
+    color: white;
+}
+
+.card-title{
+    background-color: #212121;
+    color: white;
+    border-radius: 3px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+

@@ -1,0 +1,8 @@
+<span class="snackBar" matSnackBarLabel>
+    <mat-icon class="material-symbols-outlined" [fontIcon]="icon"></mat-icon>
+    {{text}}
+</span>
+
+<span matSnackBarActions>
+    <button mat-button matSnackBarAction (click)="snackBarRef.dismiss()">Acept</button>
+</span>

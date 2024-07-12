@@ -1,0 +1,7 @@
+:host {
+    display: flex;
+}
+
+.mat-icon{
+    margin: -7px 10px;    
+}

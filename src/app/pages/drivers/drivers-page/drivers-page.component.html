@@ -1,0 +1,21 @@
+<app-nav-bar></app-nav-bar>
+<app-header [title]="'Drivers'"></app-header>
+<app-header-buttons [title]="'Drivers'"></app-header-buttons>
+
+<div class="container pt-4 p-5">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 g-4">
+    <div class="col" *ngFor="let driver of drivers">
+      <div class="card shadow card-clickable position-relative" [style.border-bottom]="'5px solid ' + driver.team">
+        <img src="../../../../assets/verstappen.jpg" class="card-img-top card-img-small" alt="..." loading="lazy"
+          [routerLink]="['/drivers', driver.id]">
+        <div class="card-body" [routerLink]="['/drivers', driver.id]">
+          <h5 class="card-title">{{ driver.firstName | uppercase }} {{ driver.lastName | uppercase }}</h5>
+        </div>
+
+        <app-edit-menu (edit)="editDriver(driver)" (delete)="deleteDriver(driver)"
+          class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
+
+      </div>
+    </div>
+  </div>
+</div>

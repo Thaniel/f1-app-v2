@@ -1,0 +1,10 @@
+.header{
+    background-color: #D50000;
+    color: white;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.header-title{
+    font-style: italic;
+}

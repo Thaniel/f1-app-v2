@@ -1,0 +1,33 @@
+<h2 mat-dialog-title class="dialog-header mb-4 pb-4">
+  {{ isCreating ? 'Create' : 'Edit'}} new{{ isCreating? '' : ':'}}
+  <small *ngIf="currentNew.id">{{ currentNew.title }}</small>
+</h2>
+
+<mat-dialog-content>
+  <form autocomplete="off" [formGroup]="newForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput type="text" required formControlName="title" placeholder="New's title" />
+      <span *ngIf="isValidField('title')" class="form-text text-danger">Required</span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Summary</mat-label>
+      <input matInput type="text" required formControlName="summary" placeholder="New's summary" />
+      <span *ngIf="isValidField('summary')" class="form-text text-danger">Required</span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" required formControlName="text"
+        placeholder="Detailed description of the news"></textarea>
+      <span *ngIf="isValidField('text')" class="form-text text-danger">Required</span>
+    </mat-form-field>
+
+    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile"></app-file-input>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex justify-content-end mb-2">
+  <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
+</mat-dialog-actions>

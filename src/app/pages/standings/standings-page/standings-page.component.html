@@ -1,0 +1,41 @@
+<app-nav-bar></app-nav-bar>
+<app-header [title]="'Standings'"></app-header>
+
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="btn-group m-2">
+            <input type="radio" class="btn-check" name="btnradio" id="btnDrivers" autocomplete="off" checked
+                (change)="onSelectionChange($event)">
+            <label class="btn btn-outline-danger" for="btnDrivers">Drivers</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnTeams" autocomplete="off"
+                (change)="onSelectionChange($event)">
+            <label class="btn btn-outline-danger" for="btnTeams">Teams</label>
+        </div>
+
+    </div>
+
+    <div class="card shadow m-2" *ngIf="isDriversSelected">
+        <div class="header-row p-4">
+            <div class="col ps-3">Drivers</div>
+            <div class="col">Points</div>
+        </div>
+        <div class="row m-2 p-3">
+            <div class="col">Driver 1</div>
+            <div class="col">250</div>
+        </div>
+    </div>
+
+    <div class="card shadow m-2" *ngIf="!isDriversSelected">
+        <div class="header-row p-4">
+            <div class="col ps-3">Teams</div>
+            <div class="col">Points</div>
+        </div>
+        <div class="row body-row p-3 m-2">
+            <div class="col">Team 1</div>
+            <div class="col">350</div>
+        </div>
+    </div>
+
+</div>
