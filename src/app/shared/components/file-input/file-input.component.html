@@ -1,13 +1,13 @@
 <mat-form-field>
     <div>
       <mat-toolbar>
-        <input matInput [value]="selectedFile ? selectedFile.name : 'Select Image'" />
+        <input matInput [value]="selectedFile ? selectedFile.name : 'Select ' + title + ' image'" />
       </mat-toolbar>
 
       <input type="file" id="fileInput" name="fileInput" accept="image/*" (change)="onFileSelected($event)" />
     </div>
 </mat-form-field>
 
-<div class="image-container">
+<div class="image-container mb-4">
     <img *ngIf="imagePreview" [src]="imagePreview" alt="File uploaded" class="image-preview mt-4" />
 </div>

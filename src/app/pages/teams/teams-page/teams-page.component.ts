@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { ITeam } from '../../../core/interfaces/team.interface';
@@ -8,6 +8,10 @@ import { HeaderButtonsComponent } from '../../../shared/components/header-button
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
 import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.component';
+import { TeamsService } from '../../../core/services/teams/teams.service';
+import { TIME_OUT } from '../../../shared/constants/constants';
+import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-teams-page',
@@ -16,42 +20,45 @@ import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.co
   templateUrl: './teams-page.component.html',
   styleUrl: './teams-page.component.css'
 })
-export class TeamsPageComponent {
-
-  teams: ITeam[] = [
-    {
-      id: 1,
-      name: "Mercedes",
-      fullName: "Mercedes-AMG Petronas Formula One Team",
-      teamPrincipal: "Toto Wolff",
-      titles: 7,
-      points: 1000,
-      colorCode: "#00D2BE",
-      driver1: null,
-      driver2: null,
-      description: "One of the most successful teams in Formula 1 history.",
-      carImage: null,
-      carImageUrl: "",
-      logoImage: null,
-      logoImageUrl: "",
-    }
-  ];
+export class TeamsPageComponent implements OnInit {
+  teams: ITeam[] = [];
 
   constructor(
+    private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private teamsService: TeamsService,
   ) { }
 
-  editTeam(team: ITeam): void {
-    console.log("Edit team: " + team.id);
+  ngOnInit(): void {
+    this.loadTeams();
 
+    this.teamsService.reload$.subscribe(() => {
+      this.loadTeams();
+    });
+  }
+  async loadTeams() {
+    this.teams = await this.teamsService.getAll();
+  }
+
+  editTeam(team: ITeam): void {
     this.dialog.open(CreateEditTeamComponent, {
       data: team,
       width: '90vw',
     });
   }
 
-  deleteTeam(team: ITeam): void {
-    console.log("Delete team: " + team.id);
-    this.teams = this.teams.filter(t => t.id !== team.id);
+  async deleteTeam(team: ITeam) {
+    const success = await this.teamsService.delete(team.id);
+    this.showSnackBar(success);
+    this.teamsService.loadTeams();
+  }
+
+  private showSnackBar(isOk: boolean): void {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: TIME_OUT,
+      data: { text: (isOk) ? 'Team deleted!' : 'Error while deleting team!', isOk: isOk },
+      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top'
+    });
   }
 }

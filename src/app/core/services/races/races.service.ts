@@ -48,7 +48,7 @@ export class RacesService {
       });
 
       if (race.image) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, race.image, RacesService.COLLECTION_NAME);
+        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, race.image, RacesService.COLLECTION_NAME, "imageUrl");
         if (!imageUploadSuccess) {
           console.error('Error uploading image');
           return false;

@@ -12,7 +12,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 export class TeamDetailsComponent {
   team: ITeam =
   {
-    id: 1,
+    id: '1',
     name: "Mercedes",
     fullName: "Mercedes-AMG Petronas Formula One Team",
     teamPrincipal: "Toto Wolff",

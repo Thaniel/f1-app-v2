@@ -1,66 +1,73 @@
 <h2 mat-dialog-title class="dialog-header mb-4 pb-4"> <!-- Todo refactor -->
-    {{ isCreating ? 'Create' : 'Edit'}} Team
-    <small *ngIf="team.id">{{ team.name }}</small>
-  </h2>
-  
-  <mat-dialog-content>
-    <form autocomplete="off" [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="form-container">
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput type="text" required formControlName="name" placeholder="Team name" />
-        <span *ngIf="isValidField('name')" class="form-text text-danger">Required</span>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Full name</mat-label>
-        <input matInput type="text" required formControlName="fullName" placeholder="Team full name" />
-        <span *ngIf="isValidField('fullName')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+  {{ isCreating ? 'Create' : 'Edit'}} Team
+  <small *ngIf="currentTeam.id">{{ currentTeam.name }}</small>
+</h2>
 
-      <mat-form-field>
-        <mat-label>Team principal</mat-label>
-        <input matInput type="text" required formControlName="teamPrincipal" placeholder="Team principal name" />
-        <span *ngIf="isValidField('teamPrincipal')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+<mat-dialog-content>
+  <form autocomplete="off" [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" required formControlName="name" placeholder="Team name" />
+      <span *ngIf="isValidField('name')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Titles</mat-label>
-        <input matInput type="number" min="0" required formControlName="titles" placeholder="Number of builders titles" />
-        <span *ngIf="isValidField('titles')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Full name</mat-label>
+      <input matInput type="text" required formControlName="fullName" placeholder="Team full name" />
+      <span *ngIf="isValidField('fullName')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Points</mat-label>
-        <input matInput type="number" min="0" required formControlName="points" placeholder="Number of points" />
-        <span *ngIf="isValidField('points')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Team principal</mat-label>
+      <input matInput type="text" required formControlName="teamPrincipal" placeholder="Team principal name" />
+      <span *ngIf="isValidField('teamPrincipal')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Color</mat-label> <!-- TODO: color picker -->
-        <input matInput type="text" required formControlName="color" placeholder="Team color" />
-        <span *ngIf="isValidField('color')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Titles</mat-label>
+      <input matInput type="number" min="0" required formControlName="titles" placeholder="Number of builders titles" />
+      <span *ngIf="isValidField('titles')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>First driver</mat-label> <!-- TODO: Mat-select -->
-        <input matInput type="text" required formControlName="driver1" placeholder="First driver" /> <!-- TODO mat-select--> 
-        <span *ngIf="isValidField('driver1')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Points</mat-label>
+      <input matInput type="number" min="0" required formControlName="points" placeholder="Number of points" />
+      <span *ngIf="isValidField('points')" class="form-text text-danger">Required</span>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>First driver</mat-label> <!-- TODO: Mat-select -->
+      <input matInput type="text" required formControlName="driver1" placeholder="First driver" />
+      <span *ngIf="isValidField('driver1')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Second driver</mat-label> <!-- TODO: Mat-select -->
-        <input matInput type="text" required formControlName="driver2" placeholder="Second driver" /> <!-- TODO mat-select--> 
-        <span *ngIf="isValidField('driver2')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Second driver</mat-label> <!-- TODO: Mat-select -->
+      <input matInput type="text" required formControlName="driver2" placeholder="Second driver" />
+      <span *ngIf="isValidField('driver2')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput type="text" required formControlName="description" placeholder="Circuit description" ></textarea>
-        <span *ngIf="isValidField('description')" class="form-text text-danger">Required</span>
-      </mat-form-field>
-    </form>
-  </mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" required formControlName="description"
+        placeholder="Circuit description"></textarea>
+      <span *ngIf="isValidField('description')" class="form-text text-danger">Required</span>
+    </mat-form-field>
 
-  <mat-dialog-actions class="d-flex justify-content-end mb-2">
-    <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
-  </mat-dialog-actions>
+    <app-file-input (fileSelected)="onCarFileSelected($event)" [initialImage]="selectedCarFile"
+      title="car"></app-file-input>
+    <app-file-input (fileSelected)="onLogoFileSelected($event)" [initialImage]="selectedLogoFile"
+      title="logo"></app-file-input>
+
+    <mat-form-field>
+      <mat-label>Color</mat-label>
+      <input matInput [(colorPicker)]="color" [value]="color" (colorPickerChange)="onColorChange($event)" type="text"
+        required formControlName="colorCode" placeholder="Team color code" />
+      <span *ngIf="isValidField('colorCode')" class="form-text text-danger">Required</span>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex justify-content-end mb-2">
+  <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
+</mat-dialog-actions>

@@ -24,7 +24,7 @@
       <span *ngIf="isValidField('text')" class="form-text text-danger">Required</span>
     </mat-form-field>
 
-    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile"></app-file-input>
+    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile" title="news"></app-file-input>
   </form>
 </mat-dialog-content>
 

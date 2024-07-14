@@ -42,7 +42,7 @@ export class NewsService {
       });
 
       if (n.image) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, n.image, NewsService.COLLECTION_NAME);
+        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, n.image, NewsService.COLLECTION_NAME, "imageUrl");
         if (!imageUploadSuccess) {
           console.error('Error uploading image');
           return false;

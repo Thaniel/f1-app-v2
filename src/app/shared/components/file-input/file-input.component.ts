@@ -16,6 +16,7 @@ export class FileInputComponent implements OnInit{
   imagePreview: string | ArrayBuffer | null = null;
 
   @Input() initialImage: File | null = null;
+  @Input() title: string = "";
   @Output() fileSelected = new EventEmitter<File>();
 
   ngOnInit() {

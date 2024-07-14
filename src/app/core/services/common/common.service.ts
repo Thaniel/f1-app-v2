@@ -18,7 +18,7 @@ export class CommonService {
   }
 
   // Upload Image 
-  public async uploadImage(itemId: string, imageFile: File, collection: string): Promise<boolean> {
+  public async uploadImage(itemId: string, imageFile: File, collection: string, fieldName: string): Promise<boolean> {
     try {
       const storageRef = ref(this.storage, `${collection}_images/${itemId}/${imageFile.name}`);
 
@@ -28,7 +28,7 @@ export class CommonService {
       // Update imageUrl in document
       const raceDocRef = doc(this.db, collection, itemId);
       await updateDoc(raceDocRef, {
-        imageUrl: downloadURL,
+        [fieldName]: downloadURL,
       });
 
       console.log('Upload image: ' + imageFile.name);
