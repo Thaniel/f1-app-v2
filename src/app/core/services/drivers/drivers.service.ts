@@ -98,7 +98,7 @@ export class DriversService {
     try {
       const driverDocRef = doc(this.db, DriversService.COLLECTION_NAME, id);
 
-      this.deleteImagesFromDriver(driverDocRef);
+      await this.deleteImagesFromDriver(driverDocRef);
 
       await deleteDoc(driverDocRef);
       console.log("Driver deleted with ID: ", id);
@@ -121,14 +121,9 @@ export class DriversService {
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
-
+        
         // Get driver image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
-
+        data['image'] = await urlToFile(data['imageUrl']);
 
         drivers.push({ id: doc.id, ...data } as IDriver);
       }));
@@ -150,14 +145,10 @@ export class DriversService {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-
+        
         // Get driver image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
-
+        data['image'] = await urlToFile(data['imageUrl']);
+        
         return { id: docSnap.id, ...data } as IDriver;
       } else {
         console.error("No such document!");

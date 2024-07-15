@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDriver } from '../../../core/interfaces/driver.interface';
 import { DriversService } from '../../../core/services/drivers/drivers.service';
@@ -10,18 +12,22 @@ import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-sa
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { ITeam } from '../../../core/interfaces/team.interface';
+import { TeamsService } from '../../../core/services/teams/teams.service';
 
 @Component({
   selector: 'app-create-edit-driver',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatInputModule, CancelSaveButtonsComponent, FileInputComponent],
+  imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatInputModule, CancelSaveButtonsComponent, FileInputComponent, MatOptionModule, MatSelectModule],
   templateUrl: './create-edit-driver.component.html',
   styleUrl: './create-edit-driver.component.css'
 })
-export class CreateEditDriverComponent {
+export class CreateEditDriverComponent implements OnInit {
   isCreating: boolean = true;
   titleAction: string = "Create";
   selectedFile: File | null = null;
+
+  teams: ITeam[] = [];
 
   public driverForm: FormGroup = this.fb.group({
     id: [],
@@ -42,11 +48,20 @@ export class CreateEditDriverComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private driversService: DriversService,
+    private teamsService: TeamsService,
   ) {
     if (data) {
       this.driverForm.patchValue(data);
       this.isCreating = false;
     }
+  }
+
+  ngOnInit(): void {
+    this.loadTeams();
+  }
+
+  async loadTeams() {
+    this.teams = await this.teamsService.getAll();
   }
 
   get currentDriver(): IDriver {
@@ -56,7 +71,7 @@ export class CreateEditDriverComponent {
   isValidField(field: string): boolean | null {
     return this.driverForm.controls[field].errors && this.driverForm.controls[field].touched;
   }
-  
+
   onFileSelected(file: File) {
     this.selectedFile = file;
   }
@@ -100,7 +115,7 @@ export class CreateEditDriverComponent {
     });
   }
 
-  save(): void{
+  save(): void {
     this.onSubmit();
   }
 

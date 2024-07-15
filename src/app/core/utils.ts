@@ -28,15 +28,20 @@ export function extractFilePart(url: string): string | null {
 /*
  * Convert an URL from Firebase storage into a Fle
  */
-export async function urlToFile(url: string): Promise<File> {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const fileType = blob.type || 'image/jpeg';  // Default to 'image/jpeg' if no type is provided
-    const fileName = extractFilePart(url);
+export async function urlToFile(url: string): Promise<File | null> {
+    let file : File | null = null;
 
-    if (fileName != null) {
-        return new File([blob], fileName, { type: fileType });
-    } else {
-        return new File([blob], "marvel-spider.jpg", { type: fileType });
+    if (url != null){
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const fileType = blob.type || 'image/jpeg';  // Default to 'image/jpeg' if no type is provided
+        const fileName = extractFilePart(url);
+    
+        if (fileName != null) {
+            file = new File([blob], fileName, { type: fileType });
+        }
     }
+
+    return file;
+
 }

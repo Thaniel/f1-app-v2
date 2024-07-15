@@ -42,8 +42,10 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Team</mat-label> <!-- TODO: Mat-select -->
-      <input matInput type="text" required formControlName="team" placeholder="Driver team" />
+      <mat-label>Team</mat-label>
+      <mat-select required formControlName="team" placeholder="Driver team">
+        <mat-option *ngFor="let team of teams" [value]="team.id">{{ team.name }}</mat-option>
+      </mat-select>
       <span *ngIf="isValidField('team')" class="form-text text-danger">Required</span>
     </mat-form-field>
 

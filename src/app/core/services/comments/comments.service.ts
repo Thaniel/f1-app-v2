@@ -16,7 +16,9 @@ export class CommentsService {
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
   }
 
-  // Create
+  /*
+   * Create Comment
+   */
   public async create(newsId: string, comment: IComment): Promise<boolean> {
     try {
       const newsDocRef = doc(this.db, "news", newsId);
@@ -35,8 +37,10 @@ export class CommentsService {
       return false;
     }
   }
-  
-  // Update
+
+  /*
+   * Update Comment
+   */
   public async update(newsId: string, commentId: string, updatedData: Partial<IComment>): Promise<boolean> {
     try {
       const newsDocRef = doc(this.db, "news", newsId);
@@ -51,7 +55,9 @@ export class CommentsService {
     }
   }
 
-  // Delete
+  /*
+   * Delete Comment
+   */
   public async delete(newsId: string, commentId: string): Promise<boolean> {
     try {
       const newsDocRef = doc(this.db, "news", newsId);
@@ -66,18 +72,19 @@ export class CommentsService {
     }
   }
 
-  // Get all from a News
+  /*
+   * Get all Comments from a News
+   */
   public async getCommentsFromDoc(newsDocRef: DocumentReference): Promise<IComment[]> {
     const commentsColRef = collection(newsDocRef, "comments");
     const q = query(commentsColRef, orderBy("date", "desc"));
     const commentsSnap = await getDocs(q);
-    
+
     const comments: IComment[] = commentsSnap.docs.map(doc => {
       const commentData = doc.data();
 
-      // Convert Timestamp to Date
       convertTimestamp2Date(commentData);
-      
+
       commentData['isEditing'] = false;
 
       return { id: doc.id, ...commentData } as IComment;
@@ -85,13 +92,15 @@ export class CommentsService {
 
     return comments;
   }
-
-  // Delete all from a News
+  
+  /*
+   * Delete all Comments from a News
+   */
   public async deleteCommentsFromDoc(newsDocRef: DocumentReference): Promise<boolean> {
     try {
       const commentsColRef = collection(newsDocRef, "comments");
       const commentsSnap = await getDocs(commentsColRef);
-      
+
       const batch = writeBatch(this.db);
 
       commentsSnap.forEach((commentDoc) => {

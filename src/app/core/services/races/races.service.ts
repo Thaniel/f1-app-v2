@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { IRace } from '../../interfaces/race.interface';
@@ -34,11 +34,11 @@ export class RacesService {
         grandPrix: race.grandPrix,
         circuit: race.circuit,
         country: race.country,
-        firstPracticeDate: race.firstPracticeDate,
-        secondPracticeDate: race.secondPracticeDate,
-        thirdPracticeDate: race.thirdPracticeDate,
-        classificationDate: race.classificationDate,
-        date: race.date,
+        firstPracticeDate: new Date(race.firstPracticeDate),
+        secondPracticeDate: new Date(race.secondPracticeDate),
+        thirdPracticeDate: new Date(race.thirdPracticeDate),
+        classificationDate: new Date(race.classificationDate),
+        date: new Date(race.date),
         appearance: race.appearance,
         distance: race.distance,
         laps: race.laps,
@@ -104,7 +104,7 @@ export class RacesService {
     try {
       const raceDocRef = doc(this.db, RacesService.COLLECTION_NAME, id);
 
-      this.deleteImageFromRace(raceDocRef);
+      await this.deleteImageFromRace(raceDocRef);
 
       await deleteDoc(raceDocRef);
       console.log("Race deleted with ID: ", id);
@@ -127,19 +127,16 @@ export class RacesService {
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
-        if (data['date'] instanceof Timestamp) {
-          data['date'] = data['date'].toDate();
-        }
 
-        // Get Image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
+        this.timestamp2Date(data);
+
+        // Get race image
+        data['image'] = await urlToFile(data['imageUrl']);
 
         races.push({ id: doc.id, ...data } as IRace);
       }));
+
+      races.sort((a, b) => a.date.getTime() - b.date.getTime());
 
       return races;
     } catch (error) {
@@ -159,15 +156,10 @@ export class RacesService {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
-        // Convert Timestamp to Date
         convertTimestamp2Date(data);
 
-        // Get image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
+        // Get race image
+        data['image'] = await urlToFile(data['imageUrl']);
 
         return { id: docSnap.id, ...data } as IRace;
       } else {
@@ -179,7 +171,6 @@ export class RacesService {
       return null;
     }
   }
-
 
   // Delete the image from Firebase Storage
   private async deleteImageFromRace(raceDocRef: DocumentReference) {
@@ -194,6 +185,29 @@ export class RacesService {
       const imageRef = ref(this.storage, imageUrl);
       await deleteObject(imageRef);
       console.log('Image deleted: ', imageUrl);
+    }
+  }
+
+  // Convert timestamp to Date
+  private timestamp2Date(data: DocumentData) {
+    if (data['firstPracticeDate'] instanceof Timestamp) {
+      data['firstPracticeDate'] = data['firstPracticeDate'].toDate();
+    }
+
+    if (data['secondPracticeDate'] instanceof Timestamp) {
+      data['secondPracticeDate'] = data['secondPracticeDate'].toDate();
+    }
+
+    if (data['thirdPracticeDate'] instanceof Timestamp) {
+      data['thirdPracticeDate'] = data['thirdPracticeDate'].toDate();
+    }
+
+    if (data['classificationDate'] instanceof Timestamp) {
+      data['classificationDate'] = data['classificationDate'].toDate();
+    }
+
+    if (data['date'] instanceof Timestamp) {
+      data['date'] = data['date'].toDate();
     }
   }
 

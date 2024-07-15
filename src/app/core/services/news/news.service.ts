@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { DocumentReference, Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { DocumentReference, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import { Subject } from 'rxjs';
 import { INew } from "../../interfaces/new.interface";
@@ -97,7 +97,7 @@ export class NewsService {
     try {
       const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, id);
 
-      this.deleteImageFromNew(newsDocRef);
+      await this.deleteImageFromNew(newsDocRef);
 
       // Delete comments subcollection
       await this.commentsService.deleteCommentsFromDoc(newsDocRef);
@@ -123,16 +123,11 @@ export class NewsService {
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
-        if (data['date'] instanceof Timestamp) {
-          data['date'] = data['date'].toDate();
-        }
 
-        // Get Image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
+        convertTimestamp2Date(data);
+
+        // Get news image
+        data['image'] = await urlToFile(data['imageUrl']);
 
         news.push({ id: doc.id, ...data } as INew);
       }));
@@ -157,18 +152,12 @@ export class NewsService {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
-        // Convert Timestamp to Date
         convertTimestamp2Date(data);
-
+        
         // Get comments
-        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
-
-        // Get image
-        if (data['imageUrl']) {
-          data['image'] = await urlToFile(data['imageUrl']);
-        } else {
-          data['image'] = null;
-        }
+        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef); 
+        // Get news image
+        data['image'] = await urlToFile(data['imageUrl']); 
 
         return { id: docSnap.id, ...data } as INew;
       } else {

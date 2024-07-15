@@ -34,16 +34,20 @@
       <input matInput type="number" min="0" required formControlName="points" placeholder="Number of points" />
       <span *ngIf="isValidField('points')" class="form-text text-danger">Required</span>
     </mat-form-field>
-    
+
     <mat-form-field>
-      <mat-label>First driver</mat-label> <!-- TODO: Mat-select -->
-      <input matInput type="text" required formControlName="driver1" placeholder="First driver" />
+      <mat-label>First driver</mat-label>
+      <mat-select required formControlName="driver1" placeholder="First driver">
+        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName }}</mat-option>
+      </mat-select>
       <span *ngIf="isValidField('driver1')" class="form-text text-danger">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Second driver</mat-label> <!-- TODO: Mat-select -->
-      <input matInput type="text" required formControlName="driver2" placeholder="Second driver" />
+      <mat-label>Second driver</mat-label>
+      <mat-select required formControlName="driver2" placeholder="Second driver">
+        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName }}</mat-option>
+      </mat-select>
       <span *ngIf="isValidField('driver2')" class="form-text text-danger">Required</span>
     </mat-form-field>
 

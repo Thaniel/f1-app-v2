@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +16,8 @@ import { TIME_OUT } from '../../../shared/constants/constants';
   standalone: true,
   imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatInputModule, CancelSaveButtonsComponent, FileInputComponent],
   templateUrl: './create-edit-race.component.html',
-  styleUrl: './create-edit-race.component.css'
+  styleUrl: './create-edit-race.component.css',
+  providers: [DatePipe]
 })
 export class CreateEditRaceComponent {
   isCreating: boolean = true;
@@ -49,9 +50,20 @@ export class CreateEditRaceComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private racesService: RacesService,
+    private datePipe: DatePipe,
   ) {
     if (data) {
-      this.raceForm.patchValue(data);
+      console.log(data);
+      const formattedData = {
+        ...data,
+        firstPracticeDate: this.formatDate(data.firstPracticeDate),
+        secondPracticeDate: this.formatDate(data.secondPracticeDate),
+        thirdPracticeDate: this.formatDate(data.thirdPracticeDate),
+        classificationDate: this.formatDate(data.classificationDate),
+        date: this.formatDate(data.date),
+      };
+
+      this.raceForm.patchValue(formattedData);
       this.isCreating = false;
       if (data.image) {
         this.selectedFile = data.image;
@@ -85,7 +97,7 @@ export class CreateEditRaceComponent {
       this.dialogRef.close();
     }
   }
-  
+
   private async createRace() {
     this.racesService.create(this.currentRace).then(success => {
       this.showSnackBar(success, 0);
@@ -98,11 +110,11 @@ export class CreateEditRaceComponent {
       grandPrix: this.currentRace.grandPrix,
       circuit: this.currentRace.circuit,
       country: this.currentRace.country,
-      date: this.currentRace.date,
-      firstPracticeDate: this.currentRace.firstPracticeDate,
-      secondPracticeDate: this.currentRace.secondPracticeDate,
-      thirdPracticeDate: this.currentRace.thirdPracticeDate,
-      classificationDate: this.currentRace.classificationDate,
+      firstPracticeDate: new Date(this.currentRace.firstPracticeDate),
+      secondPracticeDate: new Date(this.currentRace.secondPracticeDate),
+      thirdPracticeDate: new Date(this.currentRace.thirdPracticeDate),
+      classificationDate: new Date(this.currentRace.classificationDate),
+      date: new Date(this.currentRace.date),
       appearance: this.currentRace.appearance,
       distance: this.currentRace.distance,
       laps: this.currentRace.laps,
@@ -148,5 +160,11 @@ export class CreateEditRaceComponent {
       panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top'
     });
+  }
+
+  private formatDate(date: Date): string {
+    let transformDate = this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm');
+
+    return transformDate ?? "";
   }
 }

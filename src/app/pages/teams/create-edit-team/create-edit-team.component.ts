@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { IDriver } from '../../../core/interfaces/driver.interface';
 import { ITeam } from '../../../core/interfaces/team.interface';
+import { DriversService } from '../../../core/services/drivers/drivers.service';
 import { TeamsService } from '../../../core/services/teams/teams.service';
 import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-save-buttons/cancel-save-buttons.component';
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
@@ -16,16 +20,18 @@ import { TIME_OUT } from '../../../shared/constants/constants';
 @Component({
   selector: 'app-create-edit-team',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatInputModule, CancelSaveButtonsComponent, FileInputComponent, ColorPickerModule],
+  imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatInputModule, CancelSaveButtonsComponent, FileInputComponent, ColorPickerModule, MatOptionModule, MatSelectModule],
   templateUrl: './create-edit-team.component.html',
   styleUrl: './create-edit-team.component.css'
 })
-export class CreateEditTeamComponent {
+export class CreateEditTeamComponent implements OnInit {
   isCreating: boolean = true;
   titleAction: string = "Create";
   selectedCarFile: File | null = null;
   selectedLogoFile: File | null = null;
   color: string = '#ffffff';
+
+  drivers: IDriver[] = [];
 
   public teamForm: FormGroup = this.fb.group({
     id: [],
@@ -50,12 +56,21 @@ export class CreateEditTeamComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private teamsService: TeamsService,
+    private driversService: DriversService,
   ) {
     if (data) {
       this.teamForm.patchValue(data);
       this.isCreating = false;
       this.color = data.colorCode;
     }
+  }
+
+  ngOnInit(): void {
+    this.loadDrivers();
+  }
+
+  async loadDrivers() {
+    this.drivers = await this.driversService.getAll();
   }
 
   get currentTeam(): ITeam {

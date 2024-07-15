@@ -4,7 +4,7 @@ import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs,
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { ITeam } from '../../interfaces/team.interface';
-import { urlToFile } from '../../utils';
+import { extractFilePart, urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
 import { firebaseConfig } from '../firebase-config';
 
@@ -116,7 +116,7 @@ export class TeamsService {
     try {
       const teamDocRef = doc(this.db, TeamsService.COLLECTION_NAME, id);
 
-      this.deleteImagesFromTeam(teamDocRef);
+      await this.deleteImagesFromTeam(teamDocRef);
 
       await deleteDoc(teamDocRef);
       console.log("Team deleted with ID: ", id);
@@ -141,18 +141,10 @@ export class TeamsService {
         const data = doc.data();
 
         // Get car image
-        if (data['carImageUrl']) {
-          data['carImage'] = await urlToFile(data['carImageUrl']);
-        } else {
-          data['carImage'] = null;
-        }
+        data['carImage'] = await urlToFile(data['carImageUrl']);
 
         // Get logo image
-        if (data['logoImageUrl']) {
-          data['logoImage'] = await urlToFile(data['logoImageUrl']);
-        } else {
-          data['logoImage'] = null;
-        }
+        data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
         teams.push({ id: doc.id, ...data } as ITeam);
       }));
@@ -176,18 +168,10 @@ export class TeamsService {
         const data = docSnap.data();
 
         // Get car image
-        if (data['carImageUrl']) {
-          data['carImage'] = await urlToFile(data['carImageUrl']);
-        } else {
-          data['carImage'] = null;
-        }
+        data['carImage'] = await urlToFile(data['carImageUrl']);
 
         // Get logo image
-        if (data['logoImageUrl']) {
-          data['logoImage'] = await urlToFile(data['logoImageUrl']);
-        } else {
-          data['logoImage'] = null;
-        }
+        data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
         return { id: docSnap.id, ...data } as ITeam;
       } else {
@@ -216,9 +200,11 @@ export class TeamsService {
       await deleteObject(imageRef);
       console.log('Image deleted: ', carImageUrl);
 
-      imageRef = ref(this.storage, logoImageUrl);
-      await deleteObject(imageRef);
-      console.log('Image deleted: ', logoImageUrl);
+      if (extractFilePart(carImageUrl) != extractFilePart(logoImageUrl)) {
+        imageRef = ref(this.storage, logoImageUrl);
+        await deleteObject(imageRef);
+        console.log('Image deleted: ', logoImageUrl);
+      }
     }
   }
 
