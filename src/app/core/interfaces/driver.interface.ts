@@ -1,5 +1,5 @@
 export interface IDriver {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     birthDate: Date;
@@ -7,4 +7,6 @@ export interface IDriver {
     points: number;
     titles: number;
     team: null | string;
+    image: File | null;
+    imageUrl: string;
 }

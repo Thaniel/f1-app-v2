@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CommonService } from '../common/common.service';
-import { Subject } from 'rxjs';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../firebase-config';
 import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
+import { Subject } from 'rxjs';
 import { ITeam } from '../../interfaces/team.interface';
 import { urlToFile } from '../../utils';
+import { CommonService } from '../common/common.service';
+import { firebaseConfig } from '../firebase-config';
 
 @Injectable({
   providedIn: 'root'

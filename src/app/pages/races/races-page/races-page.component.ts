@@ -55,7 +55,7 @@ export class RacesPageComponent implements OnInit {
     this.racesService.loadRaces();
   }
 
-  private showSnackBar(isOk: boolean): void {
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
       data: { text: (isOk) ? 'Race deleted!' : 'Error while deleting race!', isOk: isOk },

@@ -125,7 +125,7 @@ export class CreateEditRaceComponent {
     this.dialogRef.close();
   }
 
-  private showSnackBar(isOk: boolean, action: number): void {
+  private showSnackBar(isOk: boolean, action: number): void {  // TODO refactor
     let actionOK;
     let actionKO;
     switch (action) {

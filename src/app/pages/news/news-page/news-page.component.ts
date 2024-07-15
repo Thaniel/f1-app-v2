@@ -56,7 +56,7 @@ export class NewsPageComponent implements OnInit {
   }
 
 
-  private showSnackBar(isOk: boolean): void {
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
       data: { text: (isOk) ? 'New deleted!' : 'Error while deleting new!', isOk: isOk },

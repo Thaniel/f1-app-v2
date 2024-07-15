@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { ITeam } from '../../../core/interfaces/team.interface';
+import { TeamsService } from '../../../core/services/teams/teams.service';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
-import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.component';
-import { TeamsService } from '../../../core/services/teams/teams.service';
-import { TIME_OUT } from '../../../shared/constants/constants';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { TIME_OUT } from '../../../shared/constants/constants';
+import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.component';
 
 @Component({
   selector: 'app-teams-page',
@@ -36,6 +36,7 @@ export class TeamsPageComponent implements OnInit {
       this.loadTeams();
     });
   }
+
   async loadTeams() {
     this.teams = await this.teamsService.getAll();
   }
@@ -53,7 +54,7 @@ export class TeamsPageComponent implements OnInit {
     this.teamsService.loadTeams();
   }
 
-  private showSnackBar(isOk: boolean): void {
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
       data: { text: (isOk) ? 'Team deleted!' : 'Error while deleting team!', isOk: isOk },

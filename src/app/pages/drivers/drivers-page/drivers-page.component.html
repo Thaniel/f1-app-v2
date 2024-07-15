@@ -6,8 +6,9 @@
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 g-4">
     <div class="col" *ngFor="let driver of drivers">
       <div class="card shadow card-clickable position-relative" [style.border-bottom]="'5px solid ' + driver.team">
-        <img src="../../../../assets/verstappen.jpg" class="card-img-top card-img-small" alt="..." loading="lazy"
+        <img class="card-img-top card-img-small" [src]="driver.imageUrl" alt="{{ driver.firstName }}" loading="lazy"
           [routerLink]="['/drivers', driver.id]">
+
         <div class="card-body" [routerLink]="['/drivers', driver.id]">
           <h5 class="card-title">{{ driver.firstName | uppercase }} {{ driver.lastName | uppercase }}</h5>
         </div>
