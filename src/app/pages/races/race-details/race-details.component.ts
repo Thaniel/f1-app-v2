@@ -23,7 +23,7 @@ export class RaceDetailsComponent implements OnInit {
     firstPracticeDate: new Date(),
     secondPracticeDate: new Date(),
     thirdPracticeDate: new Date(),
-    classificationDate: new Date(),
+    qualifyingDate: new Date(),
     appearance: 0,
     distance: 0,
     laps: 0,

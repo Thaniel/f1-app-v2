@@ -30,8 +30,8 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Second Practice / Sprint Classification date</mat-label>
-        <input matInput type="datetime-local" required formControlName="secondPracticeDate" placeholder="Second practise or sprint classification date and time" />
+        <mat-label>Second Practice / Sprint Qualifying date</mat-label>
+        <input matInput type="datetime-local" required formControlName="secondPracticeDate" placeholder="Second practise or sprint qualifying date and time" />
         <span *ngIf="isValidField('secondPracticeDate')" class="form-text text-danger">Required</span>
       </mat-form-field>
 
@@ -42,9 +42,9 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Classification date</mat-label>
-        <input matInput type="datetime-local" required formControlName="classificationDate" placeholder="Classification start date and time" />
-        <span *ngIf="isValidField('classificationDate')" class="form-text text-danger">Required</span>
+        <mat-label>Qualifying date</mat-label>
+        <input matInput type="datetime-local" required formControlName="qualifyingDate" placeholder="Qualifying start date and time" />
+        <span *ngIf="isValidField('qualifyingDate')" class="form-text text-danger">Required</span>
       </mat-form-field>
 
       <mat-form-field>

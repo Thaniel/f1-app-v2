@@ -9,16 +9,21 @@
         <h5 class="card-title p-4 ">Schedule</h5>
         <div class="card-body">
             <h6 class="card-text">First Practice</h6>
-            <p class="card-text">{{ raceSelected.firstPracticeDate | date:'fullDate'}} - {{ raceSelected.firstPracticeDate | date:'shortTime'}}</p>
+            <p class="card-text">{{ raceSelected.firstPracticeDate | date: 'fullDate'}} - {{
+                raceSelected.firstPracticeDate | date: 'shortTime'}}</p>
             <h6 class="card-text">Second Practice | Sprint Qualifying</h6>
-            <p class="card-text">{{ raceSelected.secondPracticeDate | date:'fullDate'}} - {{ raceSelected.secondPracticeDate | date:'shortTime'}}</p>
+            <p class="card-text">{{ raceSelected.secondPracticeDate | date: 'fullDate'}} - {{
+                raceSelected.secondPracticeDate | date: 'shortTime'}}</p>
             <h6 class="card-text">Third Practice | Sprint Race</h6>
-            <p class="card-text">{{ raceSelected.thirdPracticeDate | date:'fullDate'}} - {{ raceSelected.thirdPracticeDate | date:'shortTime'}}</p>
+            <p class="card-text">{{ raceSelected.thirdPracticeDate | date: 'fullDate'}} - {{
+                raceSelected.thirdPracticeDate | date: 'shortTime'}}</p>
             <hr>
             <h6 class="card-text">Qualifying</h6>
-            <p class="card-text">{{ raceSelected.classificationDate | date:'fullDate'}} - {{ raceSelected.classificationDate | date:'shortTime'}}</p>
+            <p class="card-text">{{ raceSelected.qualifyingDate | date: 'fullDate'}} - {{ raceSelected.qualifyingDate |
+                date: 'shortTime'}}</p>
             <h6 class="card-text">Race</h6>
-            <p class="card-text">{{ raceSelected.date | date:'fullDate'}} - {{ raceSelected.date | date:'shortTime'}}</p>
+            <p class="card-text">{{ raceSelected.date | date: 'fullDate'}} - {{ raceSelected.date | date: 'shortTime'}}
+            </p>
         </div>
     </div>
 

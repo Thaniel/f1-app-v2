@@ -1,0 +1,52 @@
+.home {
+    width: 100%;
+    min-height: 100vh;
+    background: #111111 !important;
+    flex-direction: column;
+}
+
+.title-container {
+    padding-top: 50px !important;
+    position: absolute;
+    top: 10%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: #FFF;
+    font-style: italic;
+    font-size: 8vw;
+}
+
+.carousel-item {
+    color: white;
+    height: 400px;
+}
+
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.carousel-text {
+    font-size: 1.5rem;
+}
+
+.github-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.git_logo {
+    width: 10vw;
+    height: auto;
+}

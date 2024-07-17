@@ -15,7 +15,6 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: 'Home', icon: 'home', route: '/home' },
       { label: 'News', icon: 'newspaper', route: '/news' },
       { label: 'Schedule', icon: 'calendar_today', route: '/races' },
       { label: 'Teams', icon: 'directions_car', route: '/teams' },

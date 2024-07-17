@@ -32,7 +32,7 @@ export class CreateEditRaceComponent {
     firstPracticeDate: ['', [Validators.required]],
     secondPracticeDate: ['', [Validators.required]],
     thirdPracticeDate: ['', [Validators.required]],
-    classificationDate: ['', [Validators.required]],
+    qualifyingDate: ['', [Validators.required]],
     date: ['', [Validators.required]],
     appearance: ['', [Validators.required]],
     distance: ['', [Validators.required]],
@@ -59,7 +59,7 @@ export class CreateEditRaceComponent {
         firstPracticeDate: this.formatDate(data.firstPracticeDate),
         secondPracticeDate: this.formatDate(data.secondPracticeDate),
         thirdPracticeDate: this.formatDate(data.thirdPracticeDate),
-        classificationDate: this.formatDate(data.classificationDate),
+        qualifyingDate: this.formatDate(data.qualifyingDate),
         date: this.formatDate(data.date),
       };
 
@@ -113,7 +113,7 @@ export class CreateEditRaceComponent {
       firstPracticeDate: new Date(this.currentRace.firstPracticeDate),
       secondPracticeDate: new Date(this.currentRace.secondPracticeDate),
       thirdPracticeDate: new Date(this.currentRace.thirdPracticeDate),
-      classificationDate: new Date(this.currentRace.classificationDate),
+      qualifyingDate: new Date(this.currentRace.qualifyingDate),
       date: new Date(this.currentRace.date),
       appearance: this.currentRace.appearance,
       distance: this.currentRace.distance,

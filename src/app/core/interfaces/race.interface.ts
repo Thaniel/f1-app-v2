@@ -6,7 +6,7 @@ export interface IRace {
     firstPracticeDate: Date;
     secondPracticeDate: Date;
     thirdPracticeDate: Date;
-    classificationDate: Date;
+    qualifyingDate: Date;
     date: Date;
     appearance: number;
     distance: number;

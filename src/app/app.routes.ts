@@ -8,10 +8,6 @@ export const routes: Routes = [
         //canActivate: [loggedGuard]
     },
     {
-        path: 'home',
-        loadChildren: () => import('./pages/home/home.routes').then(m => m.HOME_ROUTES),
-    },
-    {
         path: 'news',
         loadChildren: () => import('./pages/news/news.routes').then(m => m.NEWS_ROUTES),
     },

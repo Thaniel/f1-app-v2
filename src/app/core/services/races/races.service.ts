@@ -4,7 +4,7 @@ import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentReference, ge
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { IRace } from '../../interfaces/race.interface';
-import { convertTimestamp2Date, urlToFile } from '../../utils';
+import { urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
 import { firebaseConfig } from "../firebase-config";
 
@@ -37,7 +37,7 @@ export class RacesService {
         firstPracticeDate: new Date(race.firstPracticeDate),
         secondPracticeDate: new Date(race.secondPracticeDate),
         thirdPracticeDate: new Date(race.thirdPracticeDate),
-        classificationDate: new Date(race.classificationDate),
+        qualifyingDate: new Date(race.qualifyingDate),
         date: new Date(race.date),
         appearance: race.appearance,
         distance: race.distance,
@@ -156,7 +156,7 @@ export class RacesService {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
-        convertTimestamp2Date(data);
+        this.timestamp2Date(data);
 
         // Get race image
         data['image'] = await urlToFile(data['imageUrl']);
@@ -202,8 +202,8 @@ export class RacesService {
       data['thirdPracticeDate'] = data['thirdPracticeDate'].toDate();
     }
 
-    if (data['classificationDate'] instanceof Timestamp) {
-      data['classificationDate'] = data['classificationDate'].toDate();
+    if (data['qualifyingDate'] instanceof Timestamp) {
+      data['qualifyingDate'] = data['qualifyingDate'].toDate();
     }
 
     if (data['date'] instanceof Timestamp) {

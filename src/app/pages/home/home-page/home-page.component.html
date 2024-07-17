@@ -1,45 +1,76 @@
 <app-nav-bar></app-nav-bar>
-<!--<div class="home">
-    <div class="contenedor ma-0">
-        <p-image
-            src="https://firebasestorage.googleapis.com/v0/b/f1-app-daa49.appspot.com/o/wallpaper.jpg?alt=media&token=0a8dab17-39c3-4c18-b9b7-26b346e47d79"
+<div class="home">
+    <div>
+        <img src="https://firebasestorage.googleapis.com/v0/b/f1-app-v2.appspot.com/o/f1_wallpaper.jpg?alt=media&token=2beaaa4f-8dd7-499d-a911-4e0c5437447c"
             alt="F1 wallpaper" width="100%" />
 
-        <div style="color: white;">F1 APP</div>
+        <div class="title-container">F1 APP</div>
     </div>
 
-    <p-carousel [value]="info" [numVisible]="3" [numScroll]="1" [circular]="true" [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
-        <ng-template let-info pTemplate="item">
-
-            <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                    <div class="relative mx-auto" style="color: white;">
-                       {{info}}
-                    </div>
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <!-- Slide 1: GP Image -->
+            <div class="carousel-item active">
+                <img [src]="nextRace.imageUrl" class="d-block w-100 carousel-img" [alt]="nextRace.grandPrix" loading="lazy">
+                <div class="carousel-caption">
+                    <h2 class="carousel-text">{{ nextRace.grandPrix }}</h2>
                 </div>
             </div>
-        </ng-template>
-    </p-carousel>
-    <!--<p-carousel [value]="products" [numVisible]="3" [numScroll]="3" [circular]="true"
-        [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
-        <ng-template let-product pTemplate="item">
-            <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                    <div class="relative mx-auto">
-                        <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"
-                            [alt]="product.name" class="w-full border-round" loading="lazy" />
-                        <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)"
-                            class="absolute" [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
-                    </div>
-                </div>
-                <div class="mb-3 font-medium">
-                    {{ product.name }}
+
+            <!-- Slide 2: Race and Qualifying Schedule -->
+            <div class="carousel-item">
+                <div class="d-block w-100 text-center p-5">
+                    <h4><strong>Qualifying</strong></h4>
+                    <p>{{ nextRace.qualifyingDate | date: 'fullDate' }} -
+                        {{ nextRace.qualifyingDate | date: 'shortTime' }}</p>
+                    <br>
+                    <h4><strong>Race</strong></h4>
+                    <p>{{ nextRace.date | date: 'fullDate' }} - {{ nextRace.date | date:
+                        'shortTime' }}</p>
                 </div>
             </div>
-        </ng-template>
-    </p-carousel>->
 
-    <a href="https://github.com/Thaniel/F1-APP" target="_blank">
-        <img src="../../../../assets/github_icon_white.png" alt="Github logo" class="git_logo" />
-    </a>
-</div>-->
+            <!-- Slide 3: Practice Sessions Schedule -->
+            <div class="carousel-item">
+                <div class="d-block w-100 text-center p-5">
+                    <h4><strong>Practice 1</strong></h4>
+                    <p>{{ nextRace.firstPracticeDate | date: 'fullDate' }} -
+                        {{ nextRace.firstPracticeDate | date: 'shortTime'}}</p>
+                    <br>
+                    <h4><strong>Practice 2 | Sprint Qualifying</strong></h4>
+                    <p>{{ nextRace.secondPracticeDate | date: 'fullDate' }} -
+                        {{ nextRace.secondPracticeDate | date: 'shortTime'}}</p>
+                    <br>
+                    <h4><strong>Practice 3 | Sprint</strong></h4>
+                    <p>{{ nextRace.thirdPracticeDate | date: 'fullDate' }} -
+                        {{ nextRace.thirdPracticeDate | date: 'shortTime' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="github-container">
+        <a href="https://github.com/Thaniel/F1-APP" target="_blank">
+            <img src="../../assets/github_icon_white.png" alt="Github logo" class="git_logo" />
+        </a>
+    </div>
+</div>
