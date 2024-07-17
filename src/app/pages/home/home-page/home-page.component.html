@@ -2,7 +2,7 @@
 <div class="home">
     <div>
         <img src="https://firebasestorage.googleapis.com/v0/b/f1-app-v2.appspot.com/o/f1_wallpaper.jpg?alt=media&token=2beaaa4f-8dd7-499d-a911-4e0c5437447c"
-            alt="F1 wallpaper" width="100%" />
+            alt="F1 wallpaper" width="100%" loading="lazy"/>
 
         <div class="title-container">F1 APP</div>
     </div>
@@ -19,7 +19,7 @@
         <div class="carousel-inner">
             <!-- Slide 1: GP Image -->
             <div class="carousel-item active">
-                <img [src]="nextRace.imageUrl" class="d-block w-100 carousel-img" [alt]="nextRace.grandPrix" loading="lazy">
+                <img [src]="nextRace.imageUrl" class="d-block w-100" [alt]="nextRace.grandPrix" loading="lazy">
                 <div class="carousel-caption">
                     <h2 class="carousel-text">{{ nextRace.grandPrix }}</h2>
                 </div>
@@ -68,7 +68,7 @@
         </button>
     </div>
 
-    <div class="github-container">
+    <div class="github-container p-4">
         <a href="https://github.com/Thaniel/F1-APP" target="_blank">
             <img src="../../assets/github_icon_white.png" alt="Github logo" class="git_logo" />
         </a>

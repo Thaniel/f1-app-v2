@@ -42,10 +42,18 @@ body {
     background-color: #D40000 !important;
 }
 
-.main-button:hover {
+.main-button:hover,
+.secondary-button:hover {
     color: white !important;
-    background-color: #424242 !important;
+    background-color: #525252 !important;
 }
+
+.secondary-button {
+    color: white !important;
+    background-color: #212121 !important;
+}
+
+
 
 /* 
  * Cards

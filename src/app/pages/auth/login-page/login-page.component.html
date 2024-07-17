@@ -1,0 +1,38 @@
+<div class="login-wrapper">
+    <div class="login-container">
+        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%" />
+        <h1 class="welcome-text">Welcome motor fanatic</h1>
+
+        <div class="mt-2">
+            <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container">
+                <mat-form-field>
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="email" required formControlName="email" placeholder="E-mail" />
+                    <span *ngIf="isValidField('email')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" required formControlName="password" placeholder="Password" />
+                    <span *ngIf="isValidField('password')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <div class="button-container">
+                    <button mat-raised-button class="main-button" type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+
+        <a class="mb-2">Forgot password?</a> <!-- routerLink="/recover-password" -->
+
+
+        <hr>
+
+        <div class="mt-4">
+            <p>Create a new account</p>
+            <div class="button-container">
+                <button mat-raised-button class="secondary-button">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
