@@ -23,6 +23,7 @@ body {
     --mdc-snackbar-supporting-text-color: white;
 }
 
+
 /*
  * Dialog
  * 
@@ -31,6 +32,7 @@ body {
     background-color: #212121;
     color: white !important;
 }
+
 
 /* 
  * Main Button 
@@ -52,7 +54,6 @@ body {
     color: white !important;
     background-color: #212121 !important;
 }
-
 
 
 /* 
@@ -91,87 +92,37 @@ body {
     flex-direction: column;
 }
 
-/* 
- * Border Color
- * Color for each team
+
+/*
+ * Login, Register and Recover Password
+ * Visual card for this components
  *
  */
-.mer-border-left {
-    border-left: 5px solid #00A19B;
+ .login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20px;
 }
 
-.redbull-border-left {
-    border-left: 5px solid #121F45;
+.login-container{
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 8px;
 }
 
-.mclaren-border-left {
-    border-left: 5px solid #FF8000;
+.welcome-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
 }
 
-.fer-border-left {
-    border-left: 5px solid #EF1A2D;
-}
-
-.alpine-border-left {
-    border-left: 5px solid #0090FF;
-}
-
-.rb-border-left {
-    border-left: 5px solid #20394C;
-}
-
-.am-border-left {
-    border-left: 5px solid #00594f;
-}
-
-.sauber-border-left {
-    border-left: 5px solid #00e701;
-}
-
-.williams-border-left {
-    border-left: 5px solid #004AFF;
-}
-
-.haas-border-left {
-    border-left: 5px solid #AEAEAE;
-}
-
-.mercedes-border-bottom {
-    border-bottom: 5px solid #00A19B;
-}
-
-.redbull-border-bottom {
-    border-bottom: 5px solid #121F45;
-}
-
-.mclaren-border-bottom {
-    border-bottom: 5px solid #FF8000;
-}
-
-.ferrari-border-bottom {
-    border-bottom: 5px solid #EF1A2D;
-}
-
-.alpine-border-bottom {
-    border-bottom: 5px solid #0090FF;
-}
-
-.rb-border-bottom {
-    border-bottom: 5px solid #20394C;
-}
-
-.astonmartin-border-bottom {
-    border-bottom: 5px solid #00594f;
-}
-
-.sauber-border-bottom {
-    border-bottom: 5px solid #00e701;
-}
-
-.williams-border-bottom {
-    border-bottom: 5px solid #004AFF;
-}
-
-.haas-border-bottom {
-    border-left: 5px solid #AEAEAE;
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }

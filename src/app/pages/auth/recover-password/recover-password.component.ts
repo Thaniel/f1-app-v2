@@ -4,29 +4,21 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
-import { emailPattern } from '../../../shared/directives/validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IRegister } from '../../../core/interfaces/register.interface';
+import { emailPattern } from '../../../shared/directives/validators';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-register-page',
+  selector: 'app-recover-password',
   standalone: true,
   imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent],
-  templateUrl: './register-page.component.html',
-  styleUrl: './register-page.component.css'
+  templateUrl: './recover-password.component.html',
+  styleUrl: './recover-password.component.css'
 })
-export class RegisterPageComponent {
+export class RecoverPasswordComponent {
 
-  public registerForm: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    country: ['', [Validators.required]],
-    birthdate: ['', [Validators.required]],
-    userName: ['', [Validators.required]],
+  public emailForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    password: ['', [Validators.required]],
-    passwordRepited: ['', [Validators.required]],
   });
 
   constructor(
@@ -36,21 +28,21 @@ export class RegisterPageComponent {
   ) {
   }
 
-  get currentRegister(): IRegister {
-    return this.registerForm.value as IRegister;
+  get currentEmail(): string {
+    return this.emailForm.value as string;
   }
 
   isValidField(field: string): boolean | null {
-    return this.registerForm.controls[field].errors && this.registerForm.controls[field].touched;
+    return this.emailForm.controls[field].errors && this.emailForm.controls[field].touched;
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
+    if (this.emailForm.invalid) {
+      this.emailForm.markAllAsTouched();
     } else {
       // TODO loginService
-      console.log("registerService");
-      
+      console.log("Send email");
+
     }
   }
 

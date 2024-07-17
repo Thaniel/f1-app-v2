@@ -47,8 +47,4 @@ export const routes: Routes = [
         path: 'login',
         loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES),
     },
-    {
-        path: 'register',
-        loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES),
-    }
 ];

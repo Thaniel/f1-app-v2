@@ -1,6 +1,6 @@
 <div class="login-wrapper">
     <div class="login-container">
-        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%" />
+        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%"/>
         <h1 class="welcome-text">Welcome motor fanatic</h1>
 
         <div class="mt-2">
@@ -23,15 +23,14 @@
             </form>
         </div>
 
-        <a class="mb-2">Forgot password?</a> <!-- routerLink="/recover-password" -->
-
+        <a routerLink="/login/recover-password" class="mb-2">Forgot password?</a> <!-- Todo -->
 
         <hr>
 
         <div class="mt-4">
             <p>Create a new account</p>
             <div class="button-container">
-                <button mat-raised-button class="secondary-button">Register</button>
+                <button mat-raised-button class="secondary-button" (click)="routeToRegister()">Register</button>
             </div>
         </div>
     </div>

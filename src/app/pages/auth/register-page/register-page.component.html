@@ -1,1 +1,63 @@
-<p>register-page works!</p>
+<div class="login-wrapper">
+    <div class="login-container">
+        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%"/>
+        <h1 class="welcome-text">Register</h1>
+        <p>Please fill out all fields to create an account.</p>
+
+        <div class="mt-2">
+            <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+                <mat-form-field>
+                    <mat-label>First name</mat-label>
+                    <input matInput type="text" required formControlName="firstName" placeholder="Your first name" />
+                    <span *ngIf="isValidField('firstName')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Last name</mat-label>
+                    <input matInput type="text" required formControlName="lastName" placeholder="Your last name" />
+                    <span *ngIf="isValidField('lastName')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" required formControlName="country" placeholder="Your country" />
+                    <span *ngIf="isValidField('country')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Birthdate</mat-label>
+                    <input matInput type="date" required formControlName="birthdate" placeholder="Your birthdate" />
+                    <span *ngIf="isValidField('birthdate')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>User name</mat-label>
+                    <input matInput type="text" required formControlName="userName" placeholder="Your user name" />
+                    <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="email" required formControlName="email" placeholder="E-mail" />
+                    <span *ngIf="isValidField('email')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" required formControlName="password" placeholder="Password" />
+                    <span *ngIf="isValidField('password')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Repeat password</mat-label>
+                    <input matInput type="password" required formControlName="passwordRepited" placeholder="Repeat password" />
+                    <span *ngIf="isValidField('passwordRepited')" class="form-text text-danger">Required</span>
+                </mat-form-field>
+
+                <div class="button-container">
+                    <button mat-raised-button class="secondary-button m-4" (click)="routeToLogin()">Cancel</button>
+                    <button mat-raised-button class="main-button m-4" type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

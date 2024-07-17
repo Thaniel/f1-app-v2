@@ -5,26 +5,28 @@ import { ILogin } from '../../../core/interfaces/login.interface';
 import { MatInputModule } from '@angular/material/input';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { emailPattern } from '../../../shared/directives/validators';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [MatDialogModule, MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent],
+  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, RouterModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
-
+ 
   public loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
     password: ['', [Validators.required]],
   });
 
   constructor(
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
+    private router: Router,
   ) {
   }
 
@@ -41,7 +43,12 @@ export class LoginPageComponent {
       this.loginForm.markAllAsTouched();
     } else {
       // TODO loginService
+      console.log("loginService");
+      
     }
   }
 
+  public routeToRegister() {
+    this.router.navigateByUrl('/login/register'); // TODO
+  }
 }
