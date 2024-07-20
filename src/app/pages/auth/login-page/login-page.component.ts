@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { emailPattern } from '../../../shared/directives/validators';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { TIME_OUT } from '../../../shared/constants/constants';
 
 @Component({
   selector: 'app-login-page',
@@ -27,6 +29,7 @@ export class LoginPageComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private router: Router,
+    private authService: AuthService,
   ) {
   }
 
@@ -42,12 +45,30 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-      // TODO loginService
-      console.log("loginService");
-      
+      // TODO authService
+      console.log("authService");
+      this.authService.login(this.currentLogin.email, this.currentLogin.password).subscribe({
+        next: () => {
+          this.showSnackBar(true);
+          this.router.navigateByUrl('/home'); // Cambia la ruta según tu aplicación
+        },
+        error: (err) => {
+          this.showSnackBar(false);
+          console.error(err);
+        }
+      });
     }
   }
 
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: TIME_OUT,
+      data: { text: (isOk) ? 'Login successful!' : 'Login failed!', isOk: isOk },
+      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top'
+    });
+  }
+  
   public routeToRegister() {
     this.router.navigateByUrl('/login/register'); // TODO
   }

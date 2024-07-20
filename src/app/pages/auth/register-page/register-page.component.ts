@@ -8,6 +8,8 @@ import { emailPattern } from '../../../shared/directives/validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IRegister } from '../../../core/interfaces/register.interface';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { TIME_OUT } from '../../../shared/constants/constants';
 
 @Component({
   selector: 'app-register-page',
@@ -33,6 +35,7 @@ export class RegisterPageComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private router: Router,
+    private authService: AuthService,
   ) {
   }
 
@@ -48,10 +51,28 @@ export class RegisterPageComponent {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
     } else {
-      // TODO loginService
-      console.log("registerService");
-      
+      // TODO authService
+      console.log("authService");
+      this.authService.register(this.currentRegister.email, this.currentRegister.password).subscribe({
+        next: () => {
+          this.showSnackBar(true);
+          this.router.navigateByUrl('/login');
+        },
+        error: (err) => {
+          this.showSnackBar(false);
+          console.error(err);
+        }
+      });
     }
+  }
+  
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: TIME_OUT,
+      data: { text: (isOk) ? 'Registration successful!' : 'Registration failed!', isOk: isOk },
+      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top'
+    });
   }
 
   public routeToLogin() {

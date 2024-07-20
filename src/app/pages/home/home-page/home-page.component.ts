@@ -43,10 +43,10 @@ export class HomePageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadRaces();
+    this.getRaces();
   }
 
-  async loadRaces() {
+  async getRaces() {
     this.races = await this.racesService.getAll();
     
     this.findNextRace();

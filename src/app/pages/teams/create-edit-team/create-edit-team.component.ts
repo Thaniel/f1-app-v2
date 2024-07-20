@@ -66,10 +66,10 @@ export class CreateEditTeamComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadDrivers();
+    this.getDrivers();
   }
 
-  async loadDrivers() {
+  async getDrivers() {
     this.drivers = await this.driversService.getAll();
   }
 

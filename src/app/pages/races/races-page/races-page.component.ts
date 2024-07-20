@@ -31,14 +31,14 @@ export class RacesPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadRaces();
+    this.getRaces();
 
     this.racesService.reload$.subscribe(() => {
-      this.loadRaces();
+      this.getRaces();
     });
   }
 
-  async loadRaces() {
+  async getRaces() {
     this.races = await this.racesService.getAll();
   }
   

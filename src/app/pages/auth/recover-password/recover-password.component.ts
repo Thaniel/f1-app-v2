@@ -7,6 +7,8 @@ import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-ba
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { emailPattern } from '../../../shared/directives/validators';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { TIME_OUT } from '../../../shared/constants/constants';
 
 @Component({
   selector: 'app-recover-password',
@@ -25,6 +27,7 @@ export class RecoverPasswordComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private router: Router,
+    private authService: AuthService,
   ) {
   }
 
@@ -40,10 +43,28 @@ export class RecoverPasswordComponent {
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
     } else {
-      // TODO loginService
-      console.log("Send email");
+      // TODO authService
+      this.authService.recoverPassword(this.currentEmail).subscribe({
+        next: () => {
+          this.showSnackBar(true);
+          this.router.navigateByUrl('/login');
+        },
+        error: (err) => {
+          this.showSnackBar(false);
+          console.error(err);
+        }
+      });
 
     }
+  }
+
+  private showSnackBar(isOk: boolean): void {  // TODO refactor
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: TIME_OUT,
+      data: { text: (isOk) ? 'Recovery email sent successfully!' : 'Error sending recovery email!', isOk: isOk },
+      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top'
+    });
   }
 
   public routeToLogin() {

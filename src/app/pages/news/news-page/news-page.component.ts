@@ -31,14 +31,14 @@ export class NewsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadNews();
+    this.getNews();
 
     this.newsService.reload$.subscribe(() => {
-      this.loadNews();
+      this.getNews();
     });
   }
 
-  async loadNews() {
+  async getNews() {
     this.news = await this.newsService.getAll();
   }
 

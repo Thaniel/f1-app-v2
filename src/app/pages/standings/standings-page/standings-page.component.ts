@@ -25,15 +25,15 @@ export class StandingsPageComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.loadTeams();
-    this.loadDrivers();
+    this.getTeams();
+    this.getDrivers();
   }
 
-  async loadTeams() {
+  async getTeams() {
     this.teams = await this.teamsService.getAll();
   }
   
-  async loadDrivers() {
+  async getDrivers() {
     this.drivers = await this.driversService.getAll();
   }
 

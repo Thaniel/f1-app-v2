@@ -30,14 +30,14 @@ export class TeamsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadTeams();
+    this.getTeams();
 
     this.teamsService.reload$.subscribe(() => {
-      this.loadTeams();
+      this.getTeams();
     });
   }
 
-  async loadTeams() {
+  async getTeams() {
     this.teams = await this.teamsService.getAll();
   }
 
