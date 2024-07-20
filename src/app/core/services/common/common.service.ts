@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { firebaseConfig } from '../firebase-config';
+import { firebaseConfig } from '../firebase.config';
 
 @Injectable({
   providedIn: 'root'

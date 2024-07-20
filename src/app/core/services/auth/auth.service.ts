@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { firebaseConfig } from '../firebase-config';
+import { firebaseConfig } from '../firebase.config';
 import { from, Observable } from 'rxjs';
 
 @Injectable({

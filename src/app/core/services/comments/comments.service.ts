@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
 import { IComment } from "../../interfaces/new.interface";
 import { convertTimestamp2Date } from '../../utils';
-import { firebaseConfig } from "../firebase-config";
+import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'

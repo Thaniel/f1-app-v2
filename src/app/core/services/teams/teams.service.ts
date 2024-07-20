@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { ITeam } from '../../interfaces/team.interface';
 import { extractFilePart, urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from '../firebase-config';
+import { firebaseConfig } from '../firebase.config';
 
 @Injectable({
   providedIn: 'root'

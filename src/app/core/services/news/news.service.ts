@@ -7,7 +7,7 @@ import { INew } from "../../interfaces/new.interface";
 import { convertTimestamp2Date, urlToFile } from '../../utils';
 import { CommentsService } from '../comments/comments.service';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from "../firebase-config";
+import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'

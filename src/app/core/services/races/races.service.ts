@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { IRace } from '../../interfaces/race.interface';
 import { urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from "../firebase-config";
+import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'
