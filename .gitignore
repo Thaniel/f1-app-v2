@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 cors.json
-src/app/core/services/firebase-config.ts
+src/app/core/services/firebase.config.ts
