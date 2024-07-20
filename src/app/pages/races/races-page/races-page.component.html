@@ -9,7 +9,7 @@
       <div class="card shadow card-clickable position-relative">
         <img class="card-img-top card-img-small" [src]="race.imageUrl" alt="{{ race.grandPrix }}" loading="lazy" [routerLink]="['/races', race.id]">
         <div class="card-body" [routerLink]="['/races', race.id]">
-          <h5 class="card-title">{{race.country | uppercase}} GP</h5>
+          <h5 class="card-title">{{ race.country | uppercase }} GP</h5>
           <h6 class="card-subtitle">{{ race.date | date:'mediumDate' }}</h6>
         </div>
 

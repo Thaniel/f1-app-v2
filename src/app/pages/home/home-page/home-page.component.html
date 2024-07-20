@@ -2,7 +2,7 @@
 <div class="home">
     <div>
         <img src="https://firebasestorage.googleapis.com/v0/b/f1-app-v2.appspot.com/o/f1_wallpaper.jpg?alt=media&token=2beaaa4f-8dd7-499d-a911-4e0c5437447c"
-            alt="F1 wallpaper" width="100%" loading="lazy"/>
+            alt="F1 wallpaper" width="100%" loading="lazy" />
 
         <div class="title-container">F1 APP</div>
     </div>
@@ -30,11 +30,11 @@
                 <div class="d-block w-100 text-center p-5">
                     <h4><strong>Qualifying</strong></h4>
                     <p>{{ nextRace.qualifyingDate | date: 'fullDate' }} -
-                        {{ nextRace.qualifyingDate | date: 'shortTime' }}</p>
+                        {{ nextRace.qualifyingDate | date: 'HH:mm' }}</p>
                     <br>
                     <h4><strong>Race</strong></h4>
-                    <p>{{ nextRace.date | date: 'fullDate' }} - {{ nextRace.date | date:
-                        'shortTime' }}</p>
+                    <p>{{ nextRace.date | date: 'fullDate' }} -
+                        {{ nextRace.date | date: 'HH:mm' }}</p>
                 </div>
             </div>
 
@@ -43,15 +43,15 @@
                 <div class="d-block w-100 text-center p-5">
                     <h4><strong>Practice 1</strong></h4>
                     <p>{{ nextRace.firstPracticeDate | date: 'fullDate' }} -
-                        {{ nextRace.firstPracticeDate | date: 'shortTime'}}</p>
+                        {{ nextRace.firstPracticeDate | date: 'HH:mm' }}</p>
                     <br>
                     <h4><strong>Practice 2 | Sprint Qualifying</strong></h4>
                     <p>{{ nextRace.secondPracticeDate | date: 'fullDate' }} -
-                        {{ nextRace.secondPracticeDate | date: 'shortTime'}}</p>
+                        {{ nextRace.secondPracticeDate | date: 'HH:mm' }}</p>
                     <br>
                     <h4><strong>Practice 3 | Sprint</strong></h4>
                     <p>{{ nextRace.thirdPracticeDate | date: 'fullDate' }} -
-                        {{ nextRace.thirdPracticeDate | date: 'shortTime' }}</p>
+                        {{ nextRace.thirdPracticeDate | date: 'HH:mm' }}</p>
                 </div>
             </div>
         </div>
