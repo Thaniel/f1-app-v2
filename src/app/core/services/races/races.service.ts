@@ -68,7 +68,6 @@ export class RacesService {
    */
   public async update(id: string, updatedData: Partial<IRace>, raceImageFile: File | null): Promise<boolean> {
     try {
-      console.log(id);
       const raceDocRef = doc(this.db, RacesService.COLLECTION_NAME, id);
 
       if (raceImageFile) {

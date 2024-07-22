@@ -53,7 +53,6 @@ export class CreateEditRaceComponent {
     private datePipe: DatePipe,
   ) {
     if (data) {
-      console.log(data);
       const formattedData = {
         ...data,
         firstPracticeDate: this.formatDate(data.firstPracticeDate),

@@ -59,9 +59,25 @@ export class CreateEditTeamComponent implements OnInit {
     private driversService: DriversService,
   ) {
     if (data) {
-      this.teamForm.patchValue(data);
+      this.teamForm.patchValue({
+        ...data,
+        driver1: data.driver1 ? data.driver1.id : 'null', 
+        driver2: data.driver2 ? data.driver2.id : 'null', 
+      });
+      
+      if (data.driver1) {
+        this.teamForm.patchValue({ driver1: data.driver1.id });
+      }
+      if (data.driver2) {
+        this.teamForm.patchValue({ driver2: data.driver2.id });
+      }
+      if(data.carImage && data.logoImage){
+        this.selectedCarFile = data.carImage;
+        this.selectedLogoFile = data.logoImage;
+      }
+
       this.isCreating = false;
-      this.color = data.colorCode;
+      this.color = data.colorCode;   
     }
   }
 
@@ -71,6 +87,19 @@ export class CreateEditTeamComponent implements OnInit {
 
   async getDrivers() {
     this.drivers = await this.driversService.getAll();
+
+    this.drivers.unshift({
+      id: 'null',
+      firstName: 'Driver not selected',
+      lastName: '',
+      birthDate: new Date(),
+      country: '',
+      points: 0,
+      titles: 0,
+      team: null,
+      image: null,
+      imageUrl: '',
+    });
   }
 
   get currentTeam(): ITeam {
@@ -127,9 +156,8 @@ export class CreateEditTeamComponent implements OnInit {
       driver1: this.currentTeam.driver1,
       driver2: this.currentTeam.driver2,
       description: this.currentTeam.description,
-
     }
-
+    
     this.teamsService.update(this.currentTeam.id, updatedData, this.selectedCarFile, this.selectedLogoFile).then(success => {
       this.showSnackBar(success, 1);
       this.teamsService.loadTeams();

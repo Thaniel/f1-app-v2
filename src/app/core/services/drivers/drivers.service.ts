@@ -62,7 +62,6 @@ export class DriversService {
    */
   public async update(id: string, updatedData: Partial<IDriver>, imageFile: File | null): Promise<boolean> {
     try {
-      console.log(id);
       const driverDocRef = doc(this.db, DriversService.COLLECTION_NAME, id);
 
       if (imageFile) {

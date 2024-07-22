@@ -37,8 +37,8 @@ export class TeamsService {
         titles: team.titles,
         points: team.points,
         colorCode: team.colorCode,
-        driver1: team.driver1,
-        driver2: team.driver2,
+        driver1: doc(this.db, `drivers/${team.driver1}`),
+        driver2: doc(this.db, `drivers/${team.driver2}`),
         description: team.description,
       });
 
@@ -66,13 +66,11 @@ export class TeamsService {
     }
   }
 
-
   /*
    * Update Team
    */
   public async update(id: string, updatedData: Partial<ITeam>, carImageFile: File | null, logoImageFile: File | null): Promise<boolean> {
     try {
-      console.log(id);
       const teamDocRef = doc(this.db, TeamsService.COLLECTION_NAME, id);
 
       if (carImageFile && logoImageFile) {
@@ -98,6 +96,14 @@ export class TeamsService {
 
         // Update the Firestore document with the logo image URL
         updatedData.logoImageUrl = downloadURL;
+      }
+
+      // Update drivers references
+      if (updatedData.driver1) {
+        updatedData.driver1 = doc(this.db, `drivers/${updatedData.driver1.id}`);
+      }
+      if (updatedData.driver2) {
+        updatedData.driver2 = doc(this.db, `drivers/${updatedData.driver2.id}`);
       }
 
       await updateDoc(teamDocRef, updatedData);
@@ -139,6 +145,28 @@ export class TeamsService {
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
+        
+        // Get drivers
+        if (data['driver1']) {
+          const driver1Doc = await getDoc(data['driver1']);
+          if (driver1Doc.exists()) {
+            const driver1Data = driver1Doc.data();
+            data['driver1'] = driver1Data && typeof driver1Data === 'object' ? { id: driver1Doc.id, ...driver1Data } : null;
+          } else {
+            data['driver1'] = null;
+          }
+        }
+  
+        // Get driver2
+        if (data['driver2']) {
+          const driver2Doc = await getDoc(data['driver2']);
+          if (driver2Doc.exists()) {
+            const driver2Data = driver2Doc.data();
+            data['driver2'] = driver2Data && typeof driver2Data === 'object' ? { id: driver2Doc.id, ...driver2Data } : null;
+          } else {
+            data['driver2'] = null;
+          }
+        }
 
         // Get car image
         data['carImage'] = await urlToFile(data['carImageUrl']);
@@ -146,7 +174,7 @@ export class TeamsService {
         // Get logo image
         data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
-        teams.push({ id: doc.id, ...data } as ITeam);
+        teams.push({ id: doc.id, ...data } as ITeam);         
       }));
 
       return teams;
@@ -166,6 +194,25 @@ export class TeamsService {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
+
+        // Desreferenciar pilotos
+        if (data['driver1']) {
+          const driver1Doc = await getDoc(data['driver1']);
+          if (driver1Doc.exists()) {
+            const driver1Data = driver1Doc.data();
+            data['driver1'] = driver1Data ? { id: driver1Doc.id, ...driver1Data } : null;
+          }
+          delete data['driver1'].team;
+        }
+  
+        if (data['driver2']) {
+          const driver2Doc = await getDoc(data['driver2']);
+          if (driver2Doc.exists()) {
+            const driver2Data = driver2Doc.data();
+            data['driver2'] = driver2Data ? { id: driver2Doc.id, ...driver2Data } : null;
+          }
+          delete data['driver2'].team;
+        }
 
         // Get car image
         data['carImage'] = await urlToFile(data['carImageUrl']);
