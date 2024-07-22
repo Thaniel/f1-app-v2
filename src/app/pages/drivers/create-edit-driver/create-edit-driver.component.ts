@@ -51,7 +51,15 @@ export class CreateEditDriverComponent implements OnInit {
     private teamsService: TeamsService,
   ) {
     if (data) {
-      this.driverForm.patchValue(data);
+      this.driverForm.patchValue({
+        ...data,
+        team: data.team ? data.team.id : 'null',
+      });
+
+      if(data.image){
+        this.selectedFile = data.image;
+      }
+
       this.isCreating = false;
     }
   }
@@ -62,6 +70,23 @@ export class CreateEditDriverComponent implements OnInit {
 
   async getTeams() {
     this.teams = await this.teamsService.getAll();
+
+    this.teams.unshift({
+      id: 'null',
+      name: 'Team not selected',
+      fullName: '',
+      teamPrincipal: '',
+      titles: 0,
+      points: 0,
+      colorCode: '',
+      driver1: null,
+      driver2: null,
+      description: '',
+      carImage: null,
+      carImageUrl: '',
+      logoImage: null,
+      logoImageUrl: '',
+    });
   }
 
   get currentDriver(): IDriver {

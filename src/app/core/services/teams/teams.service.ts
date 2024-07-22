@@ -100,10 +100,10 @@ export class TeamsService {
 
       // Update drivers references
       if (updatedData.driver1) {
-        updatedData.driver1 = doc(this.db, `drivers/${updatedData.driver1.id}`);
+        updatedData.driver1 = doc(this.db, `drivers/${updatedData.driver1}`);
       }
       if (updatedData.driver2) {
-        updatedData.driver2 = doc(this.db, `drivers/${updatedData.driver2.id}`);
+        updatedData.driver2 = doc(this.db, `drivers/${updatedData.driver2}`);
       }
 
       await updateDoc(teamDocRef, updatedData);
@@ -156,8 +156,7 @@ export class TeamsService {
             data['driver1'] = null;
           }
         }
-  
-        // Get driver2
+        
         if (data['driver2']) {
           const driver2Doc = await getDoc(data['driver2']);
           if (driver2Doc.exists()) {

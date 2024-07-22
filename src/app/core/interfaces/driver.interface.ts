@@ -1,3 +1,6 @@
+import { DocumentReference } from "firebase/firestore";
+import { ITeam } from "./team.interface";
+
 export interface IDriver {
     id: string;
     firstName: string;
@@ -6,7 +9,7 @@ export interface IDriver {
     country: string;
     points: number;
     titles: number;
-    team: null | string;
+    team: DocumentReference | ITeam | null;
     image: File | null;
     imageUrl: string;
 }

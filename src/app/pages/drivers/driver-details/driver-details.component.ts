@@ -19,7 +19,7 @@ export class DriverDetailsComponent {
     country: "United Kingdom",
     points: 100,
     titles: 7,
-    team: "#00D2BE",
+    team: null,
     image: null,
     imageUrl: "",
   };

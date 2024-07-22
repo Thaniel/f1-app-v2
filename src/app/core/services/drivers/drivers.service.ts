@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { IDriver } from '../../interfaces/driver.interface';
@@ -37,7 +37,7 @@ export class DriversService {
         country: driver.country,
         points: driver.points,
         titles: driver.titles,
-        team: driver.team,
+        team: doc(this.db, `teams/${driver.team}`),
       });
 
       if (driver.image) {
@@ -80,6 +80,10 @@ export class DriversService {
         // Update the Firestore document with the driver image URL
         updatedData.imageUrl = downloadURL;
       }
+      
+      if (updatedData.team) {
+        updatedData.team = doc(this.db, `teams/${updatedData.team}`);
+      }
 
       await updateDoc(driverDocRef, updatedData);
       console.log("Driver updated with ID: ", id);
@@ -121,6 +125,8 @@ export class DriversService {
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
         
+        this.getTeam(data);
+
         // Get driver image
         data['image'] = await urlToFile(data['imageUrl']);
 
@@ -145,6 +151,8 @@ export class DriversService {
       if (docSnap.exists()) {
         const data = docSnap.data();
         
+        this.getTeam(data);
+
         // Get driver image
         data['image'] = await urlToFile(data['imageUrl']);
         
@@ -172,6 +180,19 @@ export class DriversService {
       let imageRef = ref(this.storage, imageUrl);
       await deleteObject(imageRef);
       console.log('Image deleted: ', imageUrl);
+    }
+  }
+
+  // Get team info to set into driver
+  private async getTeam(data: DocumentData){
+    if (data['team']) {
+      const teamDoc = await getDoc(data['team']);
+      if (teamDoc.exists()) {
+        const teamData = teamDoc.data();
+        data['team'] = teamData && typeof teamData === 'object' ? { id: teamDoc.id, ...teamData } : null;
+      } else {
+        data['team'] = null;
+      }
     }
   }
 

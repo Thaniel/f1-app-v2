@@ -7,7 +7,8 @@
     <div class="col" *ngFor="let team of teams">
 
       <div class="card shadow card-clickable position-relative" [style.border-bottom]="'5px solid ' + team.colorCode">
-        <img class="card-img-top card-img-small" [src]="team.carImageUrl" alt="{{ team.fullName }}" loading="lazy" [routerLink]="['/teams', team.id]">
+        <img class="card-img-top card-img-small" [src]="team.carImageUrl" alt="{{ team.fullName }}" loading="lazy"
+          [routerLink]="['/teams', team.id]">
 
         <div class="card-body" [routerLink]="['/teams', team.id]">
           <h5 class="card-title">{{ team.name | uppercase }}</h5>

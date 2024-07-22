@@ -12,6 +12,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditDriverComponent } from '../create-edit-driver/create-edit-driver.component';
+import { ITeam } from '../../../core/interfaces/team.interface';
 
 @Component({
   selector: 'app-drivers-page',
@@ -61,5 +62,9 @@ export class DriversPageComponent implements OnInit {
       panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top'
     });
+  }
+
+  isTeam(obj: any): obj is ITeam {
+    return obj && typeof obj.colorCode === 'string';
   }
 }

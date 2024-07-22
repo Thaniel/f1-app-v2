@@ -65,12 +65,6 @@ export class CreateEditTeamComponent implements OnInit {
         driver2: data.driver2 ? data.driver2.id : 'null', 
       });
       
-      if (data.driver1) {
-        this.teamForm.patchValue({ driver1: data.driver1.id });
-      }
-      if (data.driver2) {
-        this.teamForm.patchValue({ driver2: data.driver2.id });
-      }
       if(data.carImage && data.logoImage){
         this.selectedCarFile = data.carImage;
         this.selectedLogoFile = data.logoImage;
