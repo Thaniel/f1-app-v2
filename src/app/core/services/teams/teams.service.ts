@@ -4,7 +4,7 @@ import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs,
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { ITeam } from '../../interfaces/team.interface';
-import { extractFilePart, urlToFile } from '../../utils';
+import { extractFilePart, sortTeamsByPoints, urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
 import { firebaseConfig } from '../firebase.config';
 
@@ -175,6 +175,8 @@ export class TeamsService {
 
         teams.push({ id: doc.id, ...data } as ITeam);         
       }));
+
+      sortTeamsByPoints(teams);
 
       return teams;
     } catch (error) {

@@ -7,13 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDriver } from '../../../core/interfaces/driver.interface';
+import { ITeam } from '../../../core/interfaces/team.interface';
 import { DriversService } from '../../../core/services/drivers/drivers.service';
+import { TeamsService } from '../../../core/services/teams/teams.service';
 import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-save-buttons/cancel-save-buttons.component';
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
-import { ITeam } from '../../../core/interfaces/team.interface';
-import { TeamsService } from '../../../core/services/teams/teams.service';
 
 @Component({
   selector: 'app-create-edit-driver',
@@ -56,7 +56,7 @@ export class CreateEditDriverComponent implements OnInit {
         team: data.team ? data.team.id : 'null',
       });
 
-      if(data.image){
+      if (data.image) {
         this.selectedFile = data.image;
       }
 
@@ -70,6 +70,8 @@ export class CreateEditDriverComponent implements OnInit {
 
   async getTeams() {
     this.teams = await this.teamsService.getAll();
+
+    this.sortTeamsByName();
 
     this.teams.unshift({
       id: 'null',
@@ -170,6 +172,18 @@ export class CreateEditDriverComponent implements OnInit {
       data: { text: (isOk) ? actionOK : actionKO, isOk: isOk },
       panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top'
+    });
+  }
+
+  private sortTeamsByName(): void {
+    this.teams.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      } else if (a.name > b.name) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
   }
 }

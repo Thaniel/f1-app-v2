@@ -4,7 +4,7 @@ import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentReference, ge
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Subject } from 'rxjs';
 import { IDriver } from '../../interfaces/driver.interface';
-import { urlToFile } from '../../utils';
+import { sortDriversByPoints, urlToFile } from '../../utils';
 import { CommonService } from '../common/common.service';
 import { firebaseConfig } from '../firebase.config';
 
@@ -132,6 +132,8 @@ export class DriversService {
 
         drivers.push({ id: doc.id, ...data } as IDriver);
       }));
+
+      sortDriversByPoints(drivers);
 
       return drivers;
     } catch (error) {

@@ -82,6 +82,8 @@ export class CreateEditTeamComponent implements OnInit {
   async getDrivers() {
     this.drivers = await this.driversService.getAll();
 
+    this.sortDriversByName();
+
     this.drivers.unshift({
       id: 'null',
       firstName: 'Driver not selected',
@@ -188,6 +190,18 @@ export class CreateEditTeamComponent implements OnInit {
       data: { text: (isOk) ? actionOK : actionKO, isOk: isOk },
       panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top'
+    });
+  }
+
+  private sortDriversByName(): void {
+    this.drivers.sort((a, b) => {
+      if (a.firstName < b.firstName) {
+        return -1;
+      } else if (a.firstName > b.firstName) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
   }
 }

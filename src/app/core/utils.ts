@@ -1,4 +1,6 @@
 import { Timestamp } from "firebase/firestore";
+import { IDriver } from "./interfaces/driver.interface";
+import { ITeam } from "./interfaces/team.interface";
 
 /*
  * Convert database date type to Angular date
@@ -43,5 +45,28 @@ export async function urlToFile(url: string): Promise<File | null> {
     }
 
     return file;
+}
 
+export async function sortTeamsByPoints(teams: ITeam[]) {
+    teams.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+}
+
+export async function sortDriversByPoints(drivers: IDriver[]) {
+    drivers.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
 }
