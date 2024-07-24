@@ -2,7 +2,7 @@
 <app-header [title]="'Standings'"></app-header>
 
 
-<div class="container">
+<div class="container pb-4">
     <div class="d-flex justify-content-center">
         <div class="btn-group m-2">
             <input type="radio" class="btn-check" name="btnradio" id="btnDrivers" autocomplete="off" checked
@@ -21,7 +21,7 @@
             <div class="col ps-3">Drivers</div>
             <div class="col">Points</div>
         </div>
-        <div class="row m-2 p-3" *ngFor="let driver of drivers">
+        <div class="row m-2 p-3" *ngFor="let driver of drivers" [style.border-left]="isTeam(driver.team) ? '5px solid ' + driver.team.colorCode : ''">
             <div class="col">{{ driver.firstName }} {{ driver.lastName }}</div>
             <div class="col">{{ driver.points }}</div>
         </div>

@@ -40,4 +40,8 @@ export class StandingsPageComponent implements OnInit{
   onSelectionChange(event: any) {
     this.isDriversSelected = (event.target.id === "btnDrivers");    
   }
+
+  isTeam(obj: any): obj is ITeam {
+    return obj && typeof obj.colorCode === 'string';
+  }
 }
