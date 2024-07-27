@@ -147,30 +147,11 @@ export class TeamsService {
         const data = doc.data();
         
         // Get drivers
-        if (data['driver1']) {
-          const driver1Doc = await getDoc(data['driver1']);
-          if (driver1Doc.exists()) {
-            const driver1Data = driver1Doc.data();
-            data['driver1'] = driver1Data && typeof driver1Data === 'object' ? { id: driver1Doc.id, ...driver1Data } : null;
-          } else {
-            data['driver1'] = null;
-          }
-        }
-        
-        if (data['driver2']) {
-          const driver2Doc = await getDoc(data['driver2']);
-          if (driver2Doc.exists()) {
-            const driver2Data = driver2Doc.data();
-            data['driver2'] = driver2Data && typeof driver2Data === 'object' ? { id: driver2Doc.id, ...driver2Data } : null;
-          } else {
-            data['driver2'] = null;
-          }
-        }
+        data['driver1'] = await this.getDriverData(data['driver1']);
+        data['driver2'] = await this.getDriverData(data['driver2']);
 
-        // Get car image
+        // Get images
         data['carImage'] = await urlToFile(data['carImageUrl']);
-
-        // Get logo image
         data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
         teams.push({ id: doc.id, ...data } as ITeam);         
@@ -196,29 +177,12 @@ export class TeamsService {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
-        // Desreferenciar pilotos
-        if (data['driver1']) {
-          const driver1Doc = await getDoc(data['driver1']);
-          if (driver1Doc.exists()) {
-            const driver1Data = driver1Doc.data();
-            data['driver1'] = driver1Data ? { id: driver1Doc.id, ...driver1Data } : null;
-          }
-          delete data['driver1'].team;
-        }
-  
-        if (data['driver2']) {
-          const driver2Doc = await getDoc(data['driver2']);
-          if (driver2Doc.exists()) {
-            const driver2Data = driver2Doc.data();
-            data['driver2'] = driver2Data ? { id: driver2Doc.id, ...driver2Data } : null;
-          }
-          delete data['driver2'].team;
-        }
+        // Get drivers
+        data['driver1'] = await this.getDriverData(data['driver1']);
+        data['driver2'] = await this.getDriverData(data['driver2']);
 
-        // Get car image
+        // Get images
         data['carImage'] = await urlToFile(data['carImageUrl']);
-
-        // Get logo image
         data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
         return { id: docSnap.id, ...data } as ITeam;
@@ -253,6 +217,19 @@ export class TeamsService {
         await deleteObject(imageRef);
         console.log('Image deleted: ', logoImageUrl);
       }
+    }
+  }
+
+  // Get driver data form a document reference
+  private async getDriverData(driverId: DocumentReference) {
+    if (!driverId) return null;
+  
+    const driverDoc = await getDoc(driverId);
+    if (driverDoc.exists()) {
+      const driverData = driverDoc.data();
+      return driverData ? { id: driverDoc.id, ...driverData } : null;
+    } else {
+      return null;
     }
   }
 
