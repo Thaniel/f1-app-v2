@@ -56,12 +56,12 @@ export class NewsPageComponent implements OnInit {
   }
 
 
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'New deleted!' : 'Error while deleting new!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: 2, context: 'new' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 }

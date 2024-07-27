@@ -54,12 +54,12 @@ export class TeamsPageComponent implements OnInit {
     this.teamsService.loadTeams();
   }
 
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'Team deleted!' : 'Error while deleting team!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: 2, context: 'team' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 }

@@ -136,28 +136,12 @@ export class CreateEditRaceComponent {
     this.dialogRef.close();
   }
 
-  private showSnackBar(isOk: boolean, action: number): void {  // TODO refactor
-    let actionOK;
-    let actionKO;
-    switch (action) {
-      case 0: {
-        actionOK = 'Race created';
-        actionKO = 'Error while creating race';
-        break;
-      }
-      case 1: {
-        actionOK = 'Race edited';
-        actionKO = 'Error while editing race';
-        break;
-      }
-      default: { break; }
-    }
-
+  private showSnackBar(isOk: boolean, action: number): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? actionOK : actionKO, isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: action, context: 'race' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 

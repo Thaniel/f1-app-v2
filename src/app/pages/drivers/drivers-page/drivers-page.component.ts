@@ -55,13 +55,13 @@ export class DriversPageComponent implements OnInit {
     this.driversService.loadDrivers();
   }
 
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'Driver deleted!' : 'Error while deleting driver!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
-    });
+      data: { isOk: isOk, action: 2, context: 'driver' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
+    }); 
   }
 
   isTeam(obj: any): obj is ITeam {

@@ -106,28 +106,12 @@ export class CreateEditNewComponent {
     this.dialogRef.close();
   }
 
-  private showSnackBar(isOk: boolean, action: number): void {  // TODO refactor
-    let actionOK;
-    let actionKO;
-    switch (action) {
-      case 0: {
-        actionOK = 'New created';
-        actionKO = 'Error while creating new';
-        break;
-      }
-      case 1: {
-        actionOK = 'New edited';
-        actionKO = 'Error while editing new';
-        break;
-      }
-      default: { break; }
-    }
-
+  private showSnackBar(isOk: boolean, action: number): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? actionOK : actionKO, isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: action, context: 'new' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 }

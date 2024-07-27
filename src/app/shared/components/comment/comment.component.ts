@@ -58,33 +58,12 @@ export class CommentComponent {
     this.comment.isEditing = true;
   }
 
-  private showSnackBar(isOk: boolean, action: number): void {  // TODO refactor
-    let actionOK;
-    let actionKO;
-    switch (action) {
-      case 0: {
-        actionOK = 'Comment created';
-        actionKO = 'Error while creating comment';
-        break;
-      }
-      case 1: {
-        actionOK = 'Comment edited';
-        actionKO = 'Error while editing comment';
-        break;
-      }
-      case 2: {
-        actionOK = 'Comment deleted';
-        actionKO = 'Error while deleting comment';
-        break;
-      }
-      default: { break; }
-    }
-
+  private showSnackBar(isOk: boolean, action: number): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? actionOK : actionKO, isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: action, context: 'comment' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 }
