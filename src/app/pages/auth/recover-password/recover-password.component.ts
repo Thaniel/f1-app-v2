@@ -18,10 +18,7 @@ import { emailPattern } from '../../../shared/directives/validators';
   styleUrl: './recover-password.component.css'
 })
 export class RecoverPasswordComponent {
-
-  public emailForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-  });
+  public emailForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +26,9 @@ export class RecoverPasswordComponent {
     private router: Router,
     private authService: AuthService,
   ) {
+    this.emailForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern(emailPattern)]],
+    });
   }
 
   get currentEmail(): string {

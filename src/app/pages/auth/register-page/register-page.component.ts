@@ -54,7 +54,7 @@ export class RegisterPageComponent {
       this.authService.register(this.currentRegister.email, this.currentRegister.password).subscribe({
         next: () => {
           this.showSnackBar(true);
-          this.router.navigateByUrl('/login');
+          this.routeToLogin();
         },
         error: (err) => {
           this.showSnackBar(false);
