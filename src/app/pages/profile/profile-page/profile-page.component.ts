@@ -23,7 +23,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.authSubscription = this.authService.getCurrentUser().subscribe(user => {
       if (user == null) {
-        this.router.navigate(['/login']); // User is not authenticated
+        this.router.navigate(['/auth/login']); // User is not authenticated
       }
     });
   }

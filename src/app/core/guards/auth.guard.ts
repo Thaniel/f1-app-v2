@@ -12,12 +12,12 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (user != null) {
         return true;
       } else {
-        router.navigate(['/login']);
+        router.navigate(['/auth/login']);
         return false;
       }
     }),
     catchError(() => {
-      router.navigate(['/login']);
+      router.navigate(['/auth/login']);
       return of(false);
     })
   );

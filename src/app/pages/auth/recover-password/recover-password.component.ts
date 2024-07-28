@@ -9,6 +9,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { emailPattern } from '../../../shared/directives/validators';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -25,6 +26,7 @@ export class RecoverPasswordComponent {
     public snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
+    private validatorsService: ValidatorsService,
   ) {
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(emailPattern)]],
@@ -36,7 +38,7 @@ export class RecoverPasswordComponent {
   }
 
   isValidField(field: string): boolean | null {
-    return this.emailForm.controls[field].errors && this.emailForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.emailForm, field);
   }
 
   onSubmit() {
@@ -67,6 +69,6 @@ export class RecoverPasswordComponent {
   }
 
   public routeToLogin(): void {
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/auth/login');
   }
 }

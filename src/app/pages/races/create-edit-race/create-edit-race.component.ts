@@ -10,6 +10,7 @@ import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-sa
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'app-create-edit-race',
@@ -51,6 +52,7 @@ export class CreateEditRaceComponent {
     public snackBar: MatSnackBar,
     private racesService: RacesService,
     private datePipe: DatePipe,
+    private validatorsService: ValidatorsService,
   ) {
     if (data) {
       const formattedData = {
@@ -75,7 +77,7 @@ export class CreateEditRaceComponent {
   }
 
   isValidField(field: string): boolean | null {
-    return this.raceForm.controls[field].errors && this.raceForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.raceForm, field);
   }
 
   onFileSelected(file: File) {

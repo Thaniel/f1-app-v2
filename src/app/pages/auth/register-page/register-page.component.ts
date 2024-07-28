@@ -27,7 +27,7 @@ export class RegisterPageComponent {
     birthdate: ['', [Validators.required]],
     userName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    password: ['', [Validators.required]],
+    password: ['', [Validators.required], Validators.minLength(6)],
     passwordRepited: ['', [Validators.required]],
   });
 
@@ -74,6 +74,6 @@ export class RegisterPageComponent {
   }
 
   public routeToLogin(): void {
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/auth/login');
   }
 }

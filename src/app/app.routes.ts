@@ -48,7 +48,16 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
-        path: '',
+        path: 'auth',
         loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES),
     },
+    {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
+        path: '**',
+        redirectTo: 'home'
+    }
 ];

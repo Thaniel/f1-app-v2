@@ -11,6 +11,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { emailPattern } from '../../../shared/directives/validators';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'app-login-page',
@@ -28,6 +29,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
+    private validatorsService: ValidatorsService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(emailPattern)]],
@@ -54,7 +56,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   isValidField(field: string): boolean | null {
-    return this.loginForm.controls[field].errors && this.loginForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.loginForm, field);
   }
 
   onSubmit() {
@@ -83,6 +85,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   public routeToRegister(): void {
-    this.router.navigateByUrl('/register');
+    this.router.navigateByUrl('/auth/register');
   }
 }

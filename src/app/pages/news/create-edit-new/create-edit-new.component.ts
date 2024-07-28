@@ -10,6 +10,7 @@ import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-sa
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class CreateEditNewComponent {
     private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private newsService: NewsService,
+    private validatorsService: ValidatorsService,
   ) {
     if (data) {
       this.newForm.patchValue(data);
@@ -56,7 +58,7 @@ export class CreateEditNewComponent {
   }
 
   isValidField(field: string): boolean | null {
-    return this.newForm.controls[field].errors && this.newForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.newForm, field);
   }
   
   onFileSelected(file: File) {

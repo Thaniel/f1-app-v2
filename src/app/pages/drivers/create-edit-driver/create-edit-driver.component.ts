@@ -14,6 +14,7 @@ import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-sa
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'app-create-edit-driver',
@@ -49,6 +50,7 @@ export class CreateEditDriverComponent implements OnInit {
     public snackBar: MatSnackBar,
     private driversService: DriversService,
     private teamsService: TeamsService,
+    private validatorsService: ValidatorsService,
   ) {
     if (data) {
       this.driverForm.patchValue({
@@ -96,7 +98,7 @@ export class CreateEditDriverComponent implements OnInit {
   }
 
   isValidField(field: string): boolean | null {
-    return this.driverForm.controls[field].errors && this.driverForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.driverForm, field);
   }
 
   onFileSelected(file: File) {

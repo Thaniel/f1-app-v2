@@ -15,6 +15,7 @@ import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-sa
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class CreateEditTeamComponent implements OnInit {
     public snackBar: MatSnackBar,
     private teamsService: TeamsService,
     private driversService: DriversService,
+    private validatorsService: ValidatorsService,
   ) {
     if (data) {
       this.teamForm.patchValue({
@@ -103,7 +105,7 @@ export class CreateEditTeamComponent implements OnInit {
   }
 
   isValidField(field: string): boolean | null {
-    return this.teamForm.controls[field].errors && this.teamForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.teamForm, field);
   }
 
   onCarFileSelected(file: File) {
