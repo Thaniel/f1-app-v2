@@ -34,18 +34,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required]],
     });
   }
-  
+
   ngOnInit() {
     this.authSubscription = this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.router.navigateByUrl(''); // User is authenticated
+        this.router.navigate(['/home']); // User is authenticated
       }
     });
   }
 
   ngOnDestroy() {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();  
+    if (this.authSubscription) {      
+      this.authSubscription.unsubscribe();
     }
   }
 
@@ -81,8 +81,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       verticalPosition: 'top',
     });
   }
-  
-  public routeToRegister() {
-    this.router.navigateByUrl('/login/register'); // TODO
+
+  public routeToRegister(): void {
+    this.router.navigateByUrl('/register');
   }
 }

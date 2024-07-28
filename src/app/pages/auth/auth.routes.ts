@@ -5,12 +5,12 @@ import { RecoverPasswordComponent } from './recover-password/recover-password.co
 
 export const AUTH_ROUTES: Routes = [
     {
-        path: 'register',
-        component: RegisterPageComponent,
-    },
-    {
         path: 'login',
         component: LoginPageComponent,
+    },
+    {
+        path: 'register',
+        component: RegisterPageComponent,
     },
     {
         path: 'recover-password',

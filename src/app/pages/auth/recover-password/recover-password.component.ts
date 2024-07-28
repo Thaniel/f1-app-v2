@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { emailPattern } from '../../../shared/directives/validators';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { emailPattern } from '../../../shared/directives/validators';
 
 @Component({
   selector: 'app-recover-password',
@@ -46,7 +46,7 @@ export class RecoverPasswordComponent {
       this.authService.recoverPassword(this.currentEmail).subscribe({
         next: () => {
           this.showSnackBar(true);
-          this.router.navigateByUrl('/login/login'); // TODO
+          this.routeToLogin();
         },
         error: (err) => {
           this.showSnackBar(false);
@@ -66,7 +66,7 @@ export class RecoverPasswordComponent {
     });
   }
 
-  public routeToLogin() {
-    this.router.navigateByUrl('/login/login'); // TODO
+  public routeToLogin(): void {
+    this.router.navigateByUrl('/login');
   }
 }
