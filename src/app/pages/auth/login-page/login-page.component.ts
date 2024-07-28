@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ILogin } from '../../../core/interfaces/login.interface';
-import { MatInputModule } from '@angular/material/input';
-import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { emailPattern } from '../../../shared/directives/validators';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ILogin } from '../../../core/interfaces/login.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { emailPattern } from '../../../shared/directives/validators';
 
 @Component({
   selector: 'app-login-page',
@@ -18,12 +19,9 @@ import { TIME_OUT } from '../../../shared/constants/constants';
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
-export class LoginPageComponent {
- 
-  public loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    password: ['', [Validators.required]],
-  });
+export class LoginPageComponent implements OnInit, OnDestroy {
+  public loginForm: FormGroup;
+  private authSubscription: Subscription | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +29,24 @@ export class LoginPageComponent {
     private router: Router,
     private authService: AuthService,
   ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern(emailPattern)]],
+      password: ['', [Validators.required]],
+    });
+  }
+  
+  ngOnInit() {
+    this.authSubscription = this.authService.getCurrentUser().subscribe(user => {
+      if (user) {
+        this.router.navigateByUrl(''); // User is authenticated
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();  
+    }
   }
 
   get currentLogin(): ILogin {
@@ -45,12 +61,9 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-      // TODO authService
-      console.log("authService");
       this.authService.login(this.currentLogin.email, this.currentLogin.password).subscribe({
         next: () => {
           this.showSnackBar(true);
-          this.router.navigateByUrl('/home'); // Cambia la ruta según tu aplicación
         },
         error: (err) => {
           this.showSnackBar(false);
@@ -60,12 +73,12 @@ export class LoginPageComponent {
     }
   }
 
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'Login successful!' : 'Login failed!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: 0, context: 'auth' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
   

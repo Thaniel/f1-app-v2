@@ -40,6 +40,11 @@ const MESSAGES: ContextMessages = {
     0: { ok: 'Driver created', ko: 'Error while creating driver' },
     1: { ok: 'Driver edited', ko: 'Error while editing driver' },
     2: { ok: 'Driver deleted', ko: 'Error while deleting driver' }
+  },
+  auth: {
+    0: { ok: 'Login successful!', ko: 'Login failed!'},
+    1: { ok: 'Registration successful', ko: 'Registration failed'},
+    2: { ok: 'Recovery email sent successfully', ko: 'Error sending recovery email'},
   }
 };
 

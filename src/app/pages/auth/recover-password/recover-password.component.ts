@@ -43,11 +43,10 @@ export class RecoverPasswordComponent {
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
     } else {
-      // TODO authService
       this.authService.recoverPassword(this.currentEmail).subscribe({
         next: () => {
           this.showSnackBar(true);
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/login/login'); // TODO
         },
         error: (err) => {
           this.showSnackBar(false);
@@ -58,12 +57,12 @@ export class RecoverPasswordComponent {
     }
   }
 
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'Recovery email sent successfully!' : 'Error sending recovery email!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: 2, context: 'auth' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 

@@ -51,12 +51,10 @@ export class RegisterPageComponent {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
     } else {
-      // TODO authService
-      console.log("authService");
       this.authService.register(this.currentRegister.email, this.currentRegister.password).subscribe({
         next: () => {
           this.showSnackBar(true);
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/login'); // TODO
         },
         error: (err) => {
           this.showSnackBar(false);
@@ -66,12 +64,12 @@ export class RegisterPageComponent {
     }
   }
   
-  private showSnackBar(isOk: boolean): void {  // TODO refactor
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { text: (isOk) ? 'Registration successful!' : 'Registration failed!', isOk: isOk },
-      panelClass: [(isOk) ? 'info-snackBar' : 'error-snackBar'],
-      verticalPosition: 'top'
+      data: { isOk: isOk, action: 1, context: 'auth' },
+      panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
+      verticalPosition: 'top',
     });
   }
 

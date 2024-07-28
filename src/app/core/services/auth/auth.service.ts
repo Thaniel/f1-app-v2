@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { firebaseConfig } from '../firebase.config';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,18 @@ import { from, Observable } from 'rxjs';
 export class AuthService {
   private auth;
 
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
+
   constructor() {
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
+
+    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser = this.currentUserSubject.asObservable();
+    onAuthStateChanged(this.auth, (user) => {
+      this.currentUserSubject.next(user);
+    });
   }
 
   /*
@@ -26,7 +35,6 @@ export class AuthService {
    * Login into firebase
    */
   public login(email: string, password: string): Observable<any> {
-
     return from(signInWithEmailAndPassword(this.auth, email, password));
   }
 
@@ -45,7 +53,9 @@ export class AuthService {
   }
 
   /*
-    onAuthStateChanged
-    https://firebase.google.com/docs/auth/web/manage-users?hl=es
-  */
+   * Get current authenticated user
+   */
+    public getCurrentUser(): Observable<User | null> {
+      return this.currentUser;
+    }
 }
