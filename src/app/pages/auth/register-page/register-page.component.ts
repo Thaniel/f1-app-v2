@@ -48,10 +48,10 @@ export class RegisterPageComponent {
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) {
+    if ((this.registerForm.invalid) || (this.currentRegister.password != this.currentRegister.passwordRepited)) { // TODO password 6 o more characters and check repeated
       this.registerForm.markAllAsTouched();
     } else {
-      this.authService.register(this.currentRegister.email, this.currentRegister.password).subscribe({
+      this.authService.register(this.currentRegister).subscribe({
         next: () => {
           this.showSnackBar(true);
           this.routeToLogin();

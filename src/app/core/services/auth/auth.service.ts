@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User, UserCredential } from "firebase/auth";
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { firebaseConfig } from '../firebase.config';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { IRegister } from '../../interfaces/register.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth;
+  private firestore;
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
@@ -16,6 +19,7 @@ export class AuthService {
   constructor() {
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
+    this.firestore = getFirestore(app);
 
     this.currentUserSubject = new BehaviorSubject<User | null>(null);
     this.currentUser = this.currentUserSubject.asObservable();
@@ -27,8 +31,27 @@ export class AuthService {
   /*
    * Register new user
    */
-  public register(email: string, password: string): Observable<any> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password));
+  public register(newUser: IRegister): Observable<any> {
+    return from(createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password).then(userCredential => {
+      return this.createUserDocument(userCredential, newUser).then(() => userCredential);
+    }));
+  }
+
+  /*
+   * Create user document in Firestore
+   */
+  private createUserDocument(userCredential: UserCredential, newUser: IRegister): Promise<void> {
+    const userRef = doc(this.firestore, `users/${userCredential.user.uid}`);
+    return setDoc(userRef, {
+      uid: userCredential.user.uid,
+      email: userCredential.user.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      country: newUser.country,
+      birthdate: newUser.birthdate,
+      userName: newUser.userName,
+      admin: false,
+    });
   }
 
   /*
@@ -55,7 +78,7 @@ export class AuthService {
   /*
    * Get current authenticated user
    */
-    public getCurrentUser(): Observable<User | null> {
-      return this.currentUser;
-    }
+  public getCurrentUser(): Observable<User | null> {
+    return this.currentUser;
+  }
 }
