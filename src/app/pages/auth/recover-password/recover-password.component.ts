@@ -11,6 +11,10 @@ import { TIME_OUT } from '../../../shared/constants/constants';
 import { emailPattern } from '../../../shared/directives/validators';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 
+interface IEmail {
+  email: string;
+}
+
 @Component({
   selector: 'app-recover-password',
   standalone: true,
@@ -33,8 +37,8 @@ export class RecoverPasswordComponent {
     });
   }
 
-  get currentEmail(): string {
-    return this.emailForm.value as string;
+  get currentEmail(): IEmail {
+    return this.emailForm.value as IEmail;
   }
 
   isValidField(field: string): boolean | null {
@@ -45,7 +49,9 @@ export class RecoverPasswordComponent {
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
     } else {
-      this.authService.recoverPassword(this.currentEmail).subscribe({
+      
+      console.log(this.currentEmail.email);
+      this.authService.recoverPassword(this.currentEmail.email).subscribe({
         next: () => {
           this.showSnackBar(true);
           this.routeToLogin();
