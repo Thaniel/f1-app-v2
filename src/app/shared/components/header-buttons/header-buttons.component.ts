@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -7,6 +7,7 @@ import { CreateEditDriverComponent } from '../../../pages/drivers/create-edit-dr
 import { CreateEditNewComponent } from '../../../pages/news/create-edit-new/create-edit-new.component';
 import { CreateEditRaceComponent } from '../../../pages/races/create-edit-race/create-edit-race.component';
 import { CreateEditTeamComponent } from '../../../pages/teams/create-edit-team/create-edit-team.component';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-header-buttons',
@@ -15,12 +16,21 @@ import { CreateEditTeamComponent } from '../../../pages/teams/create-edit-team/c
   templateUrl: './header-buttons.component.html',
   styleUrl: './header-buttons.component.css'
 })
-export class HeaderButtonsComponent {
+export class HeaderButtonsComponent implements OnInit {
   @Input() title: string = "title_default";
 
-  permission: boolean = true;
+  permission: boolean = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private authService: AuthService,
+  ) { }
+
+  ngOnInit(): void {
+    this.authService.getCurrentUserInfo().then(user => {
+      this.permission = user!.isAdmin;
+    });
+  }
 
   showMy(): void {
     console.error("Show my elements");

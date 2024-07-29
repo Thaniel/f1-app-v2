@@ -49,8 +49,6 @@ export class RecoverPasswordComponent {
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
     } else {
-      
-      console.log(this.currentEmail.email);
       this.authService.recoverPassword(this.currentEmail.email).subscribe({
         next: () => {
           this.showSnackBar(true);
