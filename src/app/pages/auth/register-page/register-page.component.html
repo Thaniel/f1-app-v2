@@ -1,6 +1,6 @@
 <div class="login-wrapper">
     <div class="login-container">
-        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%"/>
+        <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%" />
         <h1 class="welcome-text">Register</h1>
         <p>Please fill out all fields to create an account.</p>
 
@@ -34,7 +34,7 @@
                     <input matInput type="text" required formControlName="userName" placeholder="Your user name" />
                     <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
                 </mat-form-field>
-                
+
                 <mat-form-field>
                     <mat-label>E-mail</mat-label>
                     <input matInput type="email" required formControlName="email" placeholder="E-mail" />
@@ -44,17 +44,21 @@
                 <mat-form-field>
                     <mat-label>Password</mat-label>
                     <input matInput type="password" required formControlName="password" placeholder="Password" />
-                    <span *ngIf="isValidField('password')" class="form-text text-danger">Required</span>
+                    <span *ngIf="isValidField('password')" class="form-text text-danger">The password must be greater
+                        than 6 characters</span>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Repeat password</mat-label>
-                    <input matInput type="password" required formControlName="passwordRepited" placeholder="Repeat password" />
-                    <span *ngIf="isValidField('passwordRepited')" class="form-text text-danger">Required</span>
+                    <input matInput type="password" required formControlName="passwordRepited"
+                        placeholder="Repeat password" />
+                    <span *ngIf="isValidField('passwordRepited')" class="form-text text-danger">Passwords must be
+                        equals</span>
                 </mat-form-field>
 
                 <div class="button-container">
-                    <button mat-raised-button class="secondary-button m-4" type="button" (click)="routeToLogin()">Cancel</button>
+                    <button mat-raised-button class="secondary-button m-4" type="button"
+                        (click)="routeToLogin()">Cancel</button>
                     <button mat-raised-button class="main-button m-4" type="submit">Register</button>
                 </div>
             </form>

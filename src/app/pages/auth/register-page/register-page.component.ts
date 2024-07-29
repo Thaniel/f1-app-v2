@@ -10,6 +10,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { emailPattern } from '../../../shared/directives/validators';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'app-register-page',
@@ -27,8 +28,12 @@ export class RegisterPageComponent {
     birthdate: ['', [Validators.required]],
     userName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    password: ['', [Validators.required], Validators.minLength(6)],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     passwordRepited: ['', [Validators.required]],
+  }, {
+    validators: [
+      this.validatorsService.isFieldOneEqualFieldTwo('password', 'passwordRepited')
+    ]
   });
 
   constructor(
@@ -36,6 +41,7 @@ export class RegisterPageComponent {
     public snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
+    private validatorsService: ValidatorsService,
   ) {
   }
 
@@ -44,11 +50,11 @@ export class RegisterPageComponent {
   }
 
   isValidField(field: string): boolean | null {
-    return this.registerForm.controls[field].errors && this.registerForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.registerForm, field);
   }
 
   onSubmit(): void {
-    if ((this.registerForm.invalid) || (this.currentRegister.password != this.currentRegister.passwordRepited)) { // TODO password 6 o more characters and check repeated
+    if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
     } else {
       this.authService.register(this.currentRegister).subscribe({

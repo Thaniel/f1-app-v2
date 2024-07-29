@@ -100,9 +100,11 @@ export class AuthService {
    */
   public async getCurrentUserInfo(): Promise<IUser | null> {  
     let uid = localStorage.getItem("uid");
+
     if (this.currentUserInfo == null && uid){      
-       await this.getUserInfo(uid);   
+       await this.getUserInfo(uid);
     }
+    
     return this.currentUserInfo;
   }
 }
