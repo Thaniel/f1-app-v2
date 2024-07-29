@@ -2,41 +2,22 @@
 <app-header [title]="'Profile'"></app-header>
 
 <div class="container">
-    <button mat-raised-button class="main-button" (click)="logOut()">Log out</button>
+    <button mat-raised-button class="main-button" (click)="logOut()">
+        <mat-icon fontIcon="logout"></mat-icon>
+        Log out
+    </button>
     <div class="card shadow m-4">
         <h2 class="header-row p-4">Data</h2>
         <br>
-        <div class="row ms-2"> <!-- TODO: ngFor -->
-            <div class="col-4">First name</div>
-            <div class="col">Daniel</div>
-        </div>
-        <hr>
-        <div class="row ms-2">
-            <div class="col-4">Last name</div>
-            <div class="col">Herráez</div>
-        </div>
-        <hr>
-        <div class="row ms-2">
-            <div class="col-4">Email</div>
-            <div class="col">danielhp0905</div>
-        </div>
-        <hr>
-        <div class="row ms-2">
-            <div class="col-4">User</div>
-            <div class="col">Thaniel</div>
-        </div>
-        <hr>
-        <div class="row ms-2">
-            <div class="col-4">Country</div>
-            <div class="col">Spain</div>
-        </div>
-        <hr>
-        <div class="row ms-2">
-            <div class="col-4">Birthdate</div>
-            <div class="col">1999-05-09</div>
+
+        <div *ngFor="let info of userInfo; let i = index">
+            <hr *ngIf="i != 0">
+            <div class="row ms-2">
+                <div class="col-4">{{ info.key }}</div>
+                <div class="col">{{ info.value }}</div>
+            </div>
         </div>
         <br>
     </div>
-
 
 </div>
