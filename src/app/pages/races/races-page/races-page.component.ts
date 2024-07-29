@@ -22,7 +22,6 @@ import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.co
 })
 export class RacesPageComponent implements OnInit {
   races: IRace[] = [];
-  permission: boolean = true;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -30,7 +29,7 @@ export class RacesPageComponent implements OnInit {
     private racesService: RacesService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.getRaces();
 
     this.racesService.reload$.subscribe(() => {

@@ -22,7 +22,6 @@ import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.compo
 })
 export class NewsPageComponent implements OnInit {
   news: INew[] = [];
-  permission: boolean = true;
   
   constructor(
     private snackBar: MatSnackBar,
