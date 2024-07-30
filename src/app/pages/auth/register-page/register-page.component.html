@@ -29,16 +29,27 @@
                     <input matInput type="date" required formControlName="birthdate" placeholder="Your birthdate" />
                     <span *ngIf="isValidField('birthdate')" class="form-text text-danger">Required</span>
                 </mat-form-field>
+
                 <mat-form-field>
                     <mat-label>User name</mat-label>
                     <input matInput type="text" required formControlName="userName" placeholder="Your user name" />
-                    <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
+                    <span *ngIf="isFieldUserNameInUse('userName'); else requiredUserName" class="form-text text-danger">
+                        The username is already in use
+                    </span>
+                    <ng-template #requiredUserName>
+                        <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
+                    </ng-template>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>E-mail</mat-label>
                     <input matInput type="email" required formControlName="email" placeholder="E-mail" />
-                    <span *ngIf="isValidField('email')" class="form-text text-danger">Required</span>
+                    <span *ngIf="isFieldEmailInUse('email'); else requiredEmail" class="form-text text-danger">
+                        The email is already in use
+                    </span>
+                    <ng-template #requiredEmail>
+                        <span *ngIf="isValidField('email')" class="form-text text-danger">Required</span>
+                    </ng-template>
                 </mat-form-field>
 
                 <mat-form-field>

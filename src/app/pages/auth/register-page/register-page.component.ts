@@ -53,6 +53,16 @@ export class RegisterPageComponent {
     return this.validatorsService.isValidField(this.registerForm, field);
   }
 
+  public isFieldUserNameInUse(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return control!.hasError('usernameInUse') && control!.touched;
+  }
+
+  public isFieldEmailInUse(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return control!.hasError('emailInUse') && control!.touched;
+  }
+
   onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
@@ -63,8 +73,14 @@ export class RegisterPageComponent {
           this.routeToLogin();
         },
         error: (err) => {
+          if (err.name === 'UsernameInUseError') {
+            this.registerForm.get('userName')?.setErrors({ usernameInUse: true });
+            this.registerForm.get('userName')?.markAsTouched();
+          } else if (err.name === 'EmailInUseError') {
+            this.registerForm.get('email')?.setErrors({ emailInUse: true });
+            this.registerForm.get('email')?.markAsTouched();
+          }
           this.showSnackBar(false);
-          console.error(err);
         }
       });
     }

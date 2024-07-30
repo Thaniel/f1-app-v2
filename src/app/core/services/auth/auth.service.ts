@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User, UserCredential } from "firebase/auth";
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { IRegister } from '../../interfaces/register.interface';
 import { IUser } from '../../interfaces/user.interface';
 import { firebaseConfig } from '../firebase.config';
@@ -38,9 +38,30 @@ export class AuthService {
    * Register new user
    */
   public register(newUser: IRegister): Observable<any> {
-    return from(createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password).then(userCredential => {
-      return this.createUserDocument(userCredential, newUser).then(() => userCredential);
-    }));
+    const error = new Error();
+    return from(this.usersService.isUserNameInUse(newUser.userName)).pipe(
+      switchMap(isInUse => {
+        if (isInUse) {
+          error.name = 'UsernameInUseError';
+          return throwError(() => error);
+        } else {
+          return from(createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password)).pipe(
+            switchMap((userCredential: UserCredential) => {
+              return from(this.createUserDocument(userCredential, newUser)).pipe(
+                switchMap(() => of(userCredential))
+              );
+            }),
+            catchError(err => {
+              if (err.code === 'auth/email-already-in-use') {
+                error.name = 'EmailInUseError';
+                return throwError(() => error);
+              }
+              return throwError(() => err);
+            })
+          );
+        }
+      })
+    );
   }
 
   /*
@@ -98,13 +119,13 @@ export class AuthService {
   /*
    * Get current authenticated user information
    */
-  public async getCurrentUserInfo(): Promise<IUser | null> {  
+  public async getCurrentUserInfo(): Promise<IUser | null> {
     let uid = localStorage.getItem("uid");
 
-    if (this.currentUserInfo == null && uid){      
-       await this.getUserInfo(uid);
+    if (this.currentUserInfo == null && uid) {
+      await this.getUserInfo(uid);
     }
-    
+
     return this.currentUserInfo;
   }
 }

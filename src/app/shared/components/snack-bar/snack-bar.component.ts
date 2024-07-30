@@ -68,7 +68,6 @@ export class SnackBarComponent {
     const contextMessages = MESSAGES[context] || {};
     const messages = contextMessages[action as Action] || { ok: '', ko: '' };
 
-
     this.text = isOk ? messages.ok : messages.ko;
     this.icon = isOk ? 'check' : 'report_outlined';
     this.backgroundColor = isOk ? COLORS.secondary : COLORS.primaryDark;

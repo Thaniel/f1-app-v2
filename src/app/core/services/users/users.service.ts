@@ -16,7 +16,7 @@ export class UsersService {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
   }
-  
+
   /*
    * Get all Users
    */
@@ -60,4 +60,13 @@ export class UsersService {
       return null;
     }
   }
+
+  /*
+   * Check if the username is already in use by another user
+   */
+  public async isUserNameInUse(userNameToFind: string): Promise<boolean> {
+    const users = await this.getAll();
+    return users.some(user => user.userName === userNameToFind);
+  }
+
 }
