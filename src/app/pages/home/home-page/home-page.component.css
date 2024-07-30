@@ -5,17 +5,6 @@
     flex-direction: column;
 }
 
-.title-container {
-    margin-top: 100px !important;
-    position: absolute;
-    top: 10%;
-    left: 25%;
-    transform: translate(-50%, -50%);
-    color: #FFF;
-    font-style: italic;
-    font-size: 8vw;
-}
-
 .carousel-item {
     color: white;
     height: 400px;
