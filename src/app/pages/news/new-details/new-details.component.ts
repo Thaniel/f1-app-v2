@@ -18,7 +18,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 })
 export class NewDetailsComponent implements OnInit {
 
-  newSelected: INew = { id: '0', title: '', date: new Date(), summary: '', text: '', image: null, imageUrl: '', comments: null };
+  newSelected: INew = { id: '0', title: '', date: new Date(), summary: '', text: '', image: null, imageUrl: '', author: null, comments: null };
   comments: IComment[] = [];
 
   constructor(
@@ -32,19 +32,20 @@ export class NewDetailsComponent implements OnInit {
       let id = params.get('id');
       this.getNewDetail(id);
     });
+    
   }
 
   private async getNewDetail(id: string | null) {
     if (id != null) {
       let data = await this.newsService.getById(id)
-      
-      if (data != null){
+
+      if (data != null) {
         this.newSelected = data;
         this.comments = data.comments!;
-      }else{
+      } else {
         this.router.navigate(['/news']);
       }
-    }else{
+    } else {
       this.router.navigate(['/news']);
     }
   }
@@ -59,7 +60,7 @@ export class NewDetailsComponent implements OnInit {
   }
 
   createComment() {
-    let comment: IComment = { id: "", author: '', text: '', date: new Date(), isEditing: true };
+    let comment: IComment = { id: "", author: null, text: '', date: new Date(), isEditing: true };
     this.comments.unshift(comment);
   }
 }

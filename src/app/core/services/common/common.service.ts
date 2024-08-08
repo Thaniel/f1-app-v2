@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, DocumentData, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { firebaseConfig } from '../firebase.config';
 
@@ -38,4 +38,17 @@ export class CommonService {
       return false;
     }
   }
+
+    // Get user info to set into author of a new or comment
+    public async getAuthor(data: DocumentData) {
+      if (data['author']) {
+        const userDoc = await getDoc(data['author']);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          data['author'] = userData && typeof userData === 'object' ? { id: userDoc.id, ...userData } : null;
+        } else {
+          data['author'] = null;
+        }
+      }
+    }
 }

@@ -1,3 +1,5 @@
+import { IUser } from "./user.interface";
+
 export interface INew {
     id: string;
     title: string;
@@ -6,12 +8,13 @@ export interface INew {
     image: File | null;
     imageUrl: string;
     text: string;
+    author: IUser | null;
     comments: IComment[] | null;
 }
 
 export interface IComment {
     id: string;
-    author: string;
+    author: IUser | null;
     text: string;
     date: Date;
     isEditing: boolean;

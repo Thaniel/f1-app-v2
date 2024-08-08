@@ -38,7 +38,7 @@ export class NewsService {
         text: n.text,
         image: "",
         date: new Date(),
-        author: "", // TODO
+        author: doc(this.db, `users/${n.author!.id}`),
       });
 
       if (n.image) {
@@ -153,11 +153,15 @@ export class NewsService {
         const data = docSnap.data();
 
         convertTimestamp2Date(data);
-        
+
+        this.commonService.getAuthor(data);
+
         // Get comments
-        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef); 
+        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
+        console.log(data['comments']);
+        
         // Get news image
-        data['image'] = await urlToFile(data['imageUrl']); 
+        data['image'] = await urlToFile(data['imageUrl']);
 
         return { id: docSnap.id, ...data } as INew;
       } else {

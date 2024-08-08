@@ -8,7 +8,7 @@
             <p class="card-subtitle">{{ newSelected.summary }}</p>
             <img [src]="newSelected.imageUrl" class="card-img-top" alt="{{ newSelected.title }}" loading="lazy">
             <p class="pt-2">{{ newSelected.date | date:'mediumDate' }}</p>
-
+            <p class="pt-2">{{ (newSelected.author?.userName) }}</p>
             <hr>
             <p class="card-text">{{ newSelected.text }}</p>
         </div>

@@ -8,6 +8,7 @@ import { CommentsService } from '../../../core/services/comments/comments.servic
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -17,7 +18,7 @@ import { TIME_OUT } from '../../../shared/constants/constants';
   styleUrl: './comment.component.css'
 })
 export class CommentComponent {
-  @Input() comment: IComment = { id: '0', author: '', text: '', date: new Date(), isEditing: false };
+  @Input() comment: IComment = { id: '0', author: null, text: '', date: new Date(), isEditing: false };
   @Input() newId: string = "";
 
   @Output() commentModified = new EventEmitter<void>();
@@ -25,23 +26,40 @@ export class CommentComponent {
   constructor(
     private commentsService: CommentsService,
     public snackBar: MatSnackBar,
+    private authService: AuthService,
   ) { }
 
   async save() {
-    let success;
-
     if (this.comment.id === "") {
-      success = await this.commentsService.create(this.newId, this.comment);
-      this.showSnackBar(success, 0);
+      this.createComment();
     } else {
-      success = await this.commentsService.update(this.newId, this.comment.id, this.comment);
-      this.showSnackBar(success, 1);
+      this.updateComment();
     }
 
     this.comment.isEditing = false;
-
     this.commentModified.emit();
   }
+
+  private async createComment() {
+    await this.authService.getCurrentUserInfo().then(user => {
+      this.comment.author = user;
+    });
+
+    this.commentsService.create(this.newId, this.comment).then(result => {
+      this.showSnackBar(result, 0);
+    });
+  }
+
+  private async updateComment() {
+    const updatedData: Partial<IComment> = {
+      text: this.comment.text,
+    };
+
+    this.commentsService.update(this.newId, this.comment.id, updatedData).then(result => {
+      this.showSnackBar(result, 1);
+    });
+  }
+
 
   cancel(): void {
     this.comment.isEditing = false;

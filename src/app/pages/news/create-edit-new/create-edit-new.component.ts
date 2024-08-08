@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { INew } from '../../../core/interfaces/new.interface';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { NewsService } from '../../../core/services/news/news.service';
 import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-save-buttons/cancel-save-buttons.component';
 import { FileInputComponent } from '../../../shared/components/file-input/file-input.component';
@@ -43,6 +44,7 @@ export class CreateEditNewComponent {
     public snackBar: MatSnackBar,
     private newsService: NewsService,
     private validatorsService: ValidatorsService,
+    private authService: AuthService,
   ) {
     if (data) {
       this.newForm.patchValue(data);
@@ -81,8 +83,12 @@ export class CreateEditNewComponent {
   }
 
   private async createNew() {
-    this.newsService.create(this.currentNew).then(success => {
-      this.showSnackBar(success, 0);
+    await this.authService.getCurrentUserInfo().then(user => {
+      this.currentNew.author = user;
+    });
+
+    this.newsService.create(this.currentNew).then(result => {
+      this.showSnackBar(result, 0);
       this.newsService.loadNews();
     });
   }
@@ -94,8 +100,8 @@ export class CreateEditNewComponent {
       text: this.currentNew.text,
     };
 
-    this.newsService.update(this.currentNew.id, updatedData, this.selectedFile).then(success => {
-      this.showSnackBar(success, 1);
+    this.newsService.update(this.currentNew.id, updatedData, this.selectedFile).then(result => {
+      this.showSnackBar(result, 1);
       this.newsService.loadNews();
     });
   }

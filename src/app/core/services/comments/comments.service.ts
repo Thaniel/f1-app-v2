@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
 import { IComment } from "../../interfaces/new.interface";
 import { convertTimestamp2Date } from '../../utils';
+import { CommonService } from '../common/common.service';
 import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
@@ -11,7 +12,9 @@ import { firebaseConfig } from "../firebase.config";
 export class CommentsService {
   private db;
 
-  constructor() {
+  constructor(
+    private commonService: CommonService,
+  ) {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
   }
@@ -25,7 +28,7 @@ export class CommentsService {
       const commentsColRef = collection(newsDocRef, "comments");
 
       const docRef = await addDoc(commentsColRef, {
-        author: comment.author,
+        author: doc(this.db, `users/${comment.author!.id}`),
         text: comment.text,
         date: comment.date,
       });
@@ -80,17 +83,20 @@ export class CommentsService {
     const q = query(commentsColRef, orderBy("date", "desc"));
     const commentsSnap = await getDocs(q);
 
-    const comments: IComment[] = commentsSnap.docs.map(doc => {
+    const commentPromises = commentsSnap.docs.map(async (doc) => {
       const commentData = doc.data();
-
+      
       convertTimestamp2Date(commentData);
-
+  
+      // Espera a que se resuelva la llamada asíncrona
+      await this.commonService.getAuthor(commentData);
+  
       commentData['isEditing'] = false;
-
+  
       return { id: doc.id, ...commentData } as IComment;
     });
-
-    return comments;
+  
+    return await Promise.all(commentPromises);
   }
   
   /*
