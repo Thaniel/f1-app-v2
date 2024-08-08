@@ -49,8 +49,8 @@ export class NewsPageComponent implements OnInit {
   }
 
   async deleteNew(notice: INew) {
-    const success = await this.newsService.delete(notice.id);
-    this.showSnackBar(success);
+    const result = await this.newsService.delete(notice.id);
+    this.showSnackBar(result);
     this.newsService.loadNews();
   }
 

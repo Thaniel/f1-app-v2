@@ -137,8 +137,8 @@ export class CreateEditTeamComponent implements OnInit {
   }
 
   private async createTeam() {
-    this.teamsService.create(this.currentTeam).then(success => {
-      this.showSnackBar(success, 0);
+    this.teamsService.create(this.currentTeam).then(result => {
+      this.showSnackBar(result, 0);
       this.teamsService.loadTeams();
     });
   }
@@ -156,8 +156,8 @@ export class CreateEditTeamComponent implements OnInit {
       description: this.currentTeam.description,
     }
     
-    this.teamsService.update(this.currentTeam.id, updatedData, this.selectedCarFile, this.selectedLogoFile).then(success => {
-      this.showSnackBar(success, 1);
+    this.teamsService.update(this.currentTeam.id, updatedData, this.selectedCarFile, this.selectedLogoFile).then(result => {
+      this.showSnackBar(result, 1);
       this.teamsService.loadTeams();
     });
   }

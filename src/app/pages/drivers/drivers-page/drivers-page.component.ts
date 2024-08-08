@@ -50,8 +50,8 @@ export class DriversPageComponent implements OnInit {
   }
 
   async deleteDriver(driver: IDriver) {
-    const success = await this.driversService.delete(driver.id);
-    this.showSnackBar(success);
+    const result = await this.driversService.delete(driver.id);
+    this.showSnackBar(result);
     this.driversService.loadDrivers();
   }
 

@@ -49,8 +49,8 @@ export class RacesPageComponent implements OnInit {
   }
 
   async deleteRace(race: IRace) {
-    const success = await this.racesService.delete(race.id);
-    this.showSnackBar(success);
+    const result = await this.racesService.delete(race.id);
+    this.showSnackBar(result);
     this.racesService.loadRaces();
   }
 

@@ -100,8 +100,8 @@ export class CreateEditRaceComponent {
   }
 
   private async createRace() {
-    this.racesService.create(this.currentRace).then(success => {
-      this.showSnackBar(success, 0);
+    this.racesService.create(this.currentRace).then(result => {
+      this.showSnackBar(result, 0);
       this.racesService.loadRaces();
     });
   }
@@ -124,8 +124,8 @@ export class CreateEditRaceComponent {
       description: this.currentRace.description,
     };
 
-    this.racesService.update(this.currentRace.id, updatedData, this.selectedFile).then(success => {
-      this.showSnackBar(success, 1);
+    this.racesService.update(this.currentRace.id, updatedData, this.selectedFile).then(result => {
+      this.showSnackBar(result, 1);
       this.racesService.loadRaces();
     });
   }
