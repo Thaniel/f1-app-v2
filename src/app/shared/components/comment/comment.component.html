@@ -4,7 +4,7 @@
     <h6 class="pt-3">{{ comment.date | date:'mediumDate' }}</h6>
 
     <div class="flex-grow"></div>
-    <app-edit-menu (edit)="edit()" (delete)="delete()"></app-edit-menu>
+    <app-edit-menu *ngIf="isCurrentUserAuthor(comment)" (edit)="edit()" (delete)="delete()"></app-edit-menu>
 </div>
 <ng-container *ngIf="!comment.isEditing; else editMode">
     <p>{{ comment.text }}</p>

@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IComment } from '../../../core/interfaces/new.interface';
+import { IUser } from '../../../core/interfaces/user.interface';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { CommentsService } from '../../../core/services/comments/comments.service';
+import { TIME_OUT } from '../../../shared/constants/constants';
 import { CancelSaveButtonsComponent } from '../cancel-save-buttons/cancel-save-buttons.component';
 import { EditMenuComponent } from '../edit-menu/edit-menu.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { CommentsService } from '../../../core/services/comments/comments.service';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TIME_OUT } from '../../../shared/constants/constants';
-import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -17,17 +18,29 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
-export class CommentComponent {
+export class CommentComponent implements OnInit {
   @Input() comment: IComment = { id: '0', author: null, text: '', date: new Date(), isEditing: false };
   @Input() newId: string = "";
 
   @Output() commentModified = new EventEmitter<void>();
+
+  public currentUser: IUser | null = null;
 
   constructor(
     private commentsService: CommentsService,
     public snackBar: MatSnackBar,
     private authService: AuthService,
   ) { }
+
+  ngOnInit(): void {
+    this.getCurrentUser();
+  }
+
+  private async getCurrentUser() {
+    await this.authService.getCurrentUserInfo().then(user => {
+      this.currentUser = user;
+    });
+  }
 
   async save() {
     if (this.comment.id === "") {
@@ -41,9 +54,7 @@ export class CommentComponent {
   }
 
   private async createComment() {
-    await this.authService.getCurrentUserInfo().then(user => {
-      this.comment.author = user;
-    });
+    this.comment.author = this.currentUser;
 
     this.commentsService.create(this.newId, this.comment).then(result => {
       this.showSnackBar(result, 0);
@@ -60,7 +71,6 @@ export class CommentComponent {
     });
   }
 
-
   cancel(): void {
     this.comment.isEditing = false;
     this.commentModified.emit();
@@ -74,6 +84,10 @@ export class CommentComponent {
 
   edit(): void {
     this.comment.isEditing = true;
+  }
+
+  public isCurrentUserAuthor(comment: IComment): boolean {
+    return comment.author?.id === this.currentUser?.id;
   }
 
   private showSnackBar(isOk: boolean, action: number): void {

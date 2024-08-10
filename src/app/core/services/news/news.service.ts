@@ -158,8 +158,7 @@ export class NewsService {
 
         // Get comments
         data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
-        console.log(data['comments']);
-        
+
         // Get news image
         data['image'] = await urlToFile(data['imageUrl']);
 
