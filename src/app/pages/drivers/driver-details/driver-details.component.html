@@ -1,5 +1,47 @@
 <app-nav-bar></app-nav-bar>
 
-<div class="header p-4">
-    <h1 class="p-4">{{ driver.firstName }} {{ driver.lastName }}</h1>
+<div class="header p-4" [style.background-color]="team?.colorCode">
+    <h1 class="p-4">{{ driverSelected.firstName }} {{ driverSelected.lastName }}</h1>
+</div>
+
+<div class="container pb-4 pt-4">
+    <div class="row">
+        <div class="col-md-6 p-4">
+            <img class="img-fluid" [src]="driverSelected.imageUrl" alt="driverSelected.lastName" loading="lazy">
+        </div>    
+        
+        <div class="col-md-6 p-4">
+            <div class="card shadow">
+                <h3 class="card-title p-4" [style.background-color]="team?.colorCode">Information</h3>
+                <div class="card-body">
+                    <h6 class="card-text">Country</h6>
+                    <p class="card-text">{{ driverSelected.country }}</p>
+                    <hr>
+                    <h6 class="card-text">Titles</h6>
+                    <p class="card-text">{{ driverSelected.titles }}</p>
+                    <hr>
+                    <h6 class="card-text">Points</h6>
+                    <p class="card-text">{{ driverSelected.points }}</p>
+                    <hr>
+                    <h6 class="card-text">Birthday date</h6>
+                    <p class="card-text">{{ driverSelected.birthDate }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow m-5">
+        <h3 class="card-title p-4" [style.background-color]="team?.colorCode">{{ team?.name }}</h3>
+        <div class="card-body" [routerLink]="['/teams', team?.id]" style="cursor: pointer;">
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <img class="img-fluid" [src]="team?.logoImageUrl" alt="Team logo" loading="lazy">
+                </div>
+                <div class="col-md-6 text-center">
+                    <img class="img-fluid" [src]="team?.carImageUrl" alt="Team car" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </div>  
+
 </div>

@@ -1,26 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IDriver } from '../../../core/interfaces/driver.interface';
+import { ITeam } from '../../../core/interfaces/team.interface';
+import { DriversService } from '../../../core/services/drivers/drivers.service';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-driver-details',
   standalone: true,
-  imports: [NavBarComponent],
+  imports: [NavBarComponent, RouterLink],
   templateUrl: './driver-details.component.html',
   styleUrl: './driver-details.component.css'
 })
-export class DriverDetailsComponent {
+export class DriverDetailsComponent implements OnInit {
 
-  driver: IDriver = {
-    id: '1',
-    firstName: "Lewis",
-    lastName: "Hamilton",
-    birthDate: new Date("1985-01-07"),
-    country: "United Kingdom",
-    points: 100,
-    titles: 7,
+  driverSelected: IDriver = {
+    id: '',
+    firstName: '',
+    lastName: '',
+    birthDate: new Date(),
+    country: '',
+    points: 0,
+    titles: 0,
     team: null,
     image: null,
-    imageUrl: "",
+    imageUrl: '',
   };
+  
+  team: ITeam | null = null;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private driversService: DriversService,
+  ) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      let id = params.get('id');
+      this.getDriverDetail(id);
+    });
+  }
+
+  private async getDriverDetail(id: string | null) {
+    if (id != null) {
+      let data = await this.driversService.getById(id)
+
+      if (data != null) {
+        this.driverSelected = data;
+        this.team = this.driverSelected.team as ITeam;
+      } else {
+        this.router.navigate(['/drivers']);
+      }
+    } else {
+      this.router.navigate(['/drivers']);
+    }
+  }
 }
