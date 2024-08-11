@@ -1,5 +1,56 @@
 <app-nav-bar></app-nav-bar>
 
-<div class="header p-4">
-    <h1 class="p-4">{{ team.name }}</h1>
+<div class="header p-4" [style.background-color]="teamSelected.colorCode">
+    <h1 class="p-4">{{ teamSelected.name | uppercase }}</h1>
+</div>
+
+<div class="container pb-4 pt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid" [src]="teamSelected.logoImageUrl" alt="teamSelected.name" loading="lazy">
+        </div>
+        <div class="col-md-6">
+            <img class="img-fluid" [src]="teamSelected.carImageUrl" alt="teamSelected.name" loading="lazy">
+        </div>
+    </div>
+
+    <div class="card shadow m-5">
+        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Information</h3>
+        <div class="card-body">
+            <h6 class="card-text">Full name</h6>
+            <p class="card-text">{{ teamSelected.fullName }}</p>
+            <hr>
+            <h6 class="card-text">Team principal</h6>
+            <p class="card-text">{{ teamSelected.teamPrincipal }}</p>
+            <hr>
+            <h6 class="card-text">Titles</h6>
+            <p class="card-text">{{ teamSelected.titles }}</p>
+            <hr>
+            <h6 class="card-text">Points</h6>
+            <p class="card-text">{{ teamSelected.points }}</p>
+        </div>
+    </div>
+
+    <div class="card shadow m-5">
+        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Drivers</h3>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-center" [routerLink]="['/drivers', driver1?.id]" style="cursor: pointer;">
+                    <img class="img-fluid" [src]="driver1?.imageUrl" alt="First Driver" loading="lazy">
+                    <p>{{ driver1?.firstName }} {{ driver1?.lastName }}</p>
+                </div>
+                <div class="col-md-6 text-center" [routerLink]="['/drivers', driver2?.id]" style="cursor: pointer;">
+                    <img class="img-fluid" [src]="driver2?.imageUrl" alt="Second driver" loading="lazy">
+                    <p>{{ driver2?.firstName }} {{ driver2?.lastName }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow m-5">
+        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Description</h3>
+        <div class="card-body">
+            <p class="card-text">{{ teamSelected.description }}</p>
+        </div>
+    </div>
 </div>

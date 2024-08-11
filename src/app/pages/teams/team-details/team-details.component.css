@@ -1,0 +1,12 @@
+.header{
+    color: white;
+    text-align: center;
+}
+
+.card-title{
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}

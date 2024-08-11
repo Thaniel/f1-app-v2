@@ -6,7 +6,7 @@
 <img [src]="raceSelected.imageUrl" class="card-img-top" alt="{{ raceSelected.grandPrix }}" loading="lazy">
 <div class="container pb-4">
     <div class="card shadow m-5">
-        <h5 class="card-title p-4 ">Schedule</h5>
+        <h3 class="card-title p-4 ">Schedule</h3>
         <div class="card-body">
             <h6 class="card-text">First Practice</h6>
             <p class="card-text">{{ raceSelected.firstPracticeDate | date: 'fullDate' }} - {{
@@ -28,7 +28,7 @@
     </div>
 
     <div class="card shadow m-5">
-        <h5 class="card-title p-4">{{ raceSelected.circuit }}</h5>
+        <h3 class="card-title p-4">{{ raceSelected.circuit }}</h3>
         <div class="card-body">
             <h6 class="card-text">Circuit length</h6>
             <p class="card-text">{{ raceSelected.length }}</p>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="card shadow m-5">
-        <h5 class="card-title p-4">Description</h5>
+        <h3 class="card-title p-4">Description</h3>
         <div class="card-body">
             <p class="card-text">{{ raceSelected.description }}</p>
         </div>

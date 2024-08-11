@@ -1,11 +1,13 @@
 .header{
     background-color: #D50000;
     color: white;
+    text-align: center;
 }
 
 .card-title{
     background-color: #212121;
     color: white;
+    text-align: center;
     border-radius: 3px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
