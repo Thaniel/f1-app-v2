@@ -1,0 +1,23 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container pb-4">
+    <div class="m-4 text-center">
+        <button mat-stroked-button [routerLink]="['/topics']">
+            <mat-icon>arrow_back</mat-icon>
+            Back
+        </button>
+    </div>
+
+    <div class="card shadow m-4">
+        <h3 class="header-row-center p-4">{{ topicSelected.title }}</h3>
+        <div class="m-2 text-center">
+            <button mat-raised-button class="main-button" (click)="createComment()">Write</button>
+        </div>
+        <div class="p-2">
+            <div class="card shadow comment-card mt-4 mb-4 p-2" *ngFor="let comment of comments">
+                <app-comment [topicId]="topicSelected.id" [comment]="comment"
+                    (commentModified)="commentModified()"></app-comment>
+            </div>
+        </div>
+    </div>
+</div>

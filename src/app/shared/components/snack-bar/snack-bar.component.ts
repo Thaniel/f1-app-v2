@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_SNACK_BAR_DATA, MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MAT_SNACK_BAR_DATA, MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { COLORS } from '../../constants/colors';
 
 interface Message {
@@ -45,6 +45,11 @@ const MESSAGES: ContextMessages = {
     0: { ok: 'Login successful', ko: 'Login failed' },
     1: { ok: 'Registration successful', ko: 'Registration failed' },
     2: { ok: 'Recovery email sent successfully', ko: 'Error sending recovery email' },
+  },
+  topic: {
+    0: { ok: 'Topic created', ko: 'Error while creating topic' },
+    1: { ok: 'Topic edited', ko: 'Error while editing topic' },
+    2: { ok: 'Topic deleted', ko: 'Error while deleting topic' }
   }
 };
 

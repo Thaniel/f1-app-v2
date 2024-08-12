@@ -4,16 +4,19 @@
     <h6 class="pt-3">{{ comment.date | date:'mediumDate' }}</h6>
 
     <div class="flex-grow"></div>
+
     <app-edit-menu *ngIf="isCurrentUserAuthor(comment)" (edit)="edit()" (delete)="delete()"></app-edit-menu>
 </div>
+
+<hr class="mt-0">
+
 <ng-container *ngIf="!comment.isEditing; else editMode">
-    <p>{{ comment.text }}</p>
+    <p class="m-2">{{ comment.text }}</p>
 </ng-container>
 
 <ng-template #editMode>
     <textarea [(ngModel)]="comment.text" class="form-control">{{ comment.text }}</textarea>
     <div class="mt-4 mb-4 d-flex justify-content-end">
-        <app-cancel-save-buttons (cancel)="cancel()"
-            (save)="save()"></app-cancel-save-buttons>
+        <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
     </div>
 </ng-template>

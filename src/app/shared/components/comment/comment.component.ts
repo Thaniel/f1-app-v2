@@ -21,6 +21,7 @@ import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 export class CommentComponent implements OnInit {
   @Input() comment: IComment = { id: '0', author: null, text: '', date: new Date(), isEditing: false };
   @Input() newId: string = "";
+  @Input() topicId: string = "";
 
   @Output() commentModified = new EventEmitter<void>();
 
@@ -55,8 +56,11 @@ export class CommentComponent implements OnInit {
 
   private async createComment() {
     this.comment.author = this.currentUser;
+    
+    let id = (this.newId == "")? this.topicId : this.newId;
+    let collectionName = (this.newId == "")? "topics" : "news";
 
-    this.commentsService.create(this.newId, this.comment).then(result => {
+    this.commentsService.create(collectionName, id, this.comment).then(result => {
       this.showSnackBar(result, 0);
     });
   }
@@ -66,7 +70,10 @@ export class CommentComponent implements OnInit {
       text: this.comment.text,
     };
 
-    this.commentsService.update(this.newId, this.comment.id, updatedData).then(result => {
+    let id = (this.newId == "")? this.topicId : this.newId;
+    let collectionName = (this.newId == "")? "topics" : "news";
+
+    this.commentsService.update(collectionName, id, this.comment.id, updatedData).then(result => {
       this.showSnackBar(result, 1);
     });
   }
@@ -77,7 +84,10 @@ export class CommentComponent implements OnInit {
   }
 
   async delete() {
-    const success = await this.commentsService.delete(this.newId, this.comment.id);
+    let id = (this.newId == "")? this.topicId : this.newId;
+    let collectionName = (this.newId == "")? "topics" : "news";
+
+    const success = await this.commentsService.delete(collectionName, id, this.comment.id);
     this.showSnackBar(success, 2);
     this.commentModified.emit();
   }

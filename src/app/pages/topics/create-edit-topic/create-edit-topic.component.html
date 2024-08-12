@@ -1,0 +1,18 @@
+<h2 mat-dialog-title class="dialog-header mb-4 pb-4">
+    {{ isCreating ? 'Create' : 'Edit'}} topic{{ isCreating? '' : ':'}}
+    <small *ngIf="currentTopic.id">{{ currentTopic.title }}</small>
+</h2>
+
+<mat-dialog-content>
+    <form autocomplete="off" [formGroup]="topicForm" (ngSubmit)="onSubmit()" class="form-container">
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput type="text" required formControlName="title" placeholder="Topic's title" />
+            <span *ngIf="isValidField('title')" class="form-text text-danger">Required</span>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex justify-content-end mb-2">
+    <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
+</mat-dialog-actions>

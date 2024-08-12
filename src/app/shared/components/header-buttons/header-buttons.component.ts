@@ -3,11 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { CreateEditDriverComponent } from '../../../pages/drivers/create-edit-driver/create-edit-driver.component';
 import { CreateEditNewComponent } from '../../../pages/news/create-edit-new/create-edit-new.component';
 import { CreateEditRaceComponent } from '../../../pages/races/create-edit-race/create-edit-race.component';
 import { CreateEditTeamComponent } from '../../../pages/teams/create-edit-team/create-edit-team.component';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { CreateEditTopicComponent } from '../../../pages/topics/create-edit-topic/create-edit-topic.component';
 
 @Component({
   selector: 'app-header-buttons',
@@ -42,6 +43,7 @@ export class HeaderButtonsComponent implements OnInit {
       case 'Races': this.openDialogRace(); break;
       case 'Teams': this.openDialogTeam(); break;
       case 'Drivers': this.openDialogDriver(); break;
+      case 'Topics': this.openDialogTopic(); break;
       default:
         console.error('Invalid component name');
         return;
@@ -71,6 +73,13 @@ export class HeaderButtonsComponent implements OnInit {
 
   private openDialogDriver(): MatDialogRef<any, any> {
     return this.dialog.open(CreateEditDriverComponent, {
+      data: null,
+      width: '90vw',
+    });
+  }
+
+  private openDialogTopic(): MatDialogRef<any, any> {
+    return this.dialog.open(CreateEditTopicComponent, {
       data: null,
       width: '90vw',
     });

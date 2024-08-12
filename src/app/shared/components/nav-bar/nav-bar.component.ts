@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
       { label: 'Teams', icon: 'directions_car', route: '/teams' },
       { label: 'Drivers', icon: 'sports_motorsports', route: '/drivers' },
       { label: 'Standings', icon: 'emoji_events', route: '/standings', },
-      { label: 'Forum', icon: 'forum', route: '/forum', },
+      { label: 'Forum', icon: 'forum', route: '/topics', },
       { label: 'Votes', icon: 'thumb_up', route: '/votes', },
       { label: 'Profile', icon: 'person', route: '/profile', },
     ];

@@ -33,8 +33,8 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
-        path: 'forum',
-        loadChildren: () => import('./pages/forum/forum.routes').then(m => m.FORUM_ROUTES),
+        path: 'topics',
+        loadChildren: () => import('./pages/topics/topics.routes').then(m => m.TOPICS_ROUTES),
         canActivate: [authGuard],
     },
     {

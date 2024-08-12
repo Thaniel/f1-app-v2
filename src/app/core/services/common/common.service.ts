@@ -39,7 +39,7 @@ export class CommonService {
     }
   }
 
-    // Get user info to set into author of a new or comment
+    // Get user info to set into author of a new, comment or topic
     public async getAuthor(data: DocumentData) {
       if (data['author']) {
         const userDoc = await getDoc(data['author']);

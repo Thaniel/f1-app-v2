@@ -22,18 +22,18 @@ export class CommentsService {
   /*
    * Create Comment
    */
-  public async create(newsId: string, comment: IComment): Promise<boolean> {
+  public async create(collectionName: string, id: string, comment: IComment): Promise<boolean> {
     try {
-      const newsDocRef = doc(this.db, "news", newsId);
-      const commentsColRef = collection(newsDocRef, "comments");
+      const docRef = doc(this.db, collectionName, id);
+      const commentsColRef = collection(docRef, "comments");
 
-      const docRef = await addDoc(commentsColRef, {
+      const commentDocRef = await addDoc(commentsColRef, {
         author: doc(this.db, `users/${comment.author!.id}`),
         text: comment.text,
         date: comment.date,
       });
 
-      console.log("Commnet written with ID: ", docRef.id);
+      console.log("Commnet written with ID: ", commentDocRef.id);
       return true;
     } catch (error) {
       console.error("Error adding commnet: ", error);
@@ -44,10 +44,10 @@ export class CommentsService {
   /*
    * Update Comment
    */
-  public async update(newsId: string, commentId: string, updatedData: Partial<IComment>): Promise<boolean> {
+  public async update(collectionName: string, id: string, commentId: string, updatedData: Partial<IComment>): Promise<boolean> {
     try {
-      const newsDocRef = doc(this.db, "news", newsId);
-      const commentDocRef = doc(collection(newsDocRef, "comments"), commentId);
+      const docRef = doc(this.db, collectionName, id);
+      const commentDocRef = doc(collection(docRef, "comments"), commentId);
       await updateDoc(commentDocRef, updatedData);
 
       console.log("Commnet updated with ID: ", commentId);
@@ -61,10 +61,10 @@ export class CommentsService {
   /*
    * Delete Comment
    */
-  public async delete(newsId: string, commentId: string): Promise<boolean> {
+  public async delete(collectionName: string, id: string, commentId: string): Promise<boolean> {
     try {
-      const newsDocRef = doc(this.db, "news", newsId);
-      const commentsColRef = doc(collection(newsDocRef, "comments"), commentId);
+      const docRef = doc(this.db, collectionName, id);
+      const commentsColRef = doc(collection(docRef, "comments"), commentId);
       await deleteDoc(commentsColRef);
 
       console.log("Commnet deleted with ID: ", commentId);
@@ -76,35 +76,34 @@ export class CommentsService {
   }
 
   /*
-   * Get all Comments from a News
+   * Get all Comments from a news or a topic
    */
-  public async getCommentsFromDoc(newsDocRef: DocumentReference): Promise<IComment[]> {
-    const commentsColRef = collection(newsDocRef, "comments");
+  public async getCommentsFromDoc(docRef: DocumentReference): Promise<IComment[]> {
+    const commentsColRef = collection(docRef, "comments");
     const q = query(commentsColRef, orderBy("date", "desc"));
     const commentsSnap = await getDocs(q);
 
     const commentPromises = commentsSnap.docs.map(async (doc) => {
       const commentData = doc.data();
-      
+
       convertTimestamp2Date(commentData);
-  
-      // Espera a que se resuelva la llamada asíncrona
+      
       await this.commonService.getAuthor(commentData);
-  
+
       commentData['isEditing'] = false;
-  
+
       return { id: doc.id, ...commentData } as IComment;
     });
-  
+
     return await Promise.all(commentPromises);
   }
-  
+
   /*
-   * Delete all Comments from a News
+   * Delete all Comments from a news or a topic
    */
-  public async deleteCommentsFromDoc(newsDocRef: DocumentReference): Promise<boolean> {
+  public async deleteCommentsFromDoc(docRef: DocumentReference): Promise<boolean> {
     try {
-      const commentsColRef = collection(newsDocRef, "comments");
+      const commentsColRef = collection(docRef, "comments");
       const commentsSnap = await getDocs(commentsColRef);
 
       const batch = writeBatch(this.db);
@@ -114,7 +113,7 @@ export class CommentsService {
       });
 
       await batch.commit();
-      console.log("Commnets deleted for document with ID: ", newsDocRef.id);
+      console.log("Commnets deleted for document with ID: ", docRef.id);
       return true;
     } catch (error) {
       console.error("Error deleting commnets: ", error);

@@ -98,7 +98,7 @@ body {
  * Visual card for this components
  *
  */
- .login-wrapper {
+.login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,7 +107,7 @@ body {
     padding: 20px;
 }
 
-.login-container{
+.login-container {
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 40px;
@@ -125,4 +125,40 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+}
+
+/* 
+ * Tables 
+ * Visual effects of interacting with rows 
+ *
+ */
+.header-row-flex {
+    background-color: #212121;
+    color: white;
+    border-top-right-radius: 0.4rem;
+    border-top-left-radius: 0.4rem;
+    display: flex;
+}
+
+.header-row-center {
+    background-color: #212121;
+    color: white;
+    border-top-right-radius: 0.4rem;
+    border-top-left-radius: 0.4rem;
+    text-align: center;
+}
+
+.row-shadow {
+    background: linear-gradient(0deg, rgba(207, 202, 202, 1) 0%, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 1) 100%);
+}
+
+.row-clickable {
+    background-color: #f8f8f8;
+    border-left: 5px solid #D50000;
+}
+
+.row-clickable:hover {
+    cursor: pointer;
+    background: linear-gradient(0deg, rgba(238, 238, 255, 1) 0%, rgba(238, 238, 255, 1) 50%, rgba(238, 238, 255, 1) 100%);
+    border-left: 5px solid #424242;
 }

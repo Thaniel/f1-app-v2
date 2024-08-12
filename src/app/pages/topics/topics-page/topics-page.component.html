@@ -1,0 +1,19 @@
+<app-nav-bar></app-nav-bar>
+<app-header [title]="'Forum'"></app-header>
+<app-header-buttons [title]="'Topics'" (created)="getTopics()"></app-header-buttons>
+
+<div class="container pt-2 pb-4">
+    <div class="card shadow m-2">
+        <div class="header-row-flex p-4">
+            <div class="col">Title</div>
+            <div class="col">Author</div>
+            <div class="col">Comments</div>
+        </div>
+        <div class="row row-clickable row-shadow m-2 p-2" *ngFor="let topic of topics"
+            [routerLink]="['/topics', topic.id]" style="cursor: pointer;">
+            <div class="col">{{ topic.title }}</div>
+            <div class="col">{{ topic.author?.userName }}</div>
+            <div class="col">{{ topic.comments?.length ?? 0 }}</div>
+        </div>
+    </div>
+</div>
