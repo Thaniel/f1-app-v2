@@ -5,15 +5,22 @@
 <div class="container pt-2 pb-4">
     <div class="card shadow m-2">
         <div class="header-row-flex p-4">
-            <div class="col">Title</div>
-            <div class="col">Author</div>
-            <div class="col">Comments</div>
+            <div class="col-3">Title</div>
+            <div class="col-3">Author</div>
+            <div class="col-3">Comments</div>
+            <div class="col-3"></div>
         </div>
-        <div class="row row-clickable row-shadow m-2 p-2" *ngFor="let topic of topics"
-            [routerLink]="['/topics', topic.id]" style="cursor: pointer;">
-            <div class="col">{{ topic.title }}</div>
-            <div class="col">{{ topic.author?.userName }}</div>
-            <div class="col">{{ topic.comments?.length ?? 0 }}</div>
+        <div class="row      row-shadow m-2 p-2" *ngFor="let topic of topics">
+            <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.title }}</div>
+            <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.author?.userName
+                }}</div>
+            <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.comments?.length
+                ?? 0 }}</div>
+
+            <div class="col col-flex">
+                <app-edit-menu *ngIf="isCurrentUserAuthor(topic)" (edit)="editTopic(topic)"
+                    (delete)="deleteTopic(topic)"></app-edit-menu>
+            </div>
         </div>
     </div>
 </div>
