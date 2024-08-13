@@ -28,9 +28,17 @@ export class HeaderButtonsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.getCurrentUserInfo().then(user => {
-      this.permission = user!.isAdmin;
-    });
+    this.managePermission();
+  }
+
+  private managePermission(): void {
+    if (this.title === "Topics") {
+      this.permission = true;
+    } else {
+      this.authService.getCurrentUserInfo().then(user => {
+        this.permission = user!.isAdmin;
+      });
+    }
   }
 
   showMy(): void {
