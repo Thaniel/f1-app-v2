@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IComment } from '../../../core/interfaces/new.interface';
 import { IUser } from '../../../core/interfaces/user.interface';
@@ -8,13 +9,14 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { CommentsService } from '../../../core/services/comments/comments.service';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CancelSaveButtonsComponent } from '../cancel-save-buttons/cancel-save-buttons.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../edit-menu/edit-menu.component';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [CancelSaveButtonsComponent, EditMenuComponent, CommonModule, FormsModule],
+  imports: [CancelSaveButtonsComponent, EditMenuComponent, CommonModule, FormsModule, ConfirmDialogComponent],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
@@ -31,6 +33,7 @@ export class CommentComponent implements OnInit {
     private commentsService: CommentsService,
     public snackBar: MatSnackBar,
     private authService: AuthService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -56,9 +59,9 @@ export class CommentComponent implements OnInit {
 
   private async createComment() {
     this.comment.author = this.currentUser;
-    
-    let id = (this.newId == "")? this.topicId : this.newId;
-    let collectionName = (this.newId == "")? "topics" : "news";
+
+    let id = (this.newId == "") ? this.topicId : this.newId;
+    let collectionName = (this.newId == "") ? "topics" : "news";
 
     this.commentsService.create(collectionName, id, this.comment).then(result => {
       this.showSnackBar(result, 0);
@@ -70,8 +73,8 @@ export class CommentComponent implements OnInit {
       text: this.comment.text,
     };
 
-    let id = (this.newId == "")? this.topicId : this.newId;
-    let collectionName = (this.newId == "")? "topics" : "news";
+    let id = (this.newId == "") ? this.topicId : this.newId;
+    let collectionName = (this.newId == "") ? "topics" : "news";
 
     this.commentsService.update(collectionName, id, this.comment.id, updatedData).then(result => {
       this.showSnackBar(result, 1);
@@ -83,11 +86,24 @@ export class CommentComponent implements OnInit {
     this.commentModified.emit();
   }
 
-  async delete() {
-    let id = (this.newId == "")? this.topicId : this.newId;
-    let collectionName = (this.newId == "")? "topics" : "news";
+  openConfirmDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { itemName: (this.comment.text.length > 20) ? this.comment.text.slice(0, 20) + "..." : this.comment.text },
+    });
 
-    const success = await this.commentsService.delete(collectionName, id, this.comment.id);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.delete(this.comment);
+      }
+    });
+  }
+
+  private async delete(comment: IComment) {
+    let id = (this.newId == "") ? this.topicId : this.newId;
+    let collectionName = (this.newId == "") ? "topics" : "news";
+
+    const success = await this.commentsService.delete(collectionName, id, comment.id);
     this.showSnackBar(success, 2);
     this.commentModified.emit();
   }

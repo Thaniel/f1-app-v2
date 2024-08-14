@@ -5,7 +5,7 @@
 
     <div class="flex-grow"></div>
 
-    <app-edit-menu *ngIf="isCurrentUserAuthor(comment)" (edit)="edit()" (delete)="delete()"></app-edit-menu>
+    <app-edit-menu *ngIf="isCurrentUserAuthor(comment)" (edit)="edit()" (delete)="openConfirmDialog()"></app-edit-menu>
 </div>
 
 <hr class="mt-0">
