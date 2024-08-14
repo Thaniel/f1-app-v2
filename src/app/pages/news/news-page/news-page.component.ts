@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { INew } from '../../../core/interfaces/new.interface';
 import { NewsService } from '../../../core/services/news/news.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -16,7 +17,7 @@ import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.compo
 @Component({
   selector: 'app-news-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.css'
 })
@@ -48,12 +49,24 @@ export class NewsPageComponent implements OnInit {
     });
   }
 
-  async deleteNew(notice: INew) {
+  openConfirmDialog(notice: INew): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { itemName: notice.title }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteNew(notice);
+      }
+    });
+  }
+
+  private async deleteNew(notice: INew) {
     const result = await this.newsService.delete(notice.id);
     this.showSnackBar(result);
     this.newsService.loadNews();
   }
-
 
   private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {

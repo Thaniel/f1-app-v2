@@ -15,7 +15,7 @@
           <h5 class="card-title">{{ driver.firstName | uppercase }} {{ driver.lastName | uppercase }}</h5>
         </div>
 
-        <app-edit-menu (edit)="editDriver(driver)" (delete)="deleteDriver(driver)"
+        <app-edit-menu (edit)="editDriver(driver)" (delete)="openConfirmDialog(driver)"
           class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
 
       </div>

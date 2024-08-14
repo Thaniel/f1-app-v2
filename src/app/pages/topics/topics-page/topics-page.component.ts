@@ -7,6 +7,7 @@ import { ITopic } from '../../../core/interfaces/topic.interface';
 import { IUser } from '../../../core/interfaces/user.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { TopicsService } from '../../../core/services/topics/topics.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -18,14 +19,14 @@ import { CreateEditTopicComponent } from '../create-edit-topic/create-edit-topic
 @Component({
   selector: 'app-topics-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
   templateUrl: './topics-page.component.html',
   styleUrl: './topics-page.component.css'
 })
 export class TopicsPageComponent implements OnInit {
   topics: ITopic[] = [];
   public currentUser: IUser | null = null;
-  
+
   constructor(
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -59,7 +60,20 @@ export class TopicsPageComponent implements OnInit {
     });
   }
 
-  async deleteTopic(topic: ITopic) {
+  openConfirmDialog(topic: ITopic): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { itemName: topic.title }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteTopic(topic);
+      }
+    });
+  }
+
+  private async deleteTopic(topic: ITopic) {
     const result = await this.topicsService.delete(topic.id);
     this.showSnackBar(result);
     this.topicsService.loadTopics();

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { IRace } from '../../../core/interfaces/race.interface';
 import { RacesService } from '../../../core/services/races/races.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -16,7 +17,7 @@ import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.co
 @Component({
   selector: 'app-races-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
   templateUrl: './races-page.component.html',
   styleUrl: './races-page.component.css'
 })
@@ -29,7 +30,7 @@ export class RacesPageComponent implements OnInit {
     private racesService: RacesService,
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getRaces();
 
     this.racesService.reload$.subscribe(() => {
@@ -40,7 +41,7 @@ export class RacesPageComponent implements OnInit {
   async getRaces() {
     this.races = await this.racesService.getAll();
   }
-  
+
   editRace(race: IRace): void {
     this.dialog.open(CreateEditRaceComponent, {
       data: race,
@@ -48,7 +49,20 @@ export class RacesPageComponent implements OnInit {
     });
   }
 
-  async deleteRace(race: IRace) {
+  openConfirmDialog(race: IRace): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { itemName: race.country + " GP" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteRace(race);
+      }
+    });
+  }
+
+  private async deleteRace(race: IRace) {
     const result = await this.racesService.delete(race.id);
     this.showSnackBar(result);
     this.racesService.loadRaces();

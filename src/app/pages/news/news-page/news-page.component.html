@@ -14,7 +14,7 @@
           <p class="card-text">{{ new.summary }}</p>
         </div>
 
-        <app-edit-menu (edit)="editNew(new)" (delete)="deleteNew(new)"
+        <app-edit-menu (edit)="editNew(new)" (delete)="openConfirmDialog(new)"
           class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
 
       </div>

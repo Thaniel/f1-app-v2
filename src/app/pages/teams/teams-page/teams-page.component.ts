@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { ITeam } from '../../../core/interfaces/team.interface';
 import { TeamsService } from '../../../core/services/teams/teams.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -16,7 +17,7 @@ import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.co
 @Component({
   selector: 'app-teams-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, RouterLink, CommonModule, EditMenuComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, RouterLink, CommonModule, EditMenuComponent, ConfirmDialogComponent],
   templateUrl: './teams-page.component.html',
   styleUrl: './teams-page.component.css'
 })
@@ -48,7 +49,20 @@ export class TeamsPageComponent implements OnInit {
     });
   }
 
-  async deleteTeam(team: ITeam) {
+  openConfirmDialog(team: ITeam): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { itemName: team.name }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteTeam(team);
+      }
+    });
+  }
+
+  private async deleteTeam(team: ITeam) {
     const result = await this.teamsService.delete(team.id);
     this.showSnackBar(result);
     this.teamsService.loadTeams();

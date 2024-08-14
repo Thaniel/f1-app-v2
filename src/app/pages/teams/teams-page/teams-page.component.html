@@ -14,7 +14,7 @@
           <h5 class="card-title">{{ team.name | uppercase }}</h5>
         </div>
 
-        <app-edit-menu (edit)="editTeam(team)" (delete)="deleteTeam(team)"
+        <app-edit-menu (edit)="editTeam(team)" (delete)="openConfirmDialog(team)"
           class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
       </div>
     </div>

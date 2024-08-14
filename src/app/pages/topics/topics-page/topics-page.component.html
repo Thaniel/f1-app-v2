@@ -19,7 +19,7 @@
 
             <div class="col col-flex">
                 <app-edit-menu *ngIf="isCurrentUserAuthor(topic)" (edit)="editTopic(topic)"
-                    (delete)="deleteTopic(topic)"></app-edit-menu>
+                    (delete)="openConfirmDialog(topic)"></app-edit-menu>
             </div>
         </div>
     </div>
