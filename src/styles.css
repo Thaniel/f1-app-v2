@@ -82,6 +82,10 @@ body {
     object-fit: cover;
 }
 
+.comment-card {
+    border-left: 5px solid #212121;
+}
+
 /*
  * Form Style
  *
