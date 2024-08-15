@@ -24,7 +24,10 @@
     <div class="card shadow m-4">
         <h3 class="header-row-center p-4">Comments</h3>
         <div class="m-2 text-center">
-            <button mat-raised-button class="main-button" (click)="createComment()">Write</button>
+            <button mat-raised-button class="main-button" (click)="createComment()">
+                <mat-icon>add</mat-icon>
+                Write
+            </button>
         </div>
         <div class="p-2">
             <div class="card shadow comment-card mt-4 mb-4 p-2" *ngFor="let comment of comments">

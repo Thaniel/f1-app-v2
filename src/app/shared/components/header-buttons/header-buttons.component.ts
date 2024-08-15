@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { CreateEditDriverComponent } from '../../../pages/drivers/create-edit-driver/create-edit-driver.component';
 import { CreateEditNewComponent } from '../../../pages/news/create-edit-new/create-edit-new.component';
@@ -13,7 +14,7 @@ import { CreateEditTopicComponent } from '../../../pages/topics/create-edit-topi
 @Component({
   selector: 'app-header-buttons',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatGridListModule],
+  imports: [CommonModule, MatButtonModule, MatGridListModule, MatIcon],
   templateUrl: './header-buttons.component.html',
   styleUrl: './header-buttons.component.css'
 })
