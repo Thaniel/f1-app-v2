@@ -1,3 +1,4 @@
+import { IComment } from "./comment.interface";
 import { IUser } from "./user.interface";
 
 export interface INew {
@@ -10,12 +11,4 @@ export interface INew {
     text: string;
     author: IUser | null;
     comments: IComment[] | null;
-}
-
-export interface IComment {
-    id: string;
-    author: IUser | null;
-    text: string;
-    date: Date;
-    isEditing: boolean;
 }

@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { IComment } from '../../../core/interfaces/new.interface';
+import { IComment } from '../../../core/interfaces/comment.interface';
 import { ITopic } from '../../../core/interfaces/topic.interface';
 import { TopicsService } from '../../../core/services/topics/topics.service';
 import { CommentComponent } from '../../../shared/components/comment/comment.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-topic-details',

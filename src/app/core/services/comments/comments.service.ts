@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
-import { IComment } from "../../interfaces/new.interface";
+import { IComment } from "../../interfaces/comment.interface";
 import { convertTimestamp2Date } from '../../utils';
 import { CommonService } from '../common/common.service';
 import { firebaseConfig } from "../firebase.config";

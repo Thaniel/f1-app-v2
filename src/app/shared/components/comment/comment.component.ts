@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IComment } from '../../../core/interfaces/new.interface';
+import { IComment } from '../../../core/interfaces/comment.interface';
 import { IUser } from '../../../core/interfaces/user.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { CommentsService } from '../../../core/services/comments/comments.service';
