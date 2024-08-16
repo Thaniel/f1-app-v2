@@ -10,7 +10,6 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { UsersService } from '../../../core/services/users/users.service';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
-import { EditEmailComponent } from '../edit-email/edit-email.component';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
 import { EditPermissionsComponent } from '../edit-permissions/edit-permissions.component';
 import { EditUserDataComponent } from '../edit-user-data/edit-user-data.component';
@@ -117,13 +116,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   openDialogChangePassword(): MatDialogRef<any, any> {
     return this.dialog.open(EditPasswordComponent, {
-      data: null,
-      width: '90vw',
-    });
-  }
-
-  openDialogChangeEmail(): MatDialogRef<any, any> {
-    return this.dialog.open(EditEmailComponent, {
       data: null,
       width: '90vw',
     });
