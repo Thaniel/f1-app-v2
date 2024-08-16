@@ -1,7 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <app-header [title]="'Profile'"></app-header>
 
-<div class="container text-center mt-4 mb-2">
+<div class="container text-center mt-4 pb-4">
     <button mat-raised-button class="main-button" (click)="logOut()">
         <mat-icon>logout</mat-icon>
         Log out
@@ -22,15 +22,17 @@
 
     <div class="card shadow m-4">
         <h2 class="header-row-center p-4">Configuration</h2>
-
-        <button mat-raised-button class="main-button m-4" (click)="openDialogChangeData()">
-            Change my data
-        </button>
-        <button mat-raised-button class="main-button m-4" (click)="openDialogChangePassword()">
-            Change password
-        </button>
-        <button mat-raised-button class="main-button m-4" (click)="openDialogChangePermissions()">
-            Change permissions
-        </button>
+        <div class="p-2">
+            <button mat-raised-button class="main-button m-4" (click)="openDialogChangeData()">
+                Change my data
+            </button>
+            <button mat-raised-button class="main-button m-4" (click)="openDialogChangePassword()">
+                Change password
+            </button>
+            <button *ngIf="permission" mat-raised-button class="main-button m-4"
+                (click)="openDialogChangePermissions()">
+                Change permissions
+            </button>
+        </div>
     </div>
 </div>

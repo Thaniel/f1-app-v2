@@ -22,6 +22,9 @@ import { EditUserDataComponent } from '../edit-user-data/edit-user-data.componen
   styleUrl: './profile-page.component.css'
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
+
+  permission: boolean = false;
+
   userInfo: { key: string, value: any }[] = [];
   user: IUser = {
     id: '',
@@ -65,6 +68,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkUserAuth();
+    this.managePermission();
     this.getUserInfo();
 
     this.usersService.reload$.subscribe(() => {
@@ -84,6 +88,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/auth/login']); // User is not authenticated
       }
     });
+  }
+
+  private managePermission(): void {
+
+    this.authService.getCurrentUserInfo().then(user => {
+      this.permission = user!.isAdmin;
+    });
+
   }
 
   private async getUserInfo() {
