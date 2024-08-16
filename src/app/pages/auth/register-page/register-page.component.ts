@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -15,11 +16,14 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent],
+  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, MatIcon],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })
 export class RegisterPageComponent {
+
+  public hidePassword = true;
+  public hideRepeatPassword = true;
 
   public registerForm: FormGroup = this.fb.group({
     firstName: ['', [Validators.required]],
@@ -61,6 +65,14 @@ export class RegisterPageComponent {
   public isFieldEmailInUse(field: string): boolean {
     const control = this.registerForm.get(field);
     return control!.hasError('emailInUse') && control!.touched;
+  }
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  toggleRepeatPasswordVisibility() {
+    this.hideRepeatPassword = !this.hideRepeatPassword;
   }
 
   onSubmit(): void {

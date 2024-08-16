@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
@@ -16,13 +17,15 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, RouterModule],
+  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, RouterModule, MatIcon],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   private authSubscription: Subscription | undefined;
+
+  public hidePassword = true;
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +49,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.authSubscription) {      
+    if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
   }
@@ -57,6 +60,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.loginForm, field);
+  }
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
   }
 
   onSubmit() {
