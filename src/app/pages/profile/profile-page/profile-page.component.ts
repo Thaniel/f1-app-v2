@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,6 +10,10 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { UsersService } from '../../../core/services/users/users.service';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
+import { EditEmailComponent } from '../edit-email/edit-email.component';
+import { EditPasswordComponent } from '../edit-password/edit-password.component';
+import { EditPermissionsComponent } from '../edit-permissions/edit-permissions.component';
+import { EditUserDataComponent } from '../edit-user-data/edit-user-data.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -56,11 +61,16 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private usersService: UsersService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
     this.checkUserAuth();
     this.getUserInfo();
+
+    this.usersService.reload$.subscribe(() => {
+      this.getUserInfo();
+    });
   }
 
   ngOnDestroy() {
@@ -96,5 +106,33 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   public logOut(): void {
     this.authService.logout();
+  }
+
+  openDialogChangeData(): MatDialogRef<any, any> {
+    return this.dialog.open(EditUserDataComponent, {
+      data: this.user,
+      width: '90vw',
+    });
+  }
+
+  openDialogChangePassword(): MatDialogRef<any, any> {
+    return this.dialog.open(EditPasswordComponent, {
+      data: null,
+      width: '90vw',
+    });
+  }
+
+  openDialogChangeEmail(): MatDialogRef<any, any> {
+    return this.dialog.open(EditEmailComponent, {
+      data: null,
+      width: '90vw',
+    });
+  }
+
+  openDialogChangePermissions(): MatDialogRef<any, any> {
+    return this.dialog.open(EditPermissionsComponent, {
+      data: null,
+      width: '90vw',
+    });
   }
 }

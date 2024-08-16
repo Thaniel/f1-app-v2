@@ -50,6 +50,11 @@ const MESSAGES: ContextMessages = {
     0: { ok: 'Topic created', ko: 'Error while creating topic' },
     1: { ok: 'Topic edited', ko: 'Error while editing topic' },
     2: { ok: 'Topic deleted', ko: 'Error while deleting topic' }
+  },
+  user: {
+    0: { ok: 'User data edited', ko: 'Error while editing user data' },
+    1: { ok: 'User email edited', ko: 'Error while editing user email' },
+    2: { ok: 'User password edited', ko: 'Error while editing user password' }
   }
 };
 
