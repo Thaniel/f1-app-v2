@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, EmailAuthProvider, getAuth, onAuthStateChanged, reauthenticateWithCredential, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, User, UserCredential } from "firebase/auth";
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import { BehaviorSubject, catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { IRegister } from '../../interfaces/register.interface';
@@ -89,6 +89,34 @@ export class AuthService {
       this.getUserInfo(userCredential.user.uid);
       localStorage.setItem("uid", userCredential.user.uid);
     }));
+  }
+
+  /*
+   * Change the password of the authenticated user
+   */
+  public changePassword(oldPassword: string, newPassword: string): Observable<void> {
+    const error = new Error();
+    const user = this.auth.currentUser;
+
+    if (!user) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    const credential = EmailAuthProvider.credential(user.email!, oldPassword);
+
+    return from(reauthenticateWithCredential(user, credential)).pipe(
+      switchMap(() => {
+        return from(updatePassword(user, newPassword));
+      }),
+      catchError(err => {
+        if (err.code === 'auth/invalid-credential') {
+          error.name = 'InvalidCredential';
+          return throwError(() => error);
+        }
+
+        return throwError(() => err);
+      })
+    );
   }
 
   private async getUserInfo(uid: string) {

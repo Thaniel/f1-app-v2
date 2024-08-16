@@ -6,5 +6,5 @@ export interface IRegister {
     userName: string;
     email: string;
     password: string;
-    passwordRepited: string;
+    passwordRepeated: string;
 }

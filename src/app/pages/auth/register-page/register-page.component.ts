@@ -29,10 +29,10 @@ export class RegisterPageComponent {
     userName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.pattern(emailPattern)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    passwordRepited: ['', [Validators.required]],
+    passwordRepeated: ['', [Validators.required]],
   }, {
     validators: [
-      this.validatorsService.isFieldOneEqualFieldTwo('password', 'passwordRepited')
+      this.validatorsService.isFieldOneEqualFieldTwo('password', 'passwordRepeated')
     ]
   });
 
