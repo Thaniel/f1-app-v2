@@ -117,10 +117,8 @@ export class EditPermissionsComponent implements OnInit {
         if (err.message === 'InvalidCredential') {
           this.permissionsForm.get('password')?.setErrors({ invalidCredential: true });
           this.permissionsForm.get('password')?.markAsTouched();
-          this.showSnackBar(false, 0);
-        } else {
-          this.showSnackBar(false, 0);
         }
+        this.showSnackBar(false, 0);
         return of();
       })
     ).subscribe();
