@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, EmailAuthProvider, getAuth, onAuthStateChanged, reauthenticateWithCredential, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, User, UserCredential } from "firebase/auth";
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
-import { BehaviorSubject, catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { IRegister } from '../../interfaces/register.interface';
 import { IUser } from '../../interfaces/user.interface';
 import { firebaseConfig } from '../firebase.config';
@@ -135,6 +135,26 @@ export class AuthService {
    */
   public recoverPassword(email: string): Observable<any> {
     return from(sendPasswordResetEmail(this.auth, email));
+  }
+
+  /*
+   * Verify password from current user
+   */
+  public verifyPassword(password: string): Observable<boolean> {
+    const user = this.auth.currentUser;
+
+    if (!user) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    const credential = EmailAuthProvider.credential(user.email!, password);
+
+    console.log(credential);
+
+    return from(reauthenticateWithCredential(user, credential)).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
   /*

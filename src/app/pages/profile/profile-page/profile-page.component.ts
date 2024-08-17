@@ -91,7 +91,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   private managePermission(): void {
-
     this.authService.getCurrentUserInfo().then(user => {
       this.permission = user!.isAdmin;
     });

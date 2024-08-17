@@ -48,7 +48,6 @@ export class EditPasswordComponent {
     return this.passwordForm.value as IChangePassword;
   }
 
-
   public isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.passwordForm, field);
   }
@@ -79,7 +78,6 @@ export class EditPasswordComponent {
   }
 
   private updatePassword(): void {
-    console.log(this.currentChangePassword);
     this.authService.changePassword(this.currentChangePassword.oldPassword, this.currentChangePassword.newPassword).subscribe({
       next: () => {
         this.showSnackBar(true, 2);

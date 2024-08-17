@@ -92,6 +92,23 @@ export class UsersService {
   }
 
   /*
+   * Update user permissions
+   */
+  public updatePermissions(id: string, permissions: boolean): Observable<any> {
+    const updatedData: Partial<IUser> = {
+      isAdmin: permissions,
+    };
+    const userDocRef = doc(this.db, UsersService.COLLECTION_NAME, id);
+
+    return from(updateDoc(userDocRef, updatedData)).pipe(
+      switchMap(() => of(updatedData)),
+      catchError(err => {
+        return throwError(() => err);
+      })
+    );
+  }
+
+  /*
    * Check if the username is already in use
    */
   public async isUserNameInUse(userNameToFind: string): Promise<boolean> {
