@@ -5,7 +5,7 @@ and the scalability has also been enhanced
 
   [F1 APP V2](https://f1-app-v2.web.app/)
 
-![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/home.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/images/home.png)
 
 
 ## Tools
@@ -15,6 +15,6 @@ while Firebase has been retained as the backend and for hosting the website.
 
 ## Views of the app
 
-![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/schedule.png)
-![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/drivers.png)
-![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/table.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/images/schedule.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/images/drivers.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/images/table.png)
