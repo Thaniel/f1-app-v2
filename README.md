@@ -15,6 +15,6 @@ while Firebase has been retained as the backend and for hosting the website.
 
 ## Views of the app
 
-![alt text](https://github.com/Thaniel/f1-app-v2/blob/master/img/schedule.png)
 ![alt text](https://github.com/Thaniel/f1-app-v2/blob/master/img/drivers.png)
+![alt text](https://github.com/Thaniel/f1-app-v2/blob/master/img/schedule.png)
 ![alt text](https://github.com/Thaniel/f1-app-v2/blob/master/img/table.png)
