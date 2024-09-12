@@ -1,27 +1,20 @@
-# F1 App
+# F1-APP-V2
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+In this second version of the application, the modularity of the components has been improved, the code has been refactored and cleaned up, 
+and the scalability has also been enhanced
 
-## Development server
+  [F1 APP V2](https://f1-app-v2.web.app/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/home.png)
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tools
 
-## Build
+For this second version of the application, Angular has been used along with Angular Material and Bootstrap for the visual development, 
+while Firebase has been retained as the backend and for hosting the website.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Views of the app
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/schedule.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/drivers.png)
+![alt text](https://github.com/Thaniel/F1-APP/blob/main/img/table.png)
