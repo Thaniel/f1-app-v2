@@ -10,10 +10,10 @@ import { firebaseConfig } from "../firebase.config";
   providedIn: 'root'
 })
 export class CommentsService {
-  private db;
+  private readonly db;
 
   constructor(
-    private commonService: CommonService,
+    private readonly commonService: CommonService,
   ) {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service

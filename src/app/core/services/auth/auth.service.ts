@@ -12,15 +12,15 @@ import { UsersService } from '../users/users.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private auth;
-  private firestore;
+  private readonly auth;
+  private readonly firestore;
 
-  private currentUserSubject: BehaviorSubject<User | null>;
+  private readonly currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
   private currentUserInfo: IUser | null;
 
   constructor(
-    private usersService: UsersService,
+    private readonly usersService: UsersService,
   ) {
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);

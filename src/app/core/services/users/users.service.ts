@@ -9,8 +9,8 @@ import { IUser } from './../../interfaces/user.interface';
   providedIn: 'root'
 })
 export class UsersService {
-  private db;
-  private reloadSubject = new Subject<void>();
+  private readonly db;
+  private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "users";
 
   constructor(

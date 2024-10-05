@@ -12,13 +12,13 @@ import { firebaseConfig } from '../firebase.config';
   providedIn: 'root'
 })
 export class TeamsService {
-  private db;
-  private storage;
-  private reloadSubject = new Subject<void>();
+  private readonly db;
+  private readonly storage;
+  private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "teams";
 
   constructor(
-    private commonService: CommonService,
+    private readonly commonService: CommonService,
   ) {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
@@ -99,10 +99,10 @@ export class TeamsService {
       }
 
       // Update drivers references
-      if (updatedData.driver1) {
+      if (updatedData.driver1 && typeof updatedData.driver1 === 'string') {
         updatedData.driver1 = doc(this.db, `drivers/${updatedData.driver1}`);
       }
-      if (updatedData.driver2) {
+      if (updatedData.driver2 && typeof updatedData.driver2 === 'string') {
         updatedData.driver2 = doc(this.db, `drivers/${updatedData.driver2}`);
       }
 

@@ -8,8 +8,8 @@ import { firebaseConfig } from '../firebase.config';
   providedIn: 'root'
 })
 export class CommonService {
-  private db;
-  private storage;
+  private readonly db;
+  private readonly storage;
 
   constructor() { 
     const app = initializeApp(firebaseConfig);  // Initialize Firebase

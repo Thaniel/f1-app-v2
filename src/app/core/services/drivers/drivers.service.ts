@@ -12,13 +12,13 @@ import { firebaseConfig } from '../firebase.config';
   providedIn: 'root'
 })
 export class DriversService {
-  private db;
-  private storage;
-  private reloadSubject = new Subject<void>();
+  private readonly db;
+  private readonly storage;
+  private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "drivers";
 
   constructor(
-    private commonService: CommonService,
+    private readonly commonService: CommonService,
   ) {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
@@ -80,8 +80,8 @@ export class DriversService {
         // Update the Firestore document with the driver image URL
         updatedData.imageUrl = downloadURL;
       }
-      
-      if (updatedData.team) {
+
+      if (updatedData.team && typeof updatedData.team === 'string') {
         updatedData.team = doc(this.db, `teams/${updatedData.team}`);
       }
 
@@ -124,7 +124,7 @@ export class DriversService {
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
-        
+
         this.getTeam(data);
 
         // Get driver image
@@ -152,12 +152,12 @@ export class DriversService {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        
+
         this.getTeam(data);
 
         // Get driver image
         data['image'] = await urlToFile(data['imageUrl']);
-        
+
         return { id: docSnap.id, ...data } as IDriver;
       } else {
         console.error("No such document!");
@@ -186,7 +186,7 @@ export class DriversService {
   }
 
   // Get team info to set into driver
-  private async getTeam(data: DocumentData){
+  private async getTeam(data: DocumentData) {
     if (data['team']) {
       const teamDoc = await getDoc(data['team']);
       if (teamDoc.exists()) {

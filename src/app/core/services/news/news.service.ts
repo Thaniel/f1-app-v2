@@ -13,14 +13,14 @@ import { firebaseConfig } from "../firebase.config";
   providedIn: 'root'
 })
 export class NewsService {
-  private db;
-  private storage;
-  private reloadSubject = new Subject<void>();
+  private readonly db;
+  private readonly storage;
+  private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "news";
 
   constructor(
-    private commentsService: CommentsService,
-    private commonService: CommonService,
+    private readonly commentsService: CommentsService,
+    private readonly commonService: CommonService,
   ) {
     const app = initializeApp(firebaseConfig);  // Initialize Firebase
     this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
