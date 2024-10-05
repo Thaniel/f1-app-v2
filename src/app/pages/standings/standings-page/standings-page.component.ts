@@ -20,8 +20,8 @@ export class StandingsPageComponent implements OnInit{
   teams : ITeam[] = [];
 
   constructor(
-    private teamsService: TeamsService,
-    private driversService: DriversService,
+    private readonly teamsService: TeamsService,
+    private readonly driversService: DriversService,
   ) { }
 
   ngOnInit(): void {

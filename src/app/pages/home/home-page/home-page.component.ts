@@ -39,7 +39,7 @@ export class HomePageComponent implements OnInit {
   races: IRace[] = [];
 
   constructor(
-    private racesService: RacesService,
+    private readonly racesService: RacesService,
   ) { }
 
   ngOnInit() {

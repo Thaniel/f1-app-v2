@@ -25,9 +25,9 @@ export class TeamsPageComponent implements OnInit {
   teams: ITeam[] = [];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private teamsService: TeamsService,
+    private readonly teamsService: TeamsService,
   ) { }
 
   ngOnInit(): void {

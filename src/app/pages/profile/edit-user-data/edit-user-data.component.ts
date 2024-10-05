@@ -35,11 +35,11 @@ export class EditUserDataComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IUser,
     public dialogRef: MatDialogRef<EditUserDataComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private usersService: UsersService,
-    private validatorsService: ValidatorsService,
-    private authService: AuthService,
+    private readonly usersService: UsersService,
+    private readonly validatorsService: ValidatorsService,
+    private readonly authService: AuthService,
   ) {
     if (data) {
       this.userForm.patchValue(data);

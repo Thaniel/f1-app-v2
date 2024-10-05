@@ -41,11 +41,11 @@ export class RegisterPageComponent {
   });
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private router: Router,
-    private authService: AuthService,
-    private validatorsService: ValidatorsService,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly validatorsService: ValidatorsService,
   ) {
   }
 

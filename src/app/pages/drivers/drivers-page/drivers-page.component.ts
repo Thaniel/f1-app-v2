@@ -26,9 +26,9 @@ export class DriversPageComponent implements OnInit {
   drivers: IDriver[] = [];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private driversService: DriversService,
+    private readonly driversService: DriversService,
   ) { }
 
   ngOnInit(): void {

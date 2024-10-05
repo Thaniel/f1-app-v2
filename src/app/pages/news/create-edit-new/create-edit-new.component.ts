@@ -40,11 +40,11 @@ export class CreateEditNewComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: INew,
     public dialogRef: MatDialogRef<CreateEditNewComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private newsService: NewsService,
-    private validatorsService: ValidatorsService,
-    private authService: AuthService,
+    private readonly newsService: NewsService,
+    private readonly validatorsService: ValidatorsService,
+    private readonly authService: AuthService,
   ) {
     if (data) {
       this.newForm.patchValue(data);

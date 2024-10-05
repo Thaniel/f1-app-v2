@@ -30,9 +30,9 @@ export class DriverDetailsComponent implements OnInit {
   team: ITeam | null = null;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private driversService: DriversService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly driversService: DriversService,
   ) { }
 
   ngOnInit(): void {

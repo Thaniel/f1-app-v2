@@ -37,9 +37,9 @@ export class TeamDetailsComponent implements OnInit {
   driver2: IDriver | null = null;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private teamsService: TeamsService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly teamsService: TeamsService,
   ) { }
 
   ngOnInit(): void {

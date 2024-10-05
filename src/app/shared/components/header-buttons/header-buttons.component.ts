@@ -25,7 +25,7 @@ export class HeaderButtonsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private authService: AuthService,
+    private readonly authService: AuthService,
   ) { }
 
   ngOnInit(): void {

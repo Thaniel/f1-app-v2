@@ -60,9 +60,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   private authSubscription: Subscription | undefined;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private usersService: UsersService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly usersService: UsersService,
     public dialog: MatDialog,
   ) { }
 

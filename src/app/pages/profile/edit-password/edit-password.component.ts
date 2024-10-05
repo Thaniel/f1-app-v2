@@ -38,10 +38,10 @@ export class EditPasswordComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditPasswordComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private validatorsService: ValidatorsService,
-    private authService: AuthService,
+    private readonly validatorsService: ValidatorsService,
+    private readonly authService: AuthService,
   ) { }
 
   get currentChangePassword(): IChangePassword {

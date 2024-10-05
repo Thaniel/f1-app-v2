@@ -54,11 +54,11 @@ export class CreateEditTeamComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ITeam,
     public dialogRef: MatDialogRef<CreateEditTeamComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private teamsService: TeamsService,
-    private driversService: DriversService,
-    private validatorsService: ValidatorsService,
+    private readonly teamsService: TeamsService,
+    private readonly driversService: DriversService,
+    private readonly validatorsService: ValidatorsService,
   ) {
     if (data) {
       this.teamForm.patchValue({

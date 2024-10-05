@@ -22,9 +22,9 @@ export class TopicDetailsComponent implements OnInit {
   comments: IComment[] = [];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private topicsService: TopicsService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly topicsService: TopicsService,
   ) { }
 
   ngOnInit(): void {

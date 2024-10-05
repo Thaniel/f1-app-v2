@@ -23,9 +23,9 @@ export class NewDetailsComponent implements OnInit {
   comments: IComment[] = [];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private newsService: NewsService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly newsService: NewsService,
   ) { }
 
   ngOnInit(): void {

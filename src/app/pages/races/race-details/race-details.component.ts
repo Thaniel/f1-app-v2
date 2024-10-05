@@ -35,9 +35,9 @@ export class RaceDetailsComponent implements OnInit {
   };
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private racesService: RacesService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly racesService: RacesService,
   ) { }
 
   ngOnInit(): void {

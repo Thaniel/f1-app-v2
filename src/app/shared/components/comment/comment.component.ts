@@ -30,9 +30,9 @@ export class CommentComponent implements OnInit {
   public currentUser: IUser | null = null;
 
   constructor(
-    private commentsService: CommentsService,
+    private readonly commentsService: CommentsService,
     public snackBar: MatSnackBar,
-    private authService: AuthService,
+    private readonly authService: AuthService,
     public dialog: MatDialog,
   ) { }
 

@@ -33,11 +33,11 @@ export class CreateEditTopicComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ITopic,
     public dialogRef: MatDialogRef<CreateEditTopicComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private topicsService: TopicsService,
-    private validatorsService: ValidatorsService,
-    private authService: AuthService,
+    private readonly topicsService: TopicsService,
+    private readonly validatorsService: ValidatorsService,
+    private readonly authService: AuthService,
   ) {
     if (data) {
       this.topicForm.patchValue(data);

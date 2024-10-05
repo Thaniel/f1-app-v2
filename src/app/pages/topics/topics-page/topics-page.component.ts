@@ -28,10 +28,10 @@ export class TopicsPageComponent implements OnInit {
   public currentUser: IUser | null = null;
 
   constructor(
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private topicsService: TopicsService,
-    private authService: AuthService,
+    private readonly topicsService: TopicsService,
+    private readonly authService: AuthService,
   ) { }
 
   ngOnInit(): void {

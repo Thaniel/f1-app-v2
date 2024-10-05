@@ -46,11 +46,11 @@ export class EditPermissionsComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditPermissionsComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private validatorsService: ValidatorsService,
-    private authService: AuthService,
-    private usersService: UsersService,
+    private readonly validatorsService: ValidatorsService,
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
   ) { }
 
   ngOnInit(): void {

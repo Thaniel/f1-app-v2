@@ -25,9 +25,9 @@ export class NewsPageComponent implements OnInit {
   news: INew[] = [];
   
   constructor(
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private newsService: NewsService,
+    private readonly newsService: NewsService,
   ) { }
 
   ngOnInit(): void {

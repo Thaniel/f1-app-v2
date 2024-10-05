@@ -48,11 +48,11 @@ export class CreateEditRaceComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IRace,
     public dialogRef: MatDialogRef<CreateEditRaceComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private racesService: RacesService,
-    private datePipe: DatePipe,
-    private validatorsService: ValidatorsService,
+    private readonly racesService: RacesService,
+    private readonly datePipe: DatePipe,
+    private readonly validatorsService: ValidatorsService,
   ) {
     if (data) {
       const formattedData = {

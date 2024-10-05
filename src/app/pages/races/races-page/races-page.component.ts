@@ -25,9 +25,9 @@ export class RacesPageComponent implements OnInit {
   races: IRace[] = [];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private racesService: RacesService,
+    private readonly racesService: RacesService,
   ) { }
 
   ngOnInit(): void {

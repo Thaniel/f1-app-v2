@@ -46,11 +46,11 @@ export class CreateEditDriverComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IDriver,
     public dialogRef: MatDialogRef<CreateEditDriverComponent>,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private driversService: DriversService,
-    private teamsService: TeamsService,
-    private validatorsService: ValidatorsService,
+    private readonly driversService: DriversService,
+    private readonly teamsService: TeamsService,
+    private readonly validatorsService: ValidatorsService,
   ) {
     if (data) {
       this.driverForm.patchValue({
