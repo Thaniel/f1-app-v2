@@ -55,6 +55,11 @@ const MESSAGES: ContextMessages = {
     0: { ok: 'User data edited', ko: 'Error while editing user data' },
     1: { ok: 'User email edited', ko: 'Error while editing user email' },
     2: { ok: 'User password edited', ko: 'Error while editing user password' }
+  },
+  teams_drivers: {
+    0: { ok: '', ko: '' },  /* Not used */
+    1: { ok: 'Teams and drivers edited', ko: 'Error while editing teams and drivers' },
+    2: { ok: '', ko: '' }   /* Not used */
   }
 };
 
