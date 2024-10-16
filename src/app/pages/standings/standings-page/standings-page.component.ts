@@ -2,18 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDriver } from '../../../core/interfaces/driver.interface';
 import { ITeam } from '../../../core/interfaces/team.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { DriversService } from '../../../core/services/drivers/drivers.service';
 import { TeamsService } from '../../../core/services/teams/teams.service';
 import { CancelSaveButtonsComponent } from '../../../shared/components/cancel-save-buttons/cancel-save-buttons.component';
+import { DriverInfoDialogComponent } from '../../../shared/components/driver-info-dialog/driver-info-dialog.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
+import { TeamInfoDialogComponent } from '../../../shared/components/team-info-dialog/team-info-dialog.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-standings-page',
@@ -37,6 +40,7 @@ export class StandingsPageComponent implements OnInit {
     private readonly driversService: DriversService,
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -117,9 +121,22 @@ export class StandingsPageComponent implements OnInit {
     return this.teamsService.update(team.id, updatedData, null, null).then(result => result);
   }
 
-  private showSnackBar(isOk: boolean): void {
-    console.log("showSnackBar");
 
+  onClickDriver(driver: IDriver): void {
+    this.dialog.open(DriverInfoDialogComponent, {
+      data: driver,
+      width: '400px'
+    });
+  }
+
+  onClickTeam(team: ITeam): void {
+    this.dialog.open(TeamInfoDialogComponent, {
+      data: team,
+      width: '400px'
+    });
+  }
+
+  private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
       data: { isOk: isOk, action: 1, context: 'teams_drivers' },

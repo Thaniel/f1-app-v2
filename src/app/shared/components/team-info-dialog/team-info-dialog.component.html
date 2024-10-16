@@ -1,0 +1,15 @@
+<img class="card-img-top" [src]="data.logoImageUrl" alt="{{ data.name }}" loading="lazy">
+<img class="card-img-top" [src]="data.carImageUrl" alt="{{ data.name }}" loading="lazy">
+
+<mat-dialog-content>
+    <hr>
+    <p><strong>{{ data.fullName }}</strong></p>
+    <p><strong>{{ data.titles }}x</strong> World Constructors' Championship</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</mat-dialog-actions>

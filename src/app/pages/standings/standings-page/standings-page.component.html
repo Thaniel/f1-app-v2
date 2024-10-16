@@ -34,7 +34,8 @@
             <div class="col">Points</div>
         </div>
         <div class="row row-shadow p-2 m-2" *ngFor="let driver of drivers"
-            [style.border-left]="isTeam(driver.team) ? '5px solid ' + driver.team.colorCode : ''">
+            [style.border-left]="isTeam(driver.team) ? '5px solid ' + driver.team.colorCode : ''"
+            (click)="onClickDriver(driver)">
             <div class="col">{{ driver.firstName }} {{ driver.lastName }}</div>
 
             <div class="col">
@@ -52,7 +53,7 @@
             <div class="col">Points</div>
         </div>
         <div class="row row-shadow body-row p-2 m-2" *ngFor="let team of teams"
-            [style.border-left]="'5px solid ' + team.colorCode">
+            [style.border-left]="'5px solid ' + team.colorCode" (click)="onClickTeam(team)">
             <div class="col">{{ team.name }}</div>
 
             <div class="col">
