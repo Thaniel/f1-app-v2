@@ -11,7 +11,7 @@
             <div class="col-3">Comments</div>
             <div class="col-3"></div>
         </div>
-        <div class="row row-shadow m-2 p-2" *ngFor="let topic of pagedTopics">
+        <div class="row row-shadow m-2 p-2" *ngFor="let topic of pagedTopics" [style.border-left]="'5px solid black'">
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.title }}</div>
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.author?.userName
                 }}</div>
