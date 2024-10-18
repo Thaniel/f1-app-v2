@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { INew } from '../../../core/interfaces/new.interface';
+import { IUser } from '../../../core/interfaces/user.interface';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { NewsService } from '../../../core/services/news/news.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
@@ -16,7 +18,6 @@ import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-ba
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.component';
 
-
 @Component({
   selector: 'app-news-page',
   standalone: true,
@@ -26,6 +27,8 @@ import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.compo
 })
 export class NewsPageComponent implements OnInit {
   news: INew[] = [];
+  public currentUser: IUser | null = null;
+
   pagedNews: INew[] = [];
   pageSize: number = 4;
   currentPage: number = 0;
@@ -34,9 +37,11 @@ export class NewsPageComponent implements OnInit {
     private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
     private readonly newsService: NewsService,
+    private readonly authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.getCurrentUser();
     this.getNews();
 
     this.newsService.reload$.subscribe(() => {
@@ -47,6 +52,12 @@ export class NewsPageComponent implements OnInit {
   async getNews() {
     this.news = await this.newsService.getAll();
     this.getPagedNews();
+  }
+
+  private async getCurrentUser() {
+    await this.authService.getCurrentUserInfo().then(user => {
+      this.currentUser = user;
+    });
   }
 
   editNew(notice: INew): void {
@@ -73,6 +84,10 @@ export class NewsPageComponent implements OnInit {
     const result = await this.newsService.delete(notice.id);
     this.showSnackBar(result);
     this.newsService.loadNews();
+  }
+
+  public isCurrentUserAuthor(notice: INew): boolean {
+    return notice.author?.id === this.currentUser?.id;
   }
 
   private showSnackBar(isOk: boolean): void {

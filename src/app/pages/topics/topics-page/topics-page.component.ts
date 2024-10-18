@@ -111,7 +111,6 @@ export class TopicsPageComponent implements OnInit {
     this.getPagedTopics();
   }
 
-
   sortChanged(option: string): void {
     switch (option) {
       case 'newest':
