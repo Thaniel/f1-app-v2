@@ -3,11 +3,13 @@
 <app-header-buttons [title]="'News'" (created)="getNews()"></app-header-buttons>
 
 <div class="container pt-4 p-5">
+  <app-filter (sortChanged)="sortChanged($event)"></app-filter>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-    <div class="col" *ngFor="let new of news">
+    <div class="col" *ngFor="let new of pagedNews">
 
       <div class="card shadow card-clickable position-relative">
-        <img class="card-img-top card-img-small" [src]="new.imageUrl" alt="{{ new.title }}" loading="lazy" [routerLink]="['/news', new.id]">
+        <img class="card-img-top card-img-small" [src]="new.imageUrl" alt="{{ new.title }}" loading="lazy"
+          [routerLink]="['/news', new.id]">
         <div class="card-body" [routerLink]="['/news', new.id]">
           <h5 class="card-title">{{ new.title }}</h5>
           <h6 class="card-subtitle">{{ new.date | date:'mediumDate' }}</h6>
@@ -19,5 +21,11 @@
 
       </div>
     </div>
+  </div>
+
+  <div class="mt-4">
+    <mat-paginator [length]="news.length" [pageSize]="pageSize" [pageSizeOptions]="[4, 8, 16, 24]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
 </div>

@@ -3,6 +3,7 @@
 <app-header-buttons [title]="'Topics'" (created)="getTopics()"></app-header-buttons>
 
 <div class="container pt-2 pb-4">
+    <app-filter (sortChanged)="sortChanged($event)"></app-filter>
     <div class="card shadow m-2">
         <div class="header-row-flex p-4">
             <div class="col-3">Title</div>
@@ -10,7 +11,7 @@
             <div class="col-3">Comments</div>
             <div class="col-3"></div>
         </div>
-        <div class="row      row-shadow m-2 p-2" *ngFor="let topic of topics">
+        <div class="row row-shadow m-2 p-2" *ngFor="let topic of pagedTopics">
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.title }}</div>
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.author?.userName
                 }}</div>
@@ -23,4 +24,8 @@
             </div>
         </div>
     </div>
+
+    <mat-paginator [length]="topics.length" [pageSize]="pageSize" [pageSizeOptions]="[1, 5, 10, 20]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
 </div>

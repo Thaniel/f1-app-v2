@@ -121,15 +121,19 @@ export class NewsService {
       const news: INew[] = [];
 
       // Wait for all async operations
-      await Promise.all(querySnapshot.docs.map(async (doc) => {
-        const data = doc.data();
+      await Promise.all(querySnapshot.docs.map(async (document) => {
+        const data = document.data();
 
         convertTimestamp2Date(data);
+
+        // Get comments of each new
+        const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, document.id);
+        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
 
         // Get news image
         data['image'] = await urlToFile(data['imageUrl']);
 
-        news.push({ id: doc.id, ...data } as INew);
+        news.push({ id: document.id, ...data } as INew);
       }));
 
       news.sort((a, b) => b.date.getTime() - a.date.getTime());

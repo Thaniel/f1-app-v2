@@ -95,6 +95,7 @@ export class TopicsService {
         
         await this.commonService.getAuthor(data);
         
+        // Get comments of each topic
         const topicsDocRef = doc(this.db, TopicsService.COLLECTION_NAME, document.id);
         data['comments'] = await this.commentsService.getCommentsFromDoc(topicsDocRef);
 

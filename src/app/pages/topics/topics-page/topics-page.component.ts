@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { ITopic } from '../../../core/interfaces/topic.interface';
@@ -9,6 +10,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { TopicsService } from '../../../core/services/topics/topics.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
+import { FilterComponent } from '../../../shared/components/filter/filter.component';
 import { HeaderButtonsComponent } from '../../../shared/components/header-buttons/header-buttons.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
@@ -19,13 +21,17 @@ import { CreateEditTopicComponent } from '../create-edit-topic/create-edit-topic
 @Component({
   selector: 'app-topics-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent, MatPaginator, FilterComponent],
   templateUrl: './topics-page.component.html',
   styleUrl: './topics-page.component.css'
 })
 export class TopicsPageComponent implements OnInit {
   topics: ITopic[] = [];
   public currentUser: IUser | null = null;
+
+  pagedTopics: ITopic[] = [];
+  pageSize: number = 5;
+  currentPage: number = 0;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -45,6 +51,7 @@ export class TopicsPageComponent implements OnInit {
 
   async getTopics() {
     this.topics = await this.topicsService.getAll();
+    this.getPagedTopics();
   }
 
   private async getCurrentUser() {
@@ -90,5 +97,44 @@ export class TopicsPageComponent implements OnInit {
       panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top',
     });
+  }
+
+  getPagedTopics(): void {
+    const start = this.currentPage * this.pageSize;
+    const end = start + this.pageSize;
+    this.pagedTopics = this.topics.slice(start, end);
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getPagedTopics();
+  }
+
+
+  sortChanged(option: string): void {
+    switch (option) {
+      case 'newest':
+        this.topics.sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        break;
+      case 'oldest':
+        this.topics.sort((a, b) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
+        break;
+      case 'most-commented':
+        this.topics.sort((a, b) => {
+          const aCommentsLength = a.comments?.length ?? 0;
+          const bCommentsLength = b.comments?.length ?? 0;
+          return bCommentsLength - aCommentsLength;
+        });
+        break;
+      default:
+        console.log('Invalid sort option');
+    }
+
+    this.getPagedTopics()
   }
 }
