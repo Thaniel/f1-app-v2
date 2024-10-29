@@ -123,17 +123,21 @@ export class StandingsPageComponent implements OnInit {
 
 
   onClickDriver(driver: IDriver): void {
-    this.dialog.open(DriverInfoDialogComponent, {
-      data: driver,
-      width: '400px'
-    });
+    if (!this.isEditingPoints) {
+      this.dialog.open(DriverInfoDialogComponent, {
+        data: driver,
+        width: '400px'
+      });
+    }
   }
 
   onClickTeam(team: ITeam): void {
-    this.dialog.open(TeamInfoDialogComponent, {
-      data: team,
-      width: '400px'
-    });
+    if (!this.isEditingPoints) {
+      this.dialog.open(TeamInfoDialogComponent, {
+        data: team,
+        width: '400px'
+      });
+    }
   }
 
   private showSnackBar(isOk: boolean): void {

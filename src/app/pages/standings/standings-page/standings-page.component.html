@@ -33,10 +33,10 @@
             <div class="col ps-3">Drivers</div>
             <div class="col">Points</div>
         </div>
-        <div class="row row-shadow p-2 m-2" *ngFor="let driver of drivers"
+        <div class="row row-shadow p-2 m-2" *ngFor="let driver of drivers; let i = index"
             [style.border-left]="isTeam(driver.team) ? '5px solid ' + driver.team.colorCode : ''"
             (click)="onClickDriver(driver)">
-            <div class="col">{{ driver.firstName }} {{ driver.lastName }}</div>
+            <div class="col">{{ i + 1 }}. {{ driver.firstName }} {{ driver.lastName }}</div>
 
             <div class="col">
                 <ng-container *ngIf="isEditingPoints; else showPoints">
@@ -52,9 +52,9 @@
             <div class="col ps-3">Teams</div>
             <div class="col">Points</div>
         </div>
-        <div class="row row-shadow body-row p-2 m-2" *ngFor="let team of teams"
+        <div class="row row-shadow body-row p-2 m-2" *ngFor="let team of teams; let i = index"
             [style.border-left]="'5px solid ' + team.colorCode" (click)="onClickTeam(team)">
-            <div class="col">{{ team.name }}</div>
+            <div class="col">{{ i + 1 }}. {{ team.name }}</div>
 
             <div class="col">
                 <ng-container *ngIf="isEditingPoints; else showPoints">
