@@ -3,12 +3,14 @@
 <app-header-buttons [title]="'Races'"></app-header-buttons>
 
 <div class="container pt-4 p-5">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-    <div class="col" *ngFor="let race of races">
+  <div class="row g-4">
+    <div *ngFor="let race of races" [ngClass]="race.id === nextRace?.id
+                      ? 'col-12'
+                      : 'col-12 col-md-6 col-lg-4 col-xl-3'">
+      <div class="card shadow card-clickable position-relative" [ngClass]="{ 'next-race': race.id === nextRace?.id }">
 
-      <div class="card shadow card-clickable position-relative">
         <img class="card-img-top card-img-small" [src]="race.imageUrl" alt="{{ race.grandPrix }}" loading="lazy"
-          [routerLink]="['/races', race.id]">
+          [routerLink]="['/races', race.id]" [ngClass]="{ 'next-race-img': race.id === nextRace?.id }">
 
         <div class="card-body" [routerLink]="['/races', race.id]">
           <h5 class="card-title">{{ race.country | uppercase }} GP</h5>
@@ -16,8 +18,8 @@
         </div>
 
         <app-edit-menu (edit)="editRace(race)" (delete)="openConfirmDialog(race)"
-          class="position-absolute bottom-0 end-0 mb-2 mr-2"></app-edit-menu>
-
+          class="position-absolute bottom-0 end-0 mb-2 mr-2">
+        </app-edit-menu>
       </div>
     </div>
   </div>

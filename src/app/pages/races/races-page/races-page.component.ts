@@ -23,6 +23,7 @@ import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.co
 })
 export class RacesPageComponent implements OnInit {
   races: IRace[] = [];
+  nextRace: IRace | null = null; 
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -40,6 +41,14 @@ export class RacesPageComponent implements OnInit {
 
   async getRaces() {
     this.races = await this.racesService.getAll();
+    this.setNextRace();
+  }
+
+  private setNextRace() {
+    const currentDate = new Date();
+    
+    this.nextRace = this.races
+      .filter(race => new Date(race.date) > currentDate)[0] || null;
   }
 
   editRace(race: IRace): void {
