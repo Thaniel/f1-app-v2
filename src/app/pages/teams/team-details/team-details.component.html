@@ -17,22 +17,22 @@
     <div class="card shadow m-5">
         <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Information</h3>
         <div class="card-body">
-            <h6 class="card-text">Full name</h6>
+            <h6 class="card-text" i18n="@@fullName">Full name</h6>
             <p class="card-text">{{ teamSelected.fullName }}</p>
             <hr>
-            <h6 class="card-text">Team principal</h6>
+            <h6 class="card-text" i18n="@@teamPrincipal">Team principal</h6>
             <p class="card-text">{{ teamSelected.teamPrincipal }}</p>
             <hr>
-            <h6 class="card-text">Titles</h6>
+            <h6 class="card-text" i18n="@@titles">Titles</h6>
             <p class="card-text">{{ teamSelected.titles }}</p>
             <hr>
-            <h6 class="card-text">Points</h6>
+            <h6 class="card-text" i18n="@@points">Points</h6>
             <p class="card-text">{{ teamSelected.points }}</p>
         </div>
     </div>
 
     <div class="card shadow m-5">
-        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Drivers</h3>
+        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode" i18n="@@drivers">Drivers</h3>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 text-center" [routerLink]="['/drivers', driver1?.id]" style="cursor: pointer;">
@@ -48,7 +48,7 @@
     </div>
 
     <div class="card shadow m-5">
-        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode">Description</h3>
+        <h3 class="card-title p-4" [style.background-color]="teamSelected.colorCode" i18n="@@description">Description</h3>
         <div class="card-body">
             <p class="card-text">{{ teamSelected.description }}</p>
         </div>

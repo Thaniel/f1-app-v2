@@ -105,4 +105,15 @@ export class CreateEditTopicComponent {
       verticalPosition: 'top',
     });
   }
+
+  /*
+   * i18n
+   */
+  createLabel = $localize`:@@create:Create`;
+  editLabel = $localize`:@@edit:Edit`;
+  topicLabel = $localize`:@@topic:Topic`;
+
+  get title(): string {
+    return `${this.isCreating ? this.createLabel : this.editLabel} ${this.topicLabel}`;
+  }
 }

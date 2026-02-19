@@ -1,73 +1,80 @@
 <h2 mat-dialog-title class="dialog-header mb-4 pb-4"> <!-- Todo refactor -->
-  {{ isCreating ? 'Create' : 'Edit'}} Team
-  <small *ngIf="currentTeam.id">{{ currentTeam.name }}</small>
+  {{ title }}
+  <small *ngIf="currentTeam.id"> - {{ currentTeam.name }}</small>
 </h2>
 
 <mat-dialog-content>
   <form autocomplete="off" [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="form-container">
     <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" required formControlName="name" placeholder="Team name" />
-      <span *ngIf="isValidField('name')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@name">Name</mat-label>
+      <input matInput type="text" required formControlName="name" placeholder="Team name"
+        i18n-placeholder="@@teamNamePlaceholder" />
+      <span *ngIf="isValidField('name')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Full name</mat-label>
-      <input matInput type="text" required formControlName="fullName" placeholder="Team full name" />
-      <span *ngIf="isValidField('fullName')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@fullName">Full name</mat-label>
+      <input matInput type="text" required formControlName="fullName" placeholder="Team full name"
+        i18n-placeholder="@@teamFullNamePlaceholder" />
+      <span *ngIf="isValidField('fullName')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Team principal</mat-label>
-      <input matInput type="text" required formControlName="teamPrincipal" placeholder="Team principal name" />
-      <span *ngIf="isValidField('teamPrincipal')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@teamPrincipal">Team principal</mat-label>
+      <input matInput type="text" required formControlName="teamPrincipal" placeholder="Team principal name"
+        i18n-placeholder="@@teamPrincipalPlaceholder" />
+      <span *ngIf="isValidField('teamPrincipal')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Titles</mat-label>
-      <input matInput type="number" min="0" required formControlName="titles" placeholder="Number of builders titles" />
-      <span *ngIf="isValidField('titles')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@titles">Titles</mat-label>
+      <input matInput type="number" min="0" required formControlName="titles" placeholder="Number of builders titles"
+        i18n-placeholder="@@builderTitlesPlaceholder" />
+      <span *ngIf="isValidField('titles')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Points</mat-label>
-      <input matInput type="number" min="0" required formControlName="points" placeholder="Number of points" />
-      <span *ngIf="isValidField('points')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@points">Points</mat-label>
+      <input matInput type="number" min="0" required formControlName="points" placeholder="Number of points"
+        i18n-placeholder="@@pointsPlaceholder" />
+      <span *ngIf="isValidField('points')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>First driver</mat-label>
-      <mat-select required formControlName="driver1" placeholder="First driver">
-        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName }}</mat-option>
+      <mat-label i18n="@@firstDriver">First driver</mat-label>
+      <mat-select required formControlName="driver1" placeholder="First driver" i18n-placeholder="@@firstDriver">
+        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName
+          }}</mat-option>
       </mat-select>
-      <span *ngIf="isValidField('driver1')" class="form-text text-danger">Required</span>
+      <span *ngIf="isValidField('driver1')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Second driver</mat-label>
-      <mat-select required formControlName="driver2" placeholder="Second driver">
-        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName }}</mat-option>
+      <mat-label i18n="@@secondDriver">Second driver</mat-label>
+      <mat-select required formControlName="driver2" placeholder="Second driver" i18n-placeholder="@@secondDriver">
+        <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.firstName }} {{ driver.lastName
+          }}</mat-option>
       </mat-select>
-      <span *ngIf="isValidField('driver2')" class="form-text text-danger">Required</span>
+      <span *ngIf="isValidField('driver2')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput type="text" required formControlName="description"
-        placeholder="Circuit description"></textarea>
-      <span *ngIf="isValidField('description')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@description">Description</mat-label>
+      <textarea matInput type="text" required formControlName="description" placeholder="Circuit description"
+        i18n-placeholder="@@circuitDescriptionPlaceholder"></textarea>
+      <span *ngIf="isValidField('description')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <app-file-input (fileSelected)="onCarFileSelected($event)" [initialImage]="selectedCarFile"
       title="car"></app-file-input>
     <app-file-input (fileSelected)="onLogoFileSelected($event)" [initialImage]="selectedLogoFile"
-      title="logo"></app-file-input>
+      title="team"></app-file-input>
 
     <mat-form-field>
       <mat-label>Color</mat-label>
       <input matInput [(colorPicker)]="color" [value]="color" (colorPickerChange)="onColorChange($event)" type="text"
-        required formControlName="colorCode" placeholder="Team color code" />
-      <span *ngIf="isValidField('colorCode')" class="form-text text-danger">Required</span>
+        required formControlName="colorCode" placeholder="Team color code" i18n-placeholder="@@teamColorPlaceholder" />
+      <span *ngIf="isValidField('colorCode')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
   </form>
 </mat-dialog-content>

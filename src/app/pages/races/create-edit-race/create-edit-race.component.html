@@ -1,99 +1,116 @@
 <h2 mat-dialog-title class="dialog-header mb-4 pb-4"> <!-- Todo refactor -->
-    {{ isCreating ? 'Create' : 'Edit'}} Grand Prix
-    <small *ngIf="currentRace.id">{{ currentRace.grandPrix }}</small>
-  </h2>
-  
-  <mat-dialog-content>
-    <form autocomplete="off" [formGroup]="raceForm" (ngSubmit)="onSubmit()" class="form-container">
-      <mat-form-field>
-        <mat-label>Grand Prix</mat-label>
-        <input matInput type="text" required formControlName="grandPrix" placeholder="Grand Prix name" />
-        <span *ngIf="isValidField('grandPrix')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+  {{ title }}
+  <small *ngIf="currentRace.id"> - {{ currentRace.grandPrix }}</small>
+</h2>
 
-      <mat-form-field>
-        <mat-label>Circuit</mat-label>
-        <input matInput type="text" required formControlName="circuit" placeholder="Circuit name" />
-        <span *ngIf="isValidField('circuit')" class="form-text text-danger">Required</span>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Country</mat-label>
-        <input matInput type="text" required formControlName="country" placeholder="Country name" /> <!-- TODO mat-select--> 
-        <span *ngIf="isValidField('country')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+<mat-dialog-content>
+  <form autocomplete="off" [formGroup]="raceForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-form-field>
+      <mat-label i18n="@@grandPrix">Grand Prix</mat-label>
+      <input matInput type="text" required formControlName="grandPrix" placeholder="Grand Prix name"
+        i18n-placeholder="@@grandPrixName" />
+      <span *ngIf="isValidField('grandPrix')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>First Practice date</mat-label>
-        <input matInput type="datetime-local" required formControlName="firstPracticeDate" placeholder="First practise date and time" />
-        <span *ngIf="isValidField('firstPracticeDate')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@circuit">Circuit</mat-label>
+      <input matInput type="text" required formControlName="circuit" placeholder="Circuit name"
+        i18n-placeholder="@@circuitPlaceholder" />
+      <span *ngIf="isValidField('circuit')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Second Practice / Sprint Qualifying date</mat-label>
-        <input matInput type="datetime-local" required formControlName="secondPracticeDate" placeholder="Second practise or sprint qualifying date and time" />
-        <span *ngIf="isValidField('secondPracticeDate')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@country">Country</mat-label>
+      <input matInput type="text" required formControlName="country" placeholder="Country name"
+        i18n-placeholder="@@countryPlaceholder" /> <!-- TODO mat-select-->
+      <span *ngIf="isValidField('country')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Third Practice / Sprint race date</mat-label>
-        <input matInput type="datetime-local" required formControlName="thirdPracticeDate" placeholder="Third practise or sprint race date and time" />
-        <span *ngIf="isValidField('thirdPracticeDate')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@firtsPracticeDate">First Practice date</mat-label>
+      <input matInput type="datetime-local" required formControlName="firstPracticeDate"
+        placeholder="First practise date and time" i18n-placeholder="@@firtsPracticeDatePlaceholder" />
+      <span *ngIf="isValidField('firstPracticeDate')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Qualifying date</mat-label>
-        <input matInput type="datetime-local" required formControlName="qualifyingDate" placeholder="Qualifying start date and time" />
-        <span *ngIf="isValidField('qualifyingDate')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@secondPracticeDate">Second Practice / Sprint Qualifying date</mat-label>
+      <input matInput type="datetime-local" required formControlName="secondPracticeDate"
+        placeholder="Second practise or sprint qualifying date and time"
+        i18n-placeholder="@@secondPracticeDatePlaceholder" />
+      <span *ngIf="isValidField('secondPracticeDate')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Race date</mat-label>
-        <input matInput type="datetime-local" required formControlName="date" placeholder="Race start date and time" />
-        <span *ngIf="isValidField('date')" class="form-text text-danger">Required</span>
-      </mat-form-field>
-      
-      <mat-form-field>
-        <mat-label>Appearance</mat-label>
-        <input matInput type="number" min="1950" required formControlName="appearance" placeholder="First appearance of the Grand Prix. (1950 or greater)" />
-        <span *ngIf="isValidField('appearance')" class="form-text text-danger">Required</span>
-      </mat-form-field> 
+    <mat-form-field>
+      <mat-label i18n="@@thirdPracticeDate">Third Practice / Sprint race date</mat-label>
+      <input matInput type="datetime-local" required formControlName="thirdPracticeDate"
+        placeholder="Third practise or sprint race date and time" i18n-placeholder="@@thirdPracticeDatePlaceholder" />
+      <span *ngIf="isValidField('thirdPracticeDate')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Distance (Km)</mat-label>
-        <input matInput type="number" min="1" required formControlName="distance" placeholder="Number of kilometers of the race" />
-        <span *ngIf="isValidField('distance')" class="form-text text-danger">Required</span>
-      </mat-form-field> 
+    <mat-form-field>
+      <mat-label i18n="@@qualifyingDate">Qualifying date</mat-label>
+      <input matInput type="datetime-local" required formControlName="qualifyingDate"
+        placeholder="Qualifying start date and time" i18n-placeholder="@@qualifyingDatePlaceholder" />
+      <span *ngIf="isValidField('qualifyingDate')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Laps</mat-label>
-        <input matInput type="number" min="1" required formControlName="laps" placeholder="Number of laps of the race" />
-        <span *ngIf="isValidField('laps')" class="form-text text-danger">Required</span>
-      </mat-form-field> 
+    <mat-form-field>
+      <mat-label i18n="@@raceDate">Race date</mat-label>
+      <input matInput type="datetime-local" required formControlName="date" placeholder="Race start date and time"
+        i18n-placeholder="@@raceDatePlaceholder" />
+      <span *ngIf="isValidField('date')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Record</mat-label>
-        <input matInput type="text" required formControlName="record" placeholder="Record for the fastest lap (Driver: time)" />
-        <span *ngIf="isValidField('record')" class="form-text text-danger">Required</span>
-      </mat-form-field> 
+    <mat-form-field>
+      <mat-label i18n="@@appearance">Appearance</mat-label>
+      <input matInput type="number" min="1950" required formControlName="appearance"
+        placeholder="First appearance of the Grand Prix. (1950 or greater)"
+        i18n-placeholder="@@appearancePlaceholder" />
+      <span *ngIf="isValidField('appearance')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Length (Km)</mat-label>
-        <input matInput type="number" min="1" required formControlName="length" placeholder="Number of kilometers of the circuit" />
-        <span *ngIf="isValidField('length')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@distance">Distance (Km)</mat-label>
+      <input matInput type="number" min="1" required formControlName="distance"
+        placeholder="Number of kilometers of the race" i18n-placeholder="@@distancePlaceholder" />
+      <span *ngIf="isValidField('distance')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput type="text" required formControlName="description" placeholder="Circuit description" ></textarea>
-        <span *ngIf="isValidField('description')" class="form-text text-danger">Required</span>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@laps">Laps</mat-label>
+      <input matInput type="number" min="1" required formControlName="laps" placeholder="Number of laps of the race"
+        i18n-placeholder="@@lapsPlaceholder" />
+      <span *ngIf="isValidField('laps')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
 
-      <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile" title="race"></app-file-input>
-    </form>
-  </mat-dialog-content>
+    <mat-form-field>
+      <mat-label i18n="@@record">Record</mat-label>
+      <input matInput type="text" required formControlName="record"
+        placeholder="Record for the fastest lap (Driver: time)" i18n-placeholder="@@recordPlaceholder" />
+      <span *ngIf="isValidField('record')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label i18n="@@length">Length (Km)</mat-label>
+      <input matInput type="number" min="1" required formControlName="length"
+        placeholder="Number of kilometers of the circuit" i18n-placeholder="@@lengthPlaceholder" />
+      <span *ngIf="isValidField('length')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label i18n="@@description">Description</mat-label>
+      <textarea matInput type="text" required formControlName="description" placeholder="Circuit description"
+        i18n-placeholder="@@circuitDescPlaceholder"></textarea>
+      <span *ngIf="isValidField('description')" class="form-text text-danger" i18n="@@required">Required</span>
+    </mat-form-field>
+
+    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile"
+      title="circuit"></app-file-input>
+  </form>
+</mat-dialog-content>
 
 
-  <mat-dialog-actions class="d-flex justify-content-end mb-2">
-    <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
-  </mat-dialog-actions>
+<mat-dialog-actions class="d-flex justify-content-end mb-2">
+  <app-cancel-save-buttons (cancel)="cancel()" (save)="save()"></app-cancel-save-buttons>
+</mat-dialog-actions>

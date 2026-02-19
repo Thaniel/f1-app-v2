@@ -12,18 +12,18 @@
         
         <div class="col-md-6 p-4">
             <div class="card shadow">
-                <h3 class="card-title p-4" [style.background-color]="team?.colorCode">Information</h3>
+                <h3 class="card-title p-4" [style.background-color]="team?.colorCode" i18n="@@information">Information</h3>
                 <div class="card-body">
-                    <h6 class="card-text">Country</h6>
+                    <h6 class="card-text" i18n="@@country">Country</h6>
                     <p class="card-text">{{ driverSelected.country }}</p>
                     <hr>
-                    <h6 class="card-text">Titles</h6>
+                    <h6 class="card-text" i18n="@@titles">Titles</h6>
                     <p class="card-text">{{ driverSelected.titles }}</p>
                     <hr>
-                    <h6 class="card-text">Points</h6>
+                    <h6 class="card-text" i18n="@@points">Points</h6>
                     <p class="card-text">{{ driverSelected.points }}</p>
                     <hr>
-                    <h6 class="card-text">Birthday date</h6>
+                    <h6 class="card-text" i18n="@@birthdate">Birthdate</h6>
                     <p class="card-text">{{ driverSelected.birthDate }}</p>
                 </div>
             </div>

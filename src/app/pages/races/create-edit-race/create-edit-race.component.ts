@@ -152,4 +152,15 @@ export class CreateEditRaceComponent {
 
     return transformDate ?? "";
   }
+
+  /*
+   * i18n
+   */
+  createLabel = $localize`:@@create:Create`;
+  editLabel = $localize`:@@edit:Edit`;
+  grandPrixLabel = $localize`:@@grandPrix:Grand Prix`;
+
+  get title(): string {
+    return `${this.isCreating ? this.createLabel : this.editLabel} ${this.grandPrixLabel}`;
+  }
 }

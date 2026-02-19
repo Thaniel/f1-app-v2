@@ -15,14 +15,14 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: 'News', icon: 'newspaper', route: '/news' },
-      { label: 'Schedule', icon: 'calendar_today', route: '/races' },
-      { label: 'Teams', icon: 'directions_car', route: '/teams' },
-      { label: 'Drivers', icon: 'sports_motorsports', route: '/drivers' },
-      { label: 'Standings', icon: 'emoji_events', route: '/standings', },
-      { label: 'Forum', icon: 'forum', route: '/topics', },
-      { label: 'Votes', icon: 'thumb_up', route: '/votes', },
-      { label: 'Profile', icon: 'person', route: '/profile', },
+      { label: $localize`:@@navNews:News`, icon: 'newspaper', route: '/news' },
+      { label: $localize`:@@navSchedule:Schedule`, icon: 'calendar_today', route: '/races' },
+      { label: $localize`:@@navTeams:Teams`, icon: 'directions_car', route: '/teams' },
+      { label: $localize`:@@navDrivers:Drivers`, icon: 'sports_motorsports', route: '/drivers' },
+      { label: $localize`:@@navStandings:Standings`, icon: 'emoji_events', route: '/standings' },
+      { label: $localize`:@@navForum:Forum`, icon: 'forum', route: '/topics' },
+      { label: $localize`:@@navVotes:Votes`, icon: 'thumb_up', route: '/votes' },
+      { label: $localize`:@@navProfile:Profile`, icon: 'person', route: '/profile' },
     ];
   }
 }

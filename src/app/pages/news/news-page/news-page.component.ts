@@ -93,7 +93,7 @@ export class NewsPageComponent implements OnInit {
   private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { isOk: isOk, action: 2, context: 'new' },
+      data: { isOk: isOk, action: 2, context: 'notice' },
       panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top',
     });

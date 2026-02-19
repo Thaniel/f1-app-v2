@@ -38,13 +38,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   };
 
   private readonly keyMap: { [key: string]: string } = {
-    userName: 'User name',
-    firstName: 'First name',
-    lastName: 'Last name',
-    email: 'Email',
-    birthdate: 'Birthdate',
-    country: 'Country',
-    isAdmin: 'Is admin'
+    userName: $localize`:@@username:Username`,
+    firstName: $localize`:@@firstName:First Name`,
+    lastName: $localize`:@@lastName:Last Name`,
+    email: $localize`:@@email:Email`,
+    birthdate: $localize`:@@birthdate:Birthdate`,
+    country: $localize`:@@country:Country`,
+    isAdmin: $localize`:@@isAdmin:Is Admin`
   };
 
   private readonly keyOrder: string[] = [
@@ -138,4 +138,5 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       width: '90vw',
     });
   }
+
 }

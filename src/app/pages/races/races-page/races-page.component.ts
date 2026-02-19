@@ -17,7 +17,7 @@ import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.co
 @Component({
   selector: 'app-races-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent],
   templateUrl: './races-page.component.html',
   styleUrl: './races-page.component.css'
 })

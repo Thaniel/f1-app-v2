@@ -17,7 +17,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 @Component({
   selector: 'app-create-edit-new',
   standalone: true,
-  imports: [MatDialogModule, MatInputModule, CommonModule, ReactiveFormsModule, CancelSaveButtonsComponent, SnackBarComponent, FileInputComponent],
+  imports: [MatDialogModule, MatInputModule, CommonModule, ReactiveFormsModule, CancelSaveButtonsComponent, FileInputComponent],
   templateUrl: './create-edit-new.component.html',
   styleUrl: './create-edit-new.component.css'
 })
@@ -62,7 +62,7 @@ export class CreateEditNewComponent {
   isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.newForm, field);
   }
-  
+
   onFileSelected(file: File) {
     this.selectedFile = file;
   }
@@ -117,9 +117,20 @@ export class CreateEditNewComponent {
   private showSnackBar(isOk: boolean, action: number): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { isOk: isOk, action: action, context: 'new' },
+      data: { isOk: isOk, action: action, context: 'notice' },
       panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top',
     });
+  }
+
+  /*
+   * i18n
+   */
+  createLabel = $localize`:@@create:Create`;
+  editLabel = $localize`:@@edit:Edit`;
+  noticeLabel = $localize`:@@notice:Notice`;
+
+  get title(): string {
+    return `${this.isCreating ? this.createLabel : this.editLabel} ${this.noticeLabel}`;
   }
 }

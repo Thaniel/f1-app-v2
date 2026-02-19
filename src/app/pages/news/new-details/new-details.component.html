@@ -17,16 +17,16 @@
     <div class="m-4 text-center">
         <button mat-stroked-button [routerLink]="['/news']">
             <mat-icon>arrow_back</mat-icon>
-            Back
+            <span i18n="@@back">Back</span>
         </button>
     </div>
 
     <div class="card shadow m-4">
-        <h3 class="header-row-center p-4">Comments</h3>
+        <h3 class="header-row-center p-4" i18n="@@comments">Comments</h3>
         <div class="m-2 text-center">
             <button mat-raised-button class="main-button" (click)="createComment()">
                 <mat-icon>add</mat-icon>
-                Write
+                <span i18n="@@write">Write</span>
             </button>
         </div>
         <div class="p-2">

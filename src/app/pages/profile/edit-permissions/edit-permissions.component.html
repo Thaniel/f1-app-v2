@@ -1,40 +1,41 @@
 <mat-dialog-content>
     <form autocomplete="off" [formGroup]="permissionsForm" (ngSubmit)="onSubmit()" class="form-container">
         <mat-form-field>
-            <mat-label>Password</mat-label>
+            <mat-label i18n="@@password">Password</mat-label>
             <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password"
-                placeholder="Password" />
+                placeholder="Password" i18n-placeholder="@@password" />
             <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()"
                 [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                 <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <span *ngIf="isInvalidCredential('password'); else requiredPassword" class="form-text text-danger">
+            <span *ngIf="isInvalidCredential('password'); else requiredPassword" class="form-text text-danger"
+                i18n="@@passwordIncorrect">
                 The password is incorrect
             </span>
             <ng-template #requiredPassword>
-                <span *ngIf="isValidField('password')" class="form-text text-danger">The password must be greater
-                    than 6 characters</span>
+                <span *ngIf="isValidField('password')" class="form-text text-danger" i18n="@@passwordCheck">The password
+                    must be at least 6 characters</span>
             </ng-template>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Username</mat-label>
+            <mat-label i18n="@@username">Username</mat-label>
             <input type="text" matInput [formControl]="userControl" [matAutocomplete]="auto"
-                placeholder="Select username" required>
+                placeholder="Select username" required i18n-placeholder="@@selectUsername">
             <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let user of filteredUsers | async" [value]="user.userName">
                     {{ user.userName }}
                 </mat-option>
             </mat-autocomplete>
-            <span *ngIf="userControl.invalid && userControl.touched" class="form-text text-danger">Please select a
+            <span *ngIf="userControl.invalid && userControl.touched" class="form-text text-danger" i18n="@@selectUser">Please select a
                 user</span>
         </mat-form-field>
 
         <div formGroupName="permissions">
-            <mat-label>Permissions:</mat-label>
+            <mat-label i18n="@@permissions">Permissions:</mat-label>
             <mat-radio-group formControlName="isEnabled">
-                <mat-radio-button [value]="true" checked color="primary">Enable</mat-radio-button>
-                <mat-radio-button [value]="false" color="primary">Disable</mat-radio-button>
+                <mat-radio-button [value]="true" checked color="primary" i18n="@@enable">Enable</mat-radio-button>
+                <mat-radio-button [value]="false" color="primary" i18n="@@disable">Disable</mat-radio-button>
             </mat-radio-group>
         </div>
     </form>

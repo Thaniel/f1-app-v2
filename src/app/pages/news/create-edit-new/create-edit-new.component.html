@@ -1,30 +1,30 @@
 <h2 mat-dialog-title class="dialog-header mb-4 pb-4">
-  {{ isCreating ? 'Create' : 'Edit'}} new{{ isCreating? '' : ':'}}
-  <small *ngIf="currentNew.id">{{ currentNew.title }}</small>
+  {{ title }}
+  <small *ngIf="currentNew.id"> - {{ currentNew.title }}</small>
 </h2>
 
 <mat-dialog-content>
   <form autocomplete="off" [formGroup]="newForm" (ngSubmit)="onSubmit()" class="form-container">
     <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input matInput type="text" required formControlName="title" placeholder="New's title" />
-      <span *ngIf="isValidField('title')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@title">Title</mat-label>
+      <input matInput type="text" required formControlName="title" placeholder="News title" i18n-placeholder="@@newstitle"/>
+      <span *ngIf="isValidField('title')" class="form-text text-danger" i18n="@@required" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Summary</mat-label>
-      <input matInput type="text" required formControlName="summary" placeholder="New's summary" />
-      <span *ngIf="isValidField('summary')" class="form-text text-danger">Required</span>
+      <mat-label i18n="@@summary">Summary</mat-label>
+      <input matInput type="text" required formControlName="summary" placeholder="News summary" i18n-placeholder="@@newsSummary"/>
+      <span *ngIf="isValidField('summary')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Description</mat-label>
+      <mat-label i18n="@@description">Description</mat-label>
       <textarea matInput type="text" required formControlName="text"
-        placeholder="Detailed description of the news"></textarea>
-      <span *ngIf="isValidField('text')" class="form-text text-danger">Required</span>
+        placeholder="Detailed description of the news" i18n-placeholder="@@newsDescription"></textarea>
+      <span *ngIf="isValidField('text')" class="form-text text-danger" i18n="@@required">Required</span>
     </mat-form-field>
 
-    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile" title="news"></app-file-input>
+    <app-file-input (fileSelected)="onFileSelected($event)" [initialImage]="selectedFile" title="notice"></app-file-input>
   </form>
 </mat-dialog-content>
 

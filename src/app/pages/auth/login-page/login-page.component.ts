@@ -17,7 +17,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, RouterModule, MatIcon],
+  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, RouterModule, MatIcon],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })

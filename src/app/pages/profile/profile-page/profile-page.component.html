@@ -1,13 +1,15 @@
 <app-nav-bar></app-nav-bar>
-<app-header [title]="'Profile'"></app-header>
+<app-header>
+  <span i18n="@@profile">Profile</span>
+</app-header>
 
 <div class="container text-center mt-4 pb-4">
     <button mat-raised-button class="main-button" (click)="logOut()">
         <mat-icon>logout</mat-icon>
-        Log out
+        <span i18n="@@logout">Log out</span>
     </button>
     <div class="card shadow m-4">
-        <h2 class="header-row-center p-4">Data</h2>
+        <h2 class="header-row-center p-4" i18n="@@data">Data</h2>
         <br>
 
         <div *ngFor="let info of userInfo; let i = index">
@@ -21,17 +23,17 @@
     </div>
 
     <div class="card shadow m-4">
-        <h2 class="header-row-center p-4">Configuration</h2>
+        <h2 class="header-row-center p-4" i18n="@@configuration">Configuration</h2>
         <div class="p-2">
             <button mat-raised-button class="main-button m-4" (click)="openDialogChangeData()">
-                Change my data
+               <span i18n="@@changeMyData">Change my data</span>
             </button>
             <button mat-raised-button class="main-button m-4" (click)="openDialogChangePassword()">
-                Change password
+                <span i18n="@@changePassword">Change password</span>
             </button>
             <button *ngIf="permission" mat-raised-button class="main-button m-4"
                 (click)="openDialogChangePermissions()">
-                Change permissions
+                <span i18n="@@changePermissions">Change permissions</span>
             </button>
         </div>
     </div>

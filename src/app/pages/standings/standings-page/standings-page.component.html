@@ -1,13 +1,14 @@
 <app-nav-bar></app-nav-bar>
-<app-header [title]="'Standings'"></app-header>
-
+<app-header>
+  <span i18n="@@standings">Standings</span>
+</app-header>
 
 <div class="container pb-4">
     <ng-container *ngIf="permission">
         <div class="d-flex justify-content-center m-2" *ngIf="!isEditingPoints">
             <button mat-raised-button class="secondary-button" (click)="showEditFields()">
                 <mat-icon>edit</mat-icon>
-                Edit Points
+                <span i18n="@@editPoints">Edit Points</span>
             </button>
         </div>
 
@@ -20,18 +21,18 @@
         <div class="btn-group m-2">
             <input type="radio" class="btn-check" name="btnradio" id="btnDrivers" autocomplete="off" checked
                 (change)="onSelectionChange($event)">
-            <label class="btn btn-outline-danger" for="btnDrivers">Drivers</label>
+            <label class="btn btn-outline-danger" for="btnDrivers" i18n="@@drivers">Drivers</label>
 
             <input type="radio" class="btn-check" name="btnradio" id="btnTeams" autocomplete="off"
                 (change)="onSelectionChange($event)">
-            <label class="btn btn-outline-danger" for="btnTeams">Teams</label>
+            <label class="btn btn-outline-danger" for="btnTeams" i18n="@@teams">Teams</label>
         </div>
     </div>
 
     <div class="card shadow m-2" *ngIf="isDriversSelected">
         <div class="header-row-flex p-4">
-            <div class="col ps-3">Drivers</div>
-            <div class="col">Points</div>
+            <div class="col ps-3" i18n="@@drivers">Drivers</div>
+            <div class="col" i18n="@@points">Points</div>
         </div>
         <div class="row row-shadow p-2 m-2" *ngFor="let driver of drivers; let i = index"
             [style.border-left]="isTeam(driver.team) ? '5px solid ' + driver.team.colorCode : ''"
@@ -49,8 +50,8 @@
 
     <div class="card shadow m-2" *ngIf="!isDriversSelected">
         <div class="header-row-flex p-4">
-            <div class="col ps-3">Teams</div>
-            <div class="col">Points</div>
+            <div class="col ps-3" i18n="@@teams">Teams</div>
+            <div class="col" i18n="@@points">Points</div>
         </div>
         <div class="row row-shadow body-row p-2 m-2" *ngFor="let team of teams; let i = index"
             [style.border-left]="'5px solid ' + team.colorCode" (click)="onClickTeam(team)">

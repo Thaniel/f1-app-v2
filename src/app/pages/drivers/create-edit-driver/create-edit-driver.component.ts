@@ -172,4 +172,15 @@ export class CreateEditDriverComponent implements OnInit {
       }
     });
   }
+
+  /*
+   * i18n
+   */
+  createLabel = $localize`:@@create:Create`;
+  editLabel = $localize`:@@edit:Edit`;
+  driverLabel = $localize`:@@driver:Driver`;
+
+  get title(): string {
+    return `${this.isCreating ? this.createLabel : this.editLabel} ${this.driverLabel}`;
+  }
 }

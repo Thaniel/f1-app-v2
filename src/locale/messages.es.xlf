@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2">
+    <file source-language="en" datatype="plaintext" original="ng2.template">
+        <body>
+            <trans-unit id="back">
+                <source>Back</source>
+                <target>Atras</target>
+            </trans-unit>
+            <trans-unit id="title">
+                <source>Title</source>
+                <target>Titulo</target>
+            </trans-unit>
+            <trans-unit id="author">
+                <source>Author</source>
+                <target>Autor</target>
+            </trans-unit>
+            <trans-unit id="topic">
+                <source>Topic</source>
+                <target>Tema</target>
+            </trans-unit>
+            <trans-unit id="comments">
+                <source>Comments</source>
+                <target>Comentarios</target>
+            </trans-unit>
+            <trans-unit id="forum">
+                <source>Forum</source>
+                <target>Foro</target>
+            </trans-unit>
+            <trans-unit id="schedule">
+                <source>Schedule</source>
+                <target>Calendario</target>
+            </trans-unit>
+            <trans-unit id="votes">
+                <source>Votes</source>
+                <target>Votaciones</target>
+            </trans-unit>
+            <trans-unit id="write">
+                <source>Write</source>
+                <target>Escribir</target>
+            </trans-unit>
+            <trans-unit id="titlePlaceholder">
+                <source>Topic's title</source>
+                <target>Titulo del tema</target>
+            </trans-unit>
+            <trans-unit id="required">
+                <source>Required</source>
+                <target>Obligatorio</target>
+            </trans-unit>
+            <trans-unit id="teams">
+                <source>Teams</source>
+                <target>Escuderias</target>
+            </trans-unit>
+            <trans-unit id="titles">
+                <source>Titles</source>
+                <target>Titulos</target>
+            </trans-unit>
+            <trans-unit id="points">
+                <source>Points</source>
+                <target>Puntos</target>
+            </trans-unit>
+            <trans-unit id="drivers">
+                <source>Drivers</source>
+                <target>Pilotos</target>
+            </trans-unit>
+            <trans-unit id="driver">
+                <source>Driver</source>
+                <target>Piloto</target>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>Description</source>
+                <target>Descripcion</target>
+            </trans-unit>
+            <trans-unit id="fullName">
+                <source>Full name</source>
+                <target>Nombre completo</target>
+            </trans-unit>
+            <trans-unit id="teamPrincipal">
+                <source>Team principal</source>
+                <target>Director de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="firstDriver">
+                <source>First driver</source>
+                <target>Primer piloto</target>
+            </trans-unit>
+            <trans-unit id="secondDriver">
+                <source>Second driver</source>
+                <target>Segundo piloto</target>
+            </trans-unit>
+            <trans-unit id="teamNamePlaceholder">
+                <source>Team name</source>
+                <target>Nombre de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="teamFullNamePlaceholder">
+                <source>Team full name</source>
+                <target>Nombre completo de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="teamPrincipalPlaceholder">
+                <source>Team principal name</source>
+                <target>Nombre del director de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="builderTitlesPlaceholder">
+                <source>Number of builders titles</source>
+                <target>Numero de titulos de constructores</target>
+            </trans-unit>
+            <trans-unit id="pointsPlaceholder">
+                <source>Number of points</source>
+                <target>Numero de puntos</target>
+            </trans-unit>
+            <trans-unit id="circuitDescriptionPlaceholder">
+                <source>Circuit description</source>
+                <target>Descripcion del circuito</target>
+            </trans-unit>
+            <trans-unit id="teamColorPlaceholder">
+                <source>Team color code</source>
+                <target>Codigo de color de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="name">
+                <source>Name</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="standings">
+                <source>Standings</source>
+                <target>Clasificacion</target>
+            </trans-unit>
+            <trans-unit id="editPoints">
+                <source>Edit Points</source>
+                <target>Editar puntos</target>
+            </trans-unit>
+            <trans-unit id="firstPractice">
+                <source>First Practice</source>
+                <target>Libres 1</target>
+            </trans-unit>
+            <trans-unit id="secondPractice">
+                <source>Second Practice | Sprint Qualifying</source>
+                <target>Libres 2 | Clasificacion al sprint</target>
+            </trans-unit>
+            <trans-unit id="thirdPractice">
+                <source>Third Practice | Sprint Race</source>
+                <target>Libres 3 | Carrera al sprint</target>
+            </trans-unit>
+            <trans-unit id="qualifying">
+                <source>Qualifying</source>
+                <target>Clasificacion</target>
+            </trans-unit>
+            <trans-unit id="race">
+                <source>Race</source>
+                <target>Carrera</target>
+            </trans-unit>
+            <trans-unit id="circuitLength">
+                <source>Circuit Length</source>
+                <target>Longitud del circuito</target>
+            </trans-unit>
+            <trans-unit id="laps">
+                <source>Laps</source>
+                <target>Vueltas</target>
+            </trans-unit>
+            <trans-unit id="firstAppearance">
+                <source>First appearance</source>
+                <target>Primera aparicion</target>
+            </trans-unit>
+            <trans-unit id="raceDistance">
+                <source>Race distance</source>
+                <target>Distancia de la carrera</target>
+            </trans-unit>
+            <trans-unit id="fastestLap">
+                <source>Fastest lap</source>
+                <target>Vuelta más rápida</target>
+            </trans-unit>
+            <trans-unit id="grandPrix">
+                <source>Grand Prix</source>
+                <target>Gran Premio</target>
+            </trans-unit>
+            <trans-unit id="grandPrixName">
+                <source>Grand Prix name</source>
+                <target>Nombre del Gran Premio</target>
+            </trans-unit>
+            <trans-unit id="country">
+                <source>Country</source>
+                <target>Pais</target>
+            </trans-unit>
+            <trans-unit id="countryPlaceholder">
+                <source>Country name</source>
+                <target>Nombre del pais</target>
+            </trans-unit>
+            <trans-unit id="firtsPracticeDate">
+                <source>First Practice date</source>
+                <target>Fecha de Libres 1</target>
+            </trans-unit>
+            <trans-unit id="firtsPracticeDatePlaceholder">
+                <source>First practise date and time</source>
+                <target>Fecha y hora de Libres 1</target>
+            </trans-unit>
+            <trans-unit id="secondPracticeDate">
+                <source>Second Practice / Sprint Qualifying date</source>
+                <target>Fecha de Libres 2 / clasificacion al sprint</target>
+            </trans-unit>
+            <trans-unit id="secondPracticeDatePlaceholder">
+                <source>Second practise or sprint qualifying date and time</source>
+                <target>Fecha y hora de Libres 2 o clasificacion al sprint</target>
+            </trans-unit>
+            <trans-unit id="thirdPracticeDate">
+                <source>Third Practice / Sprint race date</source>
+                <target>Fecha de Libres 3 / carrera al sprint</target>
+            </trans-unit>
+            <trans-unit id="thirdPracticeDatePlaceholder">
+                <source>Third practise or sprint race date and time</source>
+                <target>Fecha y hora de Libres 3 o carrera al sprint</target>
+            </trans-unit>
+            <trans-unit id="qualifyingDate">
+                <source>Qualifying date</source>
+                <target>Fecha de la clasificacion</target>
+            </trans-unit>
+            <trans-unit id="qualifyingDatePlaceholder">
+                <source>Qualifying start date and time</source>
+                <target>Fecha y hora de la clasificacion</target>
+            </trans-unit>
+            <trans-unit id="raceDate">
+                <source>Race date</source>
+                <target>Fecha de inicio de la carrera</target>
+            </trans-unit>
+            <trans-unit id="raceDatePlaceholder">
+                <source>Race start date and time</source>
+                <target>Fecha y hora de la carrera</target>
+            </trans-unit>
+            <trans-unit id="appearance">
+                <source>Appearance</source>
+                <target>Aparicion</target>
+            </trans-unit>
+            <trans-unit id="appearancePlaceholder">
+                <source>First appearance of the Grand Prix. (1950 or greater)</source>
+                <target>Primera aparicion de el Gran Premio. (1950 o superior)</target>
+            </trans-unit>
+            <trans-unit id="distance">
+                <source>Distance (Km)</source>
+                <target>Distancia (Km)</target>
+            </trans-unit>
+            <trans-unit id="distancePlaceholder">
+                <source>Number of kilometers of the race</source>
+                <target>Numero de kilometros de la carrera</target>
+            </trans-unit>
+            <trans-unit id="lapsPlaceholder">
+                <source>Number of kilometers of the race</source>
+                <target>Numero de vueltas de la carrera</target>
+            </trans-unit>
+            <trans-unit id="record">
+                <source>Record</source>
+                <target>Record</target>
+            </trans-unit>
+            <trans-unit id="recordPlaceholder">
+                <source>Record for the fastest lap (Driver: time)</source>
+                <target>Record de la vuelta mas rapida (Piloto: tiempo)</target>
+            </trans-unit>
+            <trans-unit id="length">
+                <source>Length (Km)</source>
+                <target>Longitud (Km)</target>
+            </trans-unit>
+            <trans-unit id="lengthPlaceholder">
+                <source>Number of kilometers of the circuit</source>
+                <target>Numero de kilometros del circuito</target>
+            </trans-unit>
+            <trans-unit id="circuitDescPlaceholder">
+                <source>Circuit description</source>
+                <target>Descripcion del circuito</target>
+            </trans-unit>
+            <trans-unit id="circuit">
+                <source>Circuit</source>
+                <target>Circuito</target>
+            </trans-unit>
+            <trans-unit id="circuitPlaceholder">
+                <source>Circuit name</source>
+                <target>Nombre del circuito</target>
+            </trans-unit>
+            <trans-unit id="logout">
+                <source>Log out</source>
+                <target>Cerrar sesion</target>
+            </trans-unit>
+            <trans-unit id="changeMyData">
+                <source>Change my data</source>
+                <target>Cambiar mis datos</target>
+            </trans-unit>
+            <trans-unit id="changePassword">
+                <source>Change password</source>
+                <target>Cambiar contraseña</target>
+            </trans-unit>
+            <trans-unit id="changePermissions">
+                <source>Change permissions</source>
+                <target>Cambiar permisos</target>
+            </trans-unit>
+            <trans-unit id="configuration">
+                <source>Configuration</source>
+                <target>Configuracion</target>
+            </trans-unit>
+            <trans-unit id="data">
+                <source>Data</source>
+                <target>Datos</target>
+            </trans-unit>
+            <trans-unit id="profile">
+                <source>Profile</source>
+                <target>Perfil</target>
+            </trans-unit>
+            <trans-unit id="passwordIncorrect">
+                <source>The password is incorrect</source>
+                <target>La contraseña es incorrecta</target>
+            </trans-unit>
+            <trans-unit id="passwordCheck">
+                <source>The password must be at least 6 characters</source>
+                <target>La contraseña debe tener al menos 6 caracteres</target>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>Password</source>
+                <target>Contraseña</target>
+            </trans-unit>
+            <trans-unit id="username">
+                <source>Username</source>
+                <target>Nombre de usuario</target>
+            </trans-unit>
+            <trans-unit id="selectUsername">
+                <source>Select username</source>
+                <target>Seleccionar usuario</target>
+            </trans-unit>
+            <trans-unit id="selectUser">
+                <source>Please select a user </source>
+                <target>Por favor seleccione un usuario</target>
+            </trans-unit>
+            <trans-unit id="permissions">
+                <source>Permissions:</source>
+                <target>Permisos:</target>
+            </trans-unit>
+            <trans-unit id="enable">
+                <source>Enable</source>
+                <target>Habilitar</target>
+            </trans-unit>
+            <trans-unit id="disable">
+                <source>Disable</source>
+                <target>Deshabilitar</target>
+            </trans-unit>
+            <trans-unit id="odlPassword">
+                <source>Old Password</source>
+                <target>Contraseña antigua</target>
+            </trans-unit>
+            <trans-unit id="odlPasswordIncorrect">
+                <source>The old password is incorrect</source>
+                <target>La contraseña antigua es incorrecta</target>
+            </trans-unit>
+            <trans-unit id="newPassword">
+                <source>New password</source>
+                <target>Contraseña nueva</target>
+            </trans-unit>
+            <trans-unit id="repeatNewPassword">
+                <source>Repeat new password</source>
+                <target>Repite la contraseña nueva</target>
+            </trans-unit>
+            <trans-unit id="passwordEquals">
+                <source>Passwords must be equals</source>
+                <target>Las contraseñas debe ser iguales</target>
+            </trans-unit>
+            <trans-unit id="firstName">
+                <source>First name</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="lastName">
+                <source>Last name</source>
+                <target>Apellido</target>
+            </trans-unit>
+            <trans-unit id="birthdate">
+                <source>Birthdate</source>
+                <target>Fecha de nacimiento</target>
+            </trans-unit>
+            <trans-unit id="usernameInUse">
+                <source>The username is already in use</source>
+                <target>El nombre de usuario ya esta en uso</target>
+            </trans-unit>
+            <trans-unit id="news">
+                <source>News</source>
+                <target>Noticias</target>
+            </trans-unit>
+            <trans-unit id="notice">
+                <source>Noitice</source>
+                <target>Noticia</target>
+            </trans-unit>
+            <trans-unit id="summary">
+                <source>Summary</source>
+                <target>Resumen</target>
+            </trans-unit>
+            <trans-unit id="newstitle">
+                <source>News title</source>
+                <target>Titulo de la noticia</target>
+            </trans-unit>
+            <trans-unit id="newsSummary">
+                <source>News summary</source>
+                <target>Resumen de la noticia</target>
+            </trans-unit>
+            <trans-unit id="newsDescription">
+                <source>Detailed description of the news</source>
+                <target>Descripción detallada de la noticia</target>
+            </trans-unit>
+            <trans-unit id="practice1">
+                <source>Practice 1</source>
+                <target>Libres 1</target>
+            </trans-unit>
+            <trans-unit id="practice2">
+                <source>Practice 2 | Sprint Qualifying</source>
+                <target>Libres 2 | Clasificacion al sprint</target>
+            </trans-unit>
+            <trans-unit id="practice3">
+                <source>Practice 3 | Sprint Race</source>
+                <target>Libres 3 | Carrera al sprint</target>
+            </trans-unit>
+            <trans-unit id="information">
+                <source>Information</source>
+                <target>Informacion</target>
+            </trans-unit>
+            <trans-unit id="team">
+                <source>Team</source>
+                <target>Escuderia</target>
+            </trans-unit>
+            <trans-unit id="driverTeam">
+                <source>Driver team</source>
+                <target>Escuderia del piloto</target>
+            </trans-unit>
+            <trans-unit id="driverTitles">
+                <source>Number of driver titles</source>
+                <target>Numero de titulos del piloto</target>
+            </trans-unit>
+            <trans-unit id="driverCountry">
+                <source>Driver country</source>
+                <target>Pais del piloto</target>
+            </trans-unit>
+            <trans-unit id="driverBirthdate">
+                <source>Driver birthdate</source>
+                <target>Fecha de nacimiento del piloto</target>
+            </trans-unit>
+            <trans-unit id="driverLastName">
+                <source>Driver last name</source>
+                <target>Apellido del piloto</target>
+            </trans-unit>
+            <trans-unit id="driverFirstName">
+                <source>Driver first name</source>
+                <target>Nombre del piloto</target>
+            </trans-unit>
+            <trans-unit id="register">
+                <source>Register</source>
+                <target>Registro</target>
+            </trans-unit>
+            <trans-unit id="fillAllFields">
+                <source>Please fill out all fields to create an account.</source>
+                <target>Por favor rellene todos los campos para crear una cuenta.</target>
+            </trans-unit>
+            <trans-unit id="email">
+                <source>Email</source>
+                <target>Correo electronico</target>
+            </trans-unit>
+            <trans-unit id="repeatPassword">
+                <source>Repeat password</source>
+                <target>Repetir contraseña</target>
+            </trans-unit>
+            <trans-unit id="cancel">
+                <source>Cancel</source>
+                <target>Cancelar</target>
+            </trans-unit>
+            <trans-unit id="emailInUse">
+                <source>The email is already in use</source>
+                <target>El correo electronico ya esta en uso</target>
+            </trans-unit>
+            <trans-unit id="recoverPassword">
+                <source>Recover Password</source>
+                <target>Recuperar contraseña</target>
+            </trans-unit>
+            <trans-unit id="enterEmail">
+                <source>Please enter your email to recover your password.</source>
+                <target>Por favor introduce su correo electronico para recuperar la contraseña</target>
+            </trans-unit>
+            <trans-unit id="send">
+                <source>Send</source>
+                <target>Enviar</target>
+            </trans-unit>
+            <trans-unit id="wellcomeMotorFanatic">
+                <source>Welcome motor fanatic</source>
+                <target>Bienvenido fanatico del motor</target>
+            </trans-unit>
+            <trans-unit id="login">
+                <source>Login</source>
+                <target>Iniciar sesion</target>
+            </trans-unit>
+            <trans-unit id="forgotPassword">
+                <source>Forgot password?</source>
+                <target>¿Olvidaste la contraseña?</target>
+            </trans-unit>
+            <trans-unit id="create">
+                <source>Create</source>
+                <target>Crear</target>
+            </trans-unit>
+            <trans-unit id="save">
+                <source>Save</source>
+                <target>Guardar</target>
+            </trans-unit>
+            <trans-unit id="accept">
+                <source>Accept</source>
+                <target>Aceptar</target>
+            </trans-unit>
+            <trans-unit id="close">
+                <source>Close</source>
+                <target>Cerrar</target>
+            </trans-unit>
+            <trans-unit id="delete">
+                <source>Delete</source>
+                <target>Eliminar</target>
+            </trans-unit>
+            <trans-unit id="edit">
+                <source>Edit</source>
+                <target>Editar</target>
+            </trans-unit>
+            <trans-unit id="isAdmin">
+                <source>Is Admin</source>
+                <target>Es Administrador</target>
+            </trans-unit>
+
+            <!-- filter -->
+            <trans-unit id="newestFirst">
+                <source>Newest first</source>
+                <target>Recientes primero</target>
+            </trans-unit>
+            <trans-unit id="oldestFirst">
+                <source>Newest first</source>
+                <target>Anitugos primero</target>
+            </trans-unit>
+            <trans-unit id="mostCommented">
+                <source>Most commented</source>
+                <target>Mas comentados</target>
+            </trans-unit>
+            <!-- END filter -->
+
+            <!-- confirm-dialog -->
+            <trans-unit id="confirmDeletion">
+                <source>Confirm Deletion</source>
+                <target>Confirmar Eliminacion</target>
+            </trans-unit>
+            <trans-unit id="areYouSureDelete">
+                <source>Are you sure you want to delete &quot;<x id="INTERPOLATION"
+                        equiv-text="{{ itemName }}" />&quot;?</source>
+                <target>¿Estás seguro de que quieres eliminar &quot;<x id="INTERPOLATION" />&quot;?</target>
+            </trans-unit>
+            <trans-unit id="worldConstructorsChampionship">
+                <source>World Constructors Championship</source>
+                <target>Campeonato Mundial de Constructores</target>
+            </trans-unit>
+            <trans-unit id="worldDriverChampionship">
+                <source>World Drivers Championship</source>
+                <target>Campeonato Mundial de Pilotos</target>
+            </trans-unit>
+            <!-- END confirm-dialog -->
+
+            <!-- file-input -->
+            <trans-unit id="selectImage" datatype="html">
+                <source>Select <x id="PH" equiv-text="this.translatedTitle" /> image</source>
+                <target>Seleccionar imagen <x id="PH" /></target>
+            </trans-unit>
+            <trans-unit id="carImg">
+                <source>car</source>
+                <target>del coche</target>
+            </trans-unit>
+            <trans-unit id="noticeImg">
+                <source>notice</source>
+                <target>de la noticia</target>
+            </trans-unit>
+            <trans-unit id="teamImg">
+                <source>team</source>
+                <target>de la escuderia</target>
+            </trans-unit>
+            <trans-unit id="circuitImg">
+                <source>circuit</source>
+                <target>del circuito</target>
+            </trans-unit>
+            <trans-unit id="driverImg">
+                <source>driver</source>
+                <target>del piloto</target>
+            </trans-unit>
+            <!-- END file-input -->
+
+            <!-- nav-bar -->
+            <trans-unit id="navNews">
+                <source>News</source>
+                <target>Noticias</target>
+            </trans-unit>
+            <trans-unit id="navSchedule">
+                <source>Schedule</source>
+                <target>Calendario</target>
+            </trans-unit>
+            <trans-unit id="navTeams">
+                <source>Teams</source>
+                <target>Escuderias</target>
+            </trans-unit>
+            <trans-unit id="navDrivers">
+                <source>Drivers</source>
+                <target>Pilotos</target>
+            </trans-unit>
+            <trans-unit id="navStandings">
+                <source>Standings</source>
+                <target>Clasificacion</target>
+            </trans-unit>
+            <trans-unit id="navForum">
+                <source>Forum</source>
+                <target>Foro</target>
+            </trans-unit>
+            <trans-unit id="navVotes">
+                <source>Votes</source>
+                <target>Votaciones</target>
+            </trans-unit>
+            <trans-unit id="navProfile">
+                <source>Profile</source>
+                <target>Perfil</target>
+            </trans-unit>
+            <!-- END nav-bar -->
+
+            <!-- snack-bar -->
+            <trans-unit id="successDynamic" datatype="html">
+                <source>
+                    <x id="PH" />
+                    <x id="PH_1" />
+                </source>
+                <target>
+                    <x id="PH" />
+                    <x id="PH_1" />
+                </target>
+            </trans-unit>
+            <trans-unit id="errorDynamic" datatype="html">
+                <source>Error while <x id="PH" /> <x id="PH_1" /></source>
+                <target>Error al <x id="PH" /> <x id="PH_1" /></target>
+            </trans-unit>
+            <trans-unit id="ctxRace">
+                <source>Race</source>
+                <target>Carrera</target>
+            </trans-unit>
+            <trans-unit id="ctxNotice">
+                <source>Notice</source>
+                <target>Noticia</target>
+            </trans-unit>
+            <trans-unit id="ctxComment">
+                <source>Comment</source>
+                <target>Comentario</target>
+            </trans-unit>
+            <trans-unit id="ctxTeam">
+                <source>Team</source>
+                <target>Escuderia</target>
+            </trans-unit>
+            <trans-unit id="ctxDriver">
+                <source>Driver</source>
+                <target>Piloto</target>
+            </trans-unit>
+            <trans-unit id="ctxTopic">
+                <source>Topic</source>
+                <target>Tema</target>
+            </trans-unit>
+            <trans-unit id="ctxUser">
+                <source>User</source>
+                <target>Usuario</target>
+            </trans-unit>
+            <trans-unit id="ctxQualifiying">
+                <source>Qualifiying</source>
+                <target>Clasificacion</target>
+            </trans-unit>
+            <trans-unit id="created_m">
+                <source>created</source>
+                <target>creado</target>
+            </trans-unit>
+            <trans-unit id="created_f">
+                <source>created</source>
+                <target>creada</target>
+            </trans-unit>
+            <trans-unit id="edited_m">
+                <source>edited</source>
+                <target>editado</target>
+            </trans-unit>
+            <trans-unit id="edited_f">
+                <source>edited</source>
+                <target>editada</target>
+            </trans-unit>
+            <trans-unit id="deleted_m">
+                <source>deleted</source>
+                <target>eliminado</target>
+            </trans-unit>
+            <trans-unit id="deleted_f">
+                <source>deleted</source>
+                <target>eliminada</target>
+            </trans-unit>
+            <trans-unit id="creating_m">
+                <source>creating</source>
+                <target>creado</target>
+            </trans-unit>
+            <trans-unit id="editing_m">
+                <source>editing</source>
+                <target>editar</target>
+            </trans-unit>
+            <trans-unit id="deleting_m">
+                <source>deleting</source>
+                <target>eliminar</target>
+            </trans-unit>
+            <trans-unit id="authLoginSuccess">
+                <source>Login successful</source>
+                <target>Inicio de sesion correcto</target>
+            </trans-unit>
+            <trans-unit id="authLoginError">
+                <source>Login failed</source>
+                <target>Inicio de sesion incorrecto</target>
+            </trans-unit>
+            <trans-unit id="authRegisterSuccess">
+                <source>Registration successful</source>
+                <target>Registro correcto</target>
+            </trans-unit>
+            <trans-unit id="authRegisterError">
+                <source>Registration failed</source>
+                <target>Registro incorrecto</target>
+            </trans-unit>
+            <trans-unit id="authRecoverySuccess">
+                <source>Recovery email sent successfully</source>
+                <target>Correo electrónico de recuperación enviado correctamente</target>
+            </trans-unit>
+            <trans-unit id="authRecoveryError">
+                <source>Error sending recovery email</source>
+                <target>Error al enviar el correo electrónico de recuperacion</target>
+            </trans-unit>
+            <!-- END snack-bar -->
+
+            <!-- create-edit -->
+            <!-- END create-edit -->
+        </body>
+    </file>
+</xliff>

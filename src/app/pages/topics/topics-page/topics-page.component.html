@@ -1,14 +1,16 @@
 <app-nav-bar></app-nav-bar>
-<app-header [title]="'Forum'"></app-header>
+<app-header>
+  <span i18n="@@forum">Forum</span>
+</app-header>
 <app-header-buttons [title]="'Topics'" (created)="getTopics()"></app-header-buttons>
 
 <div class="container pt-2 pb-4">
     <app-filter (sortChanged)="sortChanged($event)"></app-filter>
     <div class="card shadow m-2">
         <div class="header-row-flex p-4">
-            <div class="col-3">Title</div>
-            <div class="col-3">Author</div>
-            <div class="col-3">Comments</div>
+            <div class="col-3" i18n="@@title">Title</div>
+            <div class="col-3" i18n="@@author">Author</div>
+            <div class="col-3" i18n="@@comments">Comments</div>
             <div class="col-3"></div>
         </div>
         <div class="row row-shadow m-2 p-2" *ngFor="let topic of pagedTopics" [style.border-left]="'5px solid black'">

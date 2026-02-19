@@ -6,22 +6,22 @@
 <img [src]="raceSelected.imageUrl" class="card-img-top" alt="{{ raceSelected.grandPrix }}" loading="lazy">
 <div class="container pb-4">
     <div class="card shadow m-5">
-        <h3 class="card-title p-4 ">Schedule</h3>
+        <h3 class="card-title p-4 " i18n="@@schedule">Schedule</h3>
         <div class="card-body">
-            <h6 class="card-text">First Practice</h6>
+            <h6 class="card-text" i18n="@@firstPractice">First Practice</h6>
             <p class="card-text">{{ raceSelected.firstPracticeDate | date: 'fullDate' }} - {{
                 raceSelected.firstPracticeDate | date: 'HH:mm' }}</p>
-            <h6 class="card-text">Second Practice | Sprint Qualifying</h6>
+            <h6 class="card-text" i18n="@@secondPractice">Second Practice | Sprint Qualifying</h6>
             <p class="card-text">{{ raceSelected.secondPracticeDate | date: 'fullDate' }} - {{
                 raceSelected.secondPracticeDate | date: 'HH:mm' }}</p>
-            <h6 class="card-text">Third Practice | Sprint Race</h6>
+            <h6 class="card-text" i18n="@@thirdPractice">Third Practice | Sprint Race</h6>
             <p class="card-text">{{ raceSelected.thirdPracticeDate | date: 'fullDate' }} - {{
                 raceSelected.thirdPracticeDate | date: 'HH:mm' }}</p>
             <hr>
-            <h6 class="card-text">Qualifying</h6>
+            <h6 class="card-text" i18n="@@qualifying">Qualifying</h6>
             <p class="card-text">{{ raceSelected.qualifyingDate | date: 'fullDate' }} - {{ raceSelected.qualifyingDate |
                 date: 'HH:mm' }}</p>
-            <h6 class="card-text">Race</h6>
+            <h6 class="card-text" i18n="@@race">Race</h6>
             <p class="card-text">{{ raceSelected.date | date: 'fullDate' }} - {{ raceSelected.date | date: 'HH:mm' }}
             </p>
         </div>
@@ -30,25 +30,25 @@
     <div class="card shadow m-5">
         <h3 class="card-title p-4">{{ raceSelected.circuit }}</h3>
         <div class="card-body">
-            <h6 class="card-text">Circuit length</h6>
+            <h6 class="card-text" i18n="@@circuitLength">Circuit length</h6>
             <p class="card-text">{{ raceSelected.length }}</p>
             <hr>
-            <h6 class="card-text">Laps</h6>
+            <h6 class="card-text" i18n="@@laps">Laps</h6>
             <p class="card-text">{{ raceSelected.laps }}</p>
             <hr>
-            <h6 class="card-text">First appearance</h6>
+            <h6 class="card-text" i18n="@@firstAppearance">First appearance</h6>
             <p class="card-text">{{ raceSelected.appearance }}</p>
             <hr>
-            <h6 class="card-text">Race distance</h6>
+            <h6 class="card-text" i18n="@@raceDistance">Race distance</h6>
             <p class="card-text">{{ raceSelected.distance }}</p>
             <hr>
-            <h6 class="card-text">Fastes lap</h6>
+            <h6 class="card-text" i18n="@@fastestLap">Fastest lap</h6>
             <p class="card-text">{{ raceSelected.record }}</p>
         </div>
     </div>
 
     <div class="card shadow m-5">
-        <h3 class="card-title p-4">Description</h3>
+        <h3 class="card-title p-4" i18n="@@description">Description</h3>
         <div class="card-body">
             <p class="card-text">{{ raceSelected.description }}</p>
         </div>

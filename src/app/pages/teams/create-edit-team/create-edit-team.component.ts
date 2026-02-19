@@ -190,4 +190,15 @@ export class CreateEditTeamComponent implements OnInit {
       }
     });
   }
+
+  /*
+   * i18n
+   */
+  createLabel = $localize`:@@create:Create`;
+  editLabel = $localize`:@@edit:Edit`;
+  teamLabel = $localize`:@@team:Team`;
+
+  get title(): string {
+    return `${this.isCreating ? this.createLabel : this.editLabel} ${this.teamLabel}`;
+  }
 }

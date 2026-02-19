@@ -11,7 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './file-input.component.html',
   styleUrl: './file-input.component.css'
 })
-export class FileInputComponent implements OnInit{
+export class FileInputComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
 
@@ -33,9 +33,28 @@ export class FileInputComponent implements OnInit{
   private previewFile(file: File) {
     const reader = new FileReader();
     reader.onload = () => {
-      this.imagePreview = reader.result;      
+      this.imagePreview = reader.result;
       this.fileSelected.emit(file);
     };
     reader.readAsDataURL(file);
+  }
+
+  /*
+   * i18n
+   */
+  private titlesMap: Record<string, string> = {
+    car: $localize`:@@carImg:car`,
+    notice: $localize`:@@noticeImg:notice`,
+    team: $localize`:@@teamImg:team`,
+    circuit: $localize`:@@circuitImg:circuit`,
+    driver: $localize`:@@driverImg:driver`
+  };
+
+  get translatedTitle(): string {
+    return this.titlesMap[this.title] ?? this.title;
+  }
+
+  get selectImageText(): string {
+    return $localize`:@@selectImage:Select ${this.translatedTitle} image`;
   }
 }

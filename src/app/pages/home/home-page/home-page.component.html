@@ -24,11 +24,11 @@
             <!-- Slide 2: Race and Qualifying Schedule -->
             <div class="carousel-item">
                 <div class="d-block w-100 text-center p-5">
-                    <h4><strong>Qualifying</strong></h4>
+                    <h4><strong i18n="@@qualifying">Qualifying</strong></h4>
                     <p>{{ nextRace.qualifyingDate | date: 'fullDate' }} -
                         {{ nextRace.qualifyingDate | date: 'HH:mm' }}</p>
                     <br>
-                    <h4><strong>Race</strong></h4>
+                    <h4><strong i18n="@@race">Race</strong></h4>
                     <p>{{ nextRace.date | date: 'fullDate' }} -
                         {{ nextRace.date | date: 'HH:mm' }}</p>
                 </div>
@@ -37,15 +37,15 @@
             <!-- Slide 3: Practice Sessions Schedule -->
             <div class="carousel-item">
                 <div class="d-block w-100 text-center p-5">
-                    <h4><strong>Practice 1</strong></h4>
+                    <h4 i18n="@@practice1"><strong>Practice 1</strong></h4>
                     <p>{{ nextRace.firstPracticeDate | date: 'fullDate' }} -
                         {{ nextRace.firstPracticeDate | date: 'HH:mm' }}</p>
                     <br>
-                    <h4><strong>Practice 2 | Sprint Qualifying</strong></h4>
+                    <h4 i18n="@@practice2"><strong>Practice 2 | Sprint Qualifying</strong></h4>
                     <p>{{ nextRace.secondPracticeDate | date: 'fullDate' }} -
                         {{ nextRace.secondPracticeDate | date: 'HH:mm' }}</p>
                     <br>
-                    <h4><strong>Practice 3 | Sprint</strong></h4>
+                    <h4 i18n="@@practice3"><strong>Practice 3 | Sprint Race</strong></h4>
                     <p>{{ nextRace.thirdPracticeDate | date: 'fullDate' }} -
                         {{ nextRace.thirdPracticeDate | date: 'HH:mm' }}</p>
                 </div>

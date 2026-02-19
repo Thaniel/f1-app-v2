@@ -16,7 +16,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, SnackBarComponent, MatIcon],
+  imports: [MatInputModule, CommonModule, ReactiveFormsModule, MatButtonModule, MatIcon],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })

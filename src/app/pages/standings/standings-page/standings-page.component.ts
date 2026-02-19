@@ -143,7 +143,7 @@ export class StandingsPageComponent implements OnInit {
   private showSnackBar(isOk: boolean): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       duration: TIME_OUT,
-      data: { isOk: isOk, action: 1, context: 'teams_drivers' },
+      data: { isOk: isOk, action: 1, context: 'qualifiying' },
       panelClass: [isOk ? 'info-snackBar' : 'error-snackBar'],
       verticalPosition: 'top',
     });

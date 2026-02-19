@@ -1,85 +1,99 @@
 <div class="login-wrapper">
     <div class="login-container">
         <img src="../../../../assets/f1_logo_red.png" alt="F1 logo" width="40%" />
-        <h1 class="welcome-text">Register</h1>
-        <p>Please fill out all fields to create an account.</p>
+        <h1 class="welcome-text" i18n="@@register">Register</h1>
+        <p i18n="@@fillAllFields">Please fill out all fields to create an account.</p>
 
         <div class="mt-2">
             <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
                 <mat-form-field>
-                    <mat-label>First name</mat-label>
-                    <input matInput type="text" required formControlName="firstName" placeholder="Your first name" />
-                    <span *ngIf="isValidField('firstName')" class="form-text text-danger">Required</span>
+                    <mat-label i18n="@@firstName">First name</mat-label>
+                    <input matInput type="text" required formControlName="firstName" placeholder="First name"
+                        i18n-placeholder="@@firstName" />
+                    <span *ngIf="isValidField('firstName')" class="form-text text-danger"
+                        i18n="@@required">Required</span>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Last name</mat-label>
-                    <input matInput type="text" required formControlName="lastName" placeholder="Your last name" />
-                    <span *ngIf="isValidField('lastName')" class="form-text text-danger">Required</span>
+                    <mat-label i18n="@@lastName">Last name</mat-label>
+                    <input matInput type="text" required formControlName="lastName" placeholder="Last name"
+                        i18n-placeholder="@@lastName" />
+                    <span *ngIf="isValidField('lastName')" class="form-text text-danger"
+                        i18n="@@required">Required</span>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Country</mat-label>
-                    <input matInput type="text" required formControlName="country" placeholder="Your country" />
-                    <span *ngIf="isValidField('country')" class="form-text text-danger">Required</span>
+                    <mat-label i18n="@@country">Country</mat-label>
+                    <input matInput type="text" required formControlName="country" placeholder="Country"
+                        i18n-placeholder="@@country" />
+                    <span *ngIf="isValidField('country')" class="form-text text-danger"
+                        i18n="@@required">Required</span>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Birthdate</mat-label>
-                    <input matInput type="date" required formControlName="birthdate" placeholder="Your birthdate" />
-                    <span *ngIf="isValidField('birthdate')" class="form-text text-danger">Required</span>
+                    <mat-label i18n="@@birthdate">Birthdate</mat-label>
+                    <input matInput type="date" required formControlName="birthdate" placeholder="Birthdate"
+                        i18n-placeholder="@@birthdate" />
+                    <span *ngIf="isValidField('birthdate')" class="form-text text-danger"
+                        i18n="@@required">Required</span>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>User name</mat-label>
-                    <input matInput type="text" required formControlName="userName" placeholder="Your user name" />
-                    <span *ngIf="isFieldUserNameInUse('userName'); else requiredUserName" class="form-text text-danger">
+                    <mat-label i18n="@@username">Username</mat-label>
+                    <input matInput type="text" required formControlName="userName" placeholder="Username"
+                        i18n-placeholder="@@username" />
+                    <span *ngIf="isFieldUserNameInUse('userName'); else requiredUserName" class="form-text text-danger"
+                        i18n="@@usernameInUse">
                         The username is already in use
                     </span>
                     <ng-template #requiredUserName>
-                        <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
+                        <span *ngIf="isValidField('userName')" class="form-text text-danger"
+                            i18n="@@required">Required</span>
                     </ng-template>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>E-mail</mat-label>
-                    <input matInput type="email" required formControlName="email" placeholder="E-mail" />
-                    <span *ngIf="isFieldEmailInUse('email'); else requiredEmail" class="form-text text-danger">
+                    <mat-label i18n="@@email">Email</mat-label>
+                    <input matInput type="email" required formControlName="email" placeholder="Email" i18n-placeholder="@@email"/>
+                    <span *ngIf="isFieldEmailInUse('email'); else requiredEmail" class="form-text text-danger"
+                        i18n="@@emailInUse">
                         The email is already in use
                     </span>
                     <ng-template #requiredEmail>
-                        <span *ngIf="isValidField('email')" class="form-text text-danger">Required</span>
+                        <span *ngIf="isValidField('email')" class="form-text text-danger"
+                            i18n="@@required">Required</span>
                     </ng-template>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Password</mat-label>
+                    <mat-label i18n="@@password">Password</mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password"
-                        placeholder="Password" />
+                        placeholder="Password" i18n-placeholder="@@password"/>
                     <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <span *ngIf="isValidField('password')" class="form-text text-danger">The password must be greater
-                        than 6 characters</span>
+                    <span *ngIf="isValidField('password')" class="form-text text-danger" i18n="@@passwordCheck">The
+                        password must be at least 6 characters</span>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Repeat password</mat-label>
+                    <mat-label i18n="@@repeatPassword">Repeat password</mat-label>
                     <input matInput [type]="hideRepeatPassword ? 'password' : 'text'" required
-                        formControlName="passwordRepeated" placeholder="Repeat password" />
+                        formControlName="passwordRepeated" placeholder="Repeat password" i18n-placeholder="@@repeatPassword"/>
                     <button type="button" mat-icon-button matSuffix (click)="toggleRepeatPasswordVisibility()"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideRepeatPassword">
                         <mat-icon>{{hideRepeatPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <span *ngIf="isValidField('passwordRepeated')" class="form-text text-danger">Passwords must be
+                    <span *ngIf="isValidField('passwordRepeated')" class="form-text text-danger"
+                        i18n="@@passwordEquals">Passwords must be
                         equals</span>
                 </mat-form-field>
 
                 <div class="button-container">
-                    <button mat-raised-button class="secondary-button m-4" type="button"
-                        (click)="routeToLogin()">Cancel</button>
-                    <button mat-raised-button class="main-button m-4" type="submit">Register</button>
+                    <button mat-raised-button class="secondary-button m-4" type="button" (click)="routeToLogin()"
+                        i18n="@@cancel">Cancel</button>
+                    <button mat-raised-button class="main-button m-4" type="submit" i18n="@@register">Register</button>
                 </div>
             </form>
         </div>

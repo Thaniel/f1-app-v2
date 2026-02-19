@@ -1,5 +1,7 @@
 <app-nav-bar></app-nav-bar>
-<app-header [title]="'News'"></app-header>
+<app-header>
+  <span i18n="@@news">News</span>
+</app-header>
 <app-header-buttons [title]="'News'" (created)="getNews()"></app-header-buttons>
 
 <div class="container pt-4 p-5">

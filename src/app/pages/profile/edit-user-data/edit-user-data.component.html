@@ -2,37 +2,37 @@
     <form autocomplete="off" [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
 
         <mat-form-field>
-            <mat-label>First name</mat-label>
-            <input matInput type="text" required formControlName="firstName" placeholder="Your first name" />
-            <span *ngIf="isValidField('firstName')" class="form-text text-danger">Required</span>
+            <mat-label i18n="@@firstName">First name</mat-label>
+            <input matInput type="text" required formControlName="firstName" placeholder="First name" i18n-placeholder="@@firstName"/>
+            <span *ngIf="isValidField('firstName')" class="form-text text-danger" i18n="@@required">Required</span>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Last name</mat-label>
-            <input matInput type="text" required formControlName="lastName" placeholder="Your last name" />
-            <span *ngIf="isValidField('lastName')" class="form-text text-danger">Required</span>
+            <mat-label i18n="@@lastName">Last name</mat-label>
+            <input matInput type="text" required formControlName="lastName" placeholder="Last name" i18n-placeholder="@@lastName"/>
+            <span *ngIf="isValidField('lastName')" class="form-text text-danger" i18n="@@required">Required</span>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Country</mat-label>
-            <input matInput type="text" required formControlName="country" placeholder="Your country" />
-            <span *ngIf="isValidField('country')" class="form-text text-danger">Required</span>
+            <mat-label i18n="@@country">Country</mat-label>
+            <input matInput type="text" required formControlName="country" placeholder="Country" i18n-placeholder="@@country"/>
+            <span *ngIf="isValidField('country')" class="form-text text-danger" i18n="@@required">Required</span>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Birthdate</mat-label>
-            <input matInput type="date" required formControlName="birthdate" placeholder="Your birthdate" />
-            <span *ngIf="isValidField('birthdate')" class="form-text text-danger">Required</span>
+            <mat-label i18n="@@birthdate">Birthdate</mat-label>
+            <input matInput type="date" required formControlName="birthdate" placeholder="Birthdate" i18n-placeholder="@@birthdate"/>
+            <span *ngIf="isValidField('birthdate')" class="form-text text-danger" i18n="@@required">Required</span>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>User name</mat-label>
-            <input matInput type="text" required formControlName="userName" placeholder="Your user name" />
-            <span *ngIf="isFieldUserNameInUse('userName'); else requiredUserName" class="form-text text-danger">
+            <mat-label i18n="@@username">Username</mat-label>
+            <input matInput type="text" required formControlName="userName" placeholder="Username" i18n-placeholder="@@username"/>
+            <span *ngIf="isFieldUserNameInUse('userName'); else requiredUserName" class="form-text text-danger" i18n="@@usernameInUse">
                 The username is already in use
             </span>
             <ng-template #requiredUserName>
-                <span *ngIf="isValidField('userName')" class="form-text text-danger">Required</span>
+                <span *ngIf="isValidField('userName')" class="form-text text-danger" i18n="@@required">Required</span>
             </ng-template>
         </mat-form-field>
 
