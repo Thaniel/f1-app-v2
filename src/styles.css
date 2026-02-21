@@ -172,3 +172,11 @@ body {
     background: linear-gradient(0deg, rgba(238, 238, 255, 1) 0%, rgba(238, 238, 255, 1) 50%, rgba(238, 238, 255, 1) 100%);
     border-left: 5px solid #424242;
 }
+
+/*
+ * Images Teams details and Drivers details
+ *
+ */
+ .img-fluid{
+    max-width: 70%;
+}
