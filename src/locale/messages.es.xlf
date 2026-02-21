@@ -541,12 +541,12 @@
                 <target>¿Estás seguro de que quieres eliminar &quot;<x id="INTERPOLATION" />&quot;?</target>
             </trans-unit>
             <trans-unit id="worldConstructorsChampionship">
-                <source>World Constructors Championship</source>
-                <target>Campeonato Mundial de Constructores</target>
+                <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.titles }}"/>x<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> World Constructors Championship</source>
+                <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.titles }}"/>x<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Campeonato Mundial de Constructores</target>
             </trans-unit>
             <trans-unit id="worldDriverChampionship">
-                <source>World Drivers Championship</source>
-                <target>Campeonato Mundial de Pilotos</target>
+                <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.titles }}"/>x<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> World Drivers Championship</source>
+                <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.titles }}"/>x<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Campeonato Mundial de Pilotos</target>
             </trans-unit>
             <!-- END confirm-dialog -->
 
