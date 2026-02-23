@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
@@ -13,16 +13,19 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditTeamComponent } from '../create-edit-team/create-edit-team.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-teams-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, RouterLink, CommonModule, EditMenuComponent, ConfirmDialogComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, RouterLink, CommonModule, EditMenuComponent],
   templateUrl: './teams-page.component.html',
   styleUrl: './teams-page.component.css'
 })
 export class TeamsPageComponent implements OnInit {
   teams: ITeam[] = [];
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -33,10 +36,11 @@ export class TeamsPageComponent implements OnInit {
   ngOnInit(): void {
     this.getTeams();
 
-    this.teamsService.reload$.subscribe(() => {
-      this.getTeams();
-    });
+    this.teamsService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getTeams());
   }
+
 
   async getTeams() {
     this.teams = await this.teamsService.getAll();
@@ -55,11 +59,9 @@ export class TeamsPageComponent implements OnInit {
       data: { itemName: team.name }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteTeam(team);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.deleteTeam(team));
   }
 
   private async deleteTeam(team: ITeam) {

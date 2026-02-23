@@ -1,5 +1,6 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
@@ -14,16 +15,19 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditDriverComponent } from '../create-edit-driver/create-edit-driver.component';
+import { filter, take } from 'rxjs';
+
 
 @Component({
   selector: 'app-drivers-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent],
   templateUrl: './drivers-page.component.html',
   styleUrl: './drivers-page.component.css'
 })
 export class DriversPageComponent implements OnInit {
   drivers: IDriver[] = [];
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -34,12 +38,12 @@ export class DriversPageComponent implements OnInit {
   ngOnInit(): void {
     this.getDrivers();
 
-    this.driversService.reload$.subscribe(() => {
-      this.getDrivers();
-    });
+    this.driversService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getDrivers());
   }
 
-  async getDrivers() {
+  private async getDrivers() {
     this.drivers = await this.driversService.getAll();
   }
 
@@ -56,11 +60,9 @@ export class DriversPageComponent implements OnInit {
       data: { itemName: driver.firstName + " " + driver.lastName }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteDriver(driver);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.deleteDriver(driver));
   }
 
   private async deleteDriver(driver: IDriver) {
@@ -78,7 +80,7 @@ export class DriversPageComponent implements OnInit {
     });
   }
 
-  isTeam(obj: any): obj is ITeam {
-    return obj && typeof obj.colorCode === 'string';
+  isTeam(obj: unknown): obj is ITeam {
+    return !!obj && typeof (obj as ITeam).colorCode === 'string';
   }
 }

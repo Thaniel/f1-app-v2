@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,11 +17,13 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-news-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, SnackBarComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent, MatPaginator, FilterComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, MatPaginator, FilterComponent],
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.css'
 })
@@ -32,6 +34,8 @@ export class NewsPageComponent implements OnInit {
   pagedNews: INew[] = [];
   pageSize: number = 4;
   currentPage: number = 0;
+
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -44,9 +48,9 @@ export class NewsPageComponent implements OnInit {
     this.getCurrentUser();
     this.getNews();
 
-    this.newsService.reload$.subscribe(() => {
-      this.getNews();
-    });
+    this.newsService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getNews());
   }
 
   async getNews() {
@@ -73,11 +77,9 @@ export class NewsPageComponent implements OnInit {
       data: { itemName: notice.title }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteNew(notice);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.deleteNew(notice));
   }
 
   private async deleteNew(notice: INew) {

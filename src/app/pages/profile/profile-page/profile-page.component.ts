@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
 import { EditPermissionsComponent } from '../edit-permissions/edit-permissions.component';
 import { EditUserDataComponent } from '../edit-user-data/edit-user-data.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile-page',
@@ -56,8 +57,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     'country',
     'isAdmin'
   ];
-
+  
   private authSubscription: Subscription | undefined;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly authService: AuthService,
@@ -71,9 +73,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.managePermission();
     this.getUserInfo();
 
-    this.usersService.reload$.subscribe(() => {
-      this.getUserInfo();
-    });
+    this.usersService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getUserInfo());
   }
 
   ngOnDestroy() {

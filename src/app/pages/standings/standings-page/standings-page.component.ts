@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TeamInfoDialogComponent } from '../../../shared/components/team-info-dialog/team-info-dialog.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-standings-page',
@@ -34,6 +35,7 @@ export class StandingsPageComponent implements OnInit {
   teams: ITeam[] = [];
   oldDrivers: IDriver[] = [];
   oldTeams: ITeam[] = [];
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly teamsService: TeamsService,
@@ -48,13 +50,13 @@ export class StandingsPageComponent implements OnInit {
     this.getTeams();
     this.getDrivers();
 
-    this.teamsService.reload$.subscribe(() => {
-      this.getTeams();
-    });
+    this.teamsService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getTeams());
 
-    this.driversService.reload$.subscribe(() => {
-      this.getDrivers();
-    });
+    this.driversService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getDrivers());
   }
 
   async getCurrentUserPermission() {
@@ -75,8 +77,8 @@ export class StandingsPageComponent implements OnInit {
     this.isDriversSelected = (event.target.id === "btnDrivers");
   }
 
-  isTeam(obj: any): obj is ITeam {
-    return obj && typeof obj.colorCode === 'string';
+  isTeam(obj: unknown): obj is ITeam {
+    return !!obj && typeof (obj as ITeam).colorCode === 'string';
   }
 
   showEditFields() {

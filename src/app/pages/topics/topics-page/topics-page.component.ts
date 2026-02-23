@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,11 +17,13 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditTopicComponent } from '../create-edit-topic/create-edit-topic.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-topics-page',
   standalone: true,
-  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, ConfirmDialogComponent, MatPaginator, FilterComponent],
+  imports: [NavBarComponent, HeaderComponent, HeaderButtonsComponent, CommonModule, RouterLink, EditMenuComponent, MatPaginator, FilterComponent],
   templateUrl: './topics-page.component.html',
   styleUrl: './topics-page.component.css'
 })
@@ -32,6 +34,7 @@ export class TopicsPageComponent implements OnInit {
   pagedTopics: ITopic[] = [];
   pageSize: number = 5;
   currentPage: number = 0;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -44,9 +47,9 @@ export class TopicsPageComponent implements OnInit {
     this.getCurrentUser();
     this.getTopics();
 
-    this.topicsService.reload$.subscribe(() => {
-      this.getTopics();
-    });
+    this.topicsService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getTopics());
   }
 
   async getTopics() {
@@ -73,11 +76,9 @@ export class TopicsPageComponent implements OnInit {
       data: { itemName: topic.title }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteTopic(topic);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.deleteTopic(topic));
   }
 
   private async deleteTopic(topic: ITopic) {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
@@ -13,6 +13,8 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.component';
+import { filter, take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-races-page',
@@ -23,7 +25,8 @@ import { CreateEditRaceComponent } from '../create-edit-race/create-edit-race.co
 })
 export class RacesPageComponent implements OnInit {
   races: IRace[] = [];
-  nextRace: IRace | null = null; 
+  nextRace: IRace | null = null;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -34,9 +37,9 @@ export class RacesPageComponent implements OnInit {
   ngOnInit(): void {
     this.getRaces();
 
-    this.racesService.reload$.subscribe(() => {
-      this.getRaces();
-    });
+    this.racesService.reload$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.getRaces());
   }
 
   async getRaces() {
@@ -46,7 +49,7 @@ export class RacesPageComponent implements OnInit {
 
   private setNextRace() {
     const currentDate = new Date();
-    
+
     this.nextRace = this.races
       .filter(race => new Date(race.date) > currentDate)[0] || null;
   }
@@ -64,11 +67,9 @@ export class RacesPageComponent implements OnInit {
       data: { itemName: race.country + " GP" }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteRace(race);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.deleteRace(race));
   }
 
   private async deleteRace(race: IRace) {
