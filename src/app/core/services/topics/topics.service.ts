@@ -102,8 +102,6 @@ export class TopicsService {
         topics.push({ id: document.id, ...data } as ITopic);
       }));
 
-      topics.sort((a, b) => b.date.getTime() - a.date.getTime());
-
       return topics;
     } catch (error) {
       console.error("Error getting topics: ", error);

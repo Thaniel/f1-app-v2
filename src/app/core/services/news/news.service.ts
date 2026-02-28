@@ -136,8 +136,6 @@ export class NewsService {
         news.push({ id: document.id, ...data } as INew);
       }));
 
-      news.sort((a, b) => b.date.getTime() - a.date.getTime());
-
       return news;
     } catch (error) {
       console.error("Error getting news: ", error);

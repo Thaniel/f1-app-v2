@@ -57,7 +57,6 @@ export class HomePageComponent implements OnInit {
     
     this.nextRace = this.races
       .filter(race => new Date(race.date) > currentDate)[0] || null;
-      //.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] || null;
   }
    
 }
