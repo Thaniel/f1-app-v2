@@ -6,9 +6,9 @@ import { ITeam } from "./interfaces/team.interface";
  * Convert database date type to Angular date
  */
 export function convertTimestamp2Date(data: any) {
-    if (data['date'] instanceof Timestamp) {
-        data['date'] = data['date'].toDate();
-    }
+  if (data['date'] instanceof Timestamp) {
+    data['date'] = data['date'].toDate();
+  }
 }
 
 
@@ -16,57 +16,92 @@ export function convertTimestamp2Date(data: any) {
  * Get the name and extension of a file from a URL
  */
 export function extractFilePart(url: string): string | null {
-    const pattern = /\/[^/]*_images%2F[^%]*%2F([^?]+)/;
-    const match = RegExp(pattern).exec(url);
+  const pattern = /\/[^/]*_images%2F[^%]*%2F([^?]+)/;
+  const match = RegExp(pattern).exec(url);
 
-    if (match?.[1]) {
-        return match[1];
-    } else {
-        console.error("No valid file part found in the URL");
-        return null;
-    }
+  if (match?.[1]) {
+    return match[1];
+  } else {
+    console.error("No valid file part found in the URL");
+    return null;
+  }
 }
 
 /*
  * Convert an URL from Firebase storage into a Fle
  */
 export async function urlToFile(url: string): Promise<File | null> {
-    let file : File | null = null;
+  let file: File | null = null;
 
-    if (url != null){
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const fileType = blob.type || 'image/jpeg';  // Default to 'image/jpeg' if no type is provided
-        const fileName = extractFilePart(url);
-    
-        if (fileName != null) {
-            file = new File([blob], fileName, { type: fileType });
-        }
+  if (url != null) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const fileType = blob.type || 'image/jpeg';  // Default to 'image/jpeg' if no type is provided
+    const fileName = extractFilePart(url);
+
+    if (fileName != null) {
+      file = new File([blob], fileName, { type: fileType });
     }
+  }
 
-    return file;
+  return file;
 }
 
+/*
+ * Sort Teams by points
+ */
 export async function sortTeamsByPoints(teams: ITeam[]) {
-    teams.sort((a, b) => {
-        if (a.points > b.points) {
-          return -1;
-        } else if (a.points < b.points) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+  teams.sort((a, b) => {
+    if (a.points > b.points) {
+      return -1;
+    } else if (a.points < b.points) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 }
 
+/*
+ * Sort Drivers by points
+ */
 export async function sortDriversByPoints(drivers: IDriver[]) {
-    drivers.sort((a, b) => {
-        if (a.points > b.points) {
-          return -1;
-        } else if (a.points < b.points) {
-          return 1;
-        } else {
-          return 0;
-        }
+  drivers.sort((a, b) => {
+    if (a.points > b.points) {
+      return -1;
+    } else if (a.points < b.points) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+}
+
+/*
+ * Sort News or Topics by number of comments
+ */
+export function sort<T extends { date: Date, commentsCount: number }>(array: T[], option: string): T[] {
+  const sorted = [...array];
+
+  switch (option) {
+    case 'newest':
+      sorted.sort((a, b) => {
+        return b.date.getTime() - a.date.getTime();
       });
+      break;
+    case 'oldest':
+      sorted.sort((a, b) => {
+        return a.date.getTime() - b.date.getTime();
+      });
+      break;
+    case 'most-commented':
+      sorted.sort((a, b) => {
+        return b.commentsCount - a.commentsCount
+      });
+      break;
+    default:
+      console.log('Invalid sort option');
+  }
+  
+  return sorted;
 }

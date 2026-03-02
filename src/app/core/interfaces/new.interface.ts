@@ -10,5 +10,6 @@ export interface INew {
     imageUrl: string;
     text: string;
     author: IUser | null;
+    commentsCount: number;
     comments: IComment[] | null;
 }

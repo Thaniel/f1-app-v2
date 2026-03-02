@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
+import { filter, take } from 'rxjs';
 import { ITopic } from '../../../core/interfaces/topic.interface';
 import { IUser } from '../../../core/interfaces/user.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { TopicsService } from '../../../core/services/topics/topics.service';
+import { sort } from '../../../core/utils';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { FilterComponent } from '../../../shared/components/filter/filter.component';
@@ -17,8 +20,6 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditTopicComponent } from '../create-edit-topic/create-edit-topic.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-topics-page',
@@ -113,28 +114,7 @@ export class TopicsPageComponent implements OnInit {
   }
 
   sortChanged(option: string): void {
-    switch (option) {
-      case 'newest':
-        this.topics.sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
-        break;
-      case 'oldest':
-        this.topics.sort((a, b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        });
-        break;
-      case 'most-commented':
-        this.topics.sort((a, b) => {
-          const aCommentsLength = a.comments?.length ?? 0;
-          const bCommentsLength = b.comments?.length ?? 0;
-          return bCommentsLength - aCommentsLength;
-        });
-        break;
-      default:
-        console.log('Invalid sort option');
-    }
-
+    this.topics = sort(this.topics, option);
     this.getPagedTopics()
   }
 }

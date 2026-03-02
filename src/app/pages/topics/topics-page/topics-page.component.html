@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <app-header>
-  <span i18n="@@forum">Forum</span>
+    <span i18n="@@forum">Forum</span>
 </app-header>
 <app-header-buttons [title]="'Topics'" (created)="getTopics()"></app-header-buttons>
 
@@ -17,8 +17,8 @@
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.title }}</div>
             <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.author?.userName
                 }}</div>
-            <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.comments?.length
-                ?? 0 }}</div>
+            <div class="col-3" [routerLink]="['/topics', topic.id]" style="cursor: pointer;">{{ topic.commentsCount }}
+            </div>
 
             <div class="col col-flex">
                 <app-edit-menu *ngIf="isCurrentUserAuthor(topic)" (edit)="editTopic(topic)"

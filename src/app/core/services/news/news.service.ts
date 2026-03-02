@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { DocumentReference, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { DocumentReference, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import { Subject } from 'rxjs';
 import { INew } from "../../interfaces/new.interface";
@@ -38,6 +38,7 @@ export class NewsService {
         text: n.text,
         image: "",
         date: new Date(),
+        commentsCount: 0,
         author: doc(this.db, `users/${n.author!.id}`),
       });
 
@@ -117,23 +118,20 @@ export class NewsService {
    */
   public async getAll(): Promise<INew[]> {
     try {
-      const querySnapshot = await getDocs(collection(this.db, NewsService.COLLECTION_NAME));
-      const news: INew[] = [];
+      const q = query(collection(this.db, NewsService.COLLECTION_NAME), orderBy('date', 'desc'));
+      const querySnapshot = await getDocs(q);
+
 
       // Wait for all async operations
-      await Promise.all(querySnapshot.docs.map(async (document) => {
+      const news = await Promise.all(querySnapshot.docs.map(async (document) => {
         const data = document.data();
 
         convertTimestamp2Date(data);
 
-        // Get comments of each new
-        const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, document.id);
-        data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
-
         // Get news image
         data['image'] = await urlToFile(data['imageUrl']);
 
-        news.push({ id: document.id, ...data } as INew);
+        return { id: document.id, ...data } as INew;
       }));
 
       return news;

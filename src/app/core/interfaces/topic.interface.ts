@@ -6,5 +6,6 @@ export interface ITopic {
     title: string;
     date: Date;
     author: IUser | null;
+    commentsCount: number;
     comments: IComment[] | null;
 }

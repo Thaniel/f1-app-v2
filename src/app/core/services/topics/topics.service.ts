@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { ITopic } from '../../interfaces/topic.interface';
 import { convertTimestamp2Date } from '../../utils';
@@ -32,6 +32,7 @@ export class TopicsService {
       const docRef = await addDoc(collection(this.db, TopicsService.COLLECTION_NAME), {
         title: n.title,
         date: new Date(),
+        commentsCount: 0,
         author: doc(this.db, `users/${n.author!.id}`),
       });
 
@@ -84,24 +85,21 @@ export class TopicsService {
    */
   public async getAll(): Promise<ITopic[]> {
     try {
-      const querySnapshot = await getDocs(collection(this.db, TopicsService.COLLECTION_NAME));
-      const topics: ITopic[] = [];
+      const q = query(collection(this.db, TopicsService.COLLECTION_NAME), orderBy('date', 'desc'));
+      const querySnapshot = await getDocs(q);
 
       // Wait for all async operations
-      await Promise.all(querySnapshot.docs.map(async (document) => {
+      const topics = await Promise.all(querySnapshot.docs.map(async (document) => {
         const data = document.data();
 
         convertTimestamp2Date(data);
-        
-        await this.commonService.getAuthor(data);
-        
-        // Get comments of each topic
-        const topicsDocRef = doc(this.db, TopicsService.COLLECTION_NAME, document.id);
-        data['comments'] = await this.commentsService.getCommentsFromDoc(topicsDocRef);
 
-        topics.push({ id: document.id, ...data } as ITopic);
+        await this.commonService.getAuthor(data);
+
+        return { id: document.id, ...data } as ITopic;
       }));
 
+      console.log(topics);
       return topics;
     } catch (error) {
       console.error("Error getting topics: ", error);

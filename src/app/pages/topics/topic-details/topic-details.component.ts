@@ -18,7 +18,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 })
 export class TopicDetailsComponent implements OnInit {
 
-  topicSelected: ITopic = { id: '0', title: '', date: new Date(), author: null, comments: null };
+  topicSelected: ITopic = { id: '0', title: '', date: new Date(), author: null, commentsCount: 0, comments: null };
   comments: IComment[] = [];
 
   constructor(
@@ -31,7 +31,7 @@ export class TopicDetailsComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       let id = params.get('id');
       this.getTopicDetail(id);
-    });    
+    });
   }
 
   private async getTopicDetail(id: string | null) {

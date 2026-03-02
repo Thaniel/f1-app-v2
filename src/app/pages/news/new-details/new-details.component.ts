@@ -19,7 +19,7 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 })
 export class NewDetailsComponent implements OnInit {
 
-  newSelected: INew = { id: '0', title: '', date: new Date(), summary: '', text: '', image: null, imageUrl: '', author: null, comments: null };
+  newSelected: INew = { id: '0', title: '', date: new Date(), summary: '', text: '', image: null, imageUrl: '', author: null, commentsCount: 0, comments: null };
   comments: IComment[] = [];
 
   constructor(
@@ -33,7 +33,7 @@ export class NewDetailsComponent implements OnInit {
       let id = params.get('id');
       this.getNewDetail(id);
     });
-    
+
   }
 
   private async getNewDetail(id: string | null) {

@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
+import { filter, take } from 'rxjs';
 import { INew } from '../../../core/interfaces/new.interface';
 import { IUser } from '../../../core/interfaces/user.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { NewsService } from '../../../core/services/news/news.service';
+import { sort } from '../../../core/utils';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EditMenuComponent } from '../../../shared/components/edit-menu/edit-menu.component';
 import { FilterComponent } from '../../../shared/components/filter/filter.component';
@@ -17,8 +20,6 @@ import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.comp
 import { SnackBarComponent } from '../../../shared/components/snack-bar/snack-bar.component';
 import { TIME_OUT } from '../../../shared/constants/constants';
 import { CreateEditNewComponent } from '../create-edit-new/create-edit-new.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-news-page',
@@ -114,28 +115,7 @@ export class NewsPageComponent implements OnInit {
   }
 
   sortChanged(option: string): void {
-    switch (option) {
-      case 'newest':
-        this.news.sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
-        break;
-      case 'oldest':
-        this.news.sort((a, b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        });
-        break;
-      case 'most-commented':
-        this.news.sort((a, b) => {
-          const aCommentsLength = a.comments?.length ?? 0;
-          const bCommentsLength = b.comments?.length ?? 0;
-          return bCommentsLength - aCommentsLength;
-        });
-        break;
-      default:
-        console.log('Invalid sort option');
-    }
-
+    this.news = sort(this.news, option);
     this.getPagedNews()
   }
 }

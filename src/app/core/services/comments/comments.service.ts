@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
+import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, increment, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
 import { IComment } from "../../interfaces/comment.interface";
 import { convertTimestamp2Date } from '../../utils';
 import { CommonService } from '../common/common.service';
@@ -31,6 +31,10 @@ export class CommentsService {
         author: doc(this.db, `users/${comment.author!.id}`),
         text: comment.text,
         date: comment.date,
+      });
+
+      await updateDoc(docRef, {
+        commentsCount: increment(1)
       });
 
       console.log("Commnet written with ID: ", commentDocRef.id);
@@ -66,6 +70,10 @@ export class CommentsService {
       const docRef = doc(this.db, collectionName, id);
       const commentsColRef = doc(collection(docRef, "comments"), commentId);
       await deleteDoc(commentsColRef);
+
+      await updateDoc(docRef, {
+        commentsCount: increment(-1)
+      });
 
       console.log("Commnet deleted with ID: ", commentId);
       return true;
