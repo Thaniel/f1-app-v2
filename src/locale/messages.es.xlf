@@ -685,7 +685,7 @@
             </trans-unit>
             <trans-unit id="creating_m">
                 <source>creating</source>
-                <target>creado</target>
+                <target>crear</target>
             </trans-unit>
             <trans-unit id="editing_m">
                 <source>editing</source>

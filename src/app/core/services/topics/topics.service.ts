@@ -1,39 +1,34 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Subject } from 'rxjs';
+import { firestore } from '../../firebase/firebase.provider';
 import { ITopic } from '../../interfaces/topic.interface';
 import { convertTimestamp2Date } from '../../utils';
 import { CommentsService } from '../comments/comments.service';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from '../firebase.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TopicsService {
-  private readonly db;
   private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "topics";
 
   constructor(
     private readonly commentsService: CommentsService,
     private readonly commonService: CommonService,
-  ) {
-    const app = initializeApp(firebaseConfig);  // Initialize Firebase
-    this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
-  }
+  ) { }
 
   /*
    * Create Topic
    */
   public async create(n: ITopic): Promise<boolean> {
     try {
-      const docRef = await addDoc(collection(this.db, TopicsService.COLLECTION_NAME), {
+      const docRef = await addDoc(collection(firestore, TopicsService.COLLECTION_NAME), {
         title: n.title,
         date: new Date(),
         commentsCount: 0,
-        author: doc(this.db, `users/${n.author!.id}`),
+        author: doc(firestore, `users/${n.author!.id}`),
       });
 
       console.log("Topic written with ID: ", docRef.id);
@@ -49,7 +44,7 @@ export class TopicsService {
    */
   public async update(id: string, updatedData: Partial<ITopic>): Promise<boolean> {
     try {
-      const topicsDocRef = doc(this.db, TopicsService.COLLECTION_NAME, id);
+      const topicsDocRef = doc(firestore, TopicsService.COLLECTION_NAME, id);
 
       await updateDoc(topicsDocRef, updatedData);
       console.log("Topic updated with ID: ", id);
@@ -65,7 +60,7 @@ export class TopicsService {
    */
   public async delete(id: string): Promise<boolean> {
     try {
-      const topicsDocRef = doc(this.db, TopicsService.COLLECTION_NAME, id);
+      const topicsDocRef = doc(firestore, TopicsService.COLLECTION_NAME, id);
 
       // Delete comments subcollection
       await this.commentsService.deleteCommentsFromDoc(topicsDocRef);
@@ -85,7 +80,7 @@ export class TopicsService {
    */
   public async getAll(): Promise<ITopic[]> {
     try {
-      const q = query(collection(this.db, TopicsService.COLLECTION_NAME), orderBy('date', 'desc'));
+      const q = query(collection(firestore, TopicsService.COLLECTION_NAME), orderBy('date', 'desc'));
       const querySnapshot = await getDocs(q);
 
       // Wait for all async operations
@@ -112,7 +107,7 @@ export class TopicsService {
    */
   public async getById(id: string): Promise<ITopic | null> {
     try {
-      const topicsDocRef = doc(this.db, TopicsService.COLLECTION_NAME, id);
+      const topicsDocRef = doc(firestore, TopicsService.COLLECTION_NAME, id);
       const docSnap = await getDoc(topicsDocRef);
 
       if (docSnap.exists()) {

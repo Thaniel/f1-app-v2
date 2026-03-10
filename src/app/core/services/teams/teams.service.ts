@@ -1,61 +1,60 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
-import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
+import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { Subject } from 'rxjs';
+import { ImageService } from '../../feature/image.service';
+import { firestore } from '../../firebase/firebase.provider';
 import { ITeam } from '../../interfaces/team.interface';
-import { extractFilePart, sortTeamsByPoints, urlToFile } from '../../utils';
-import { CommonService } from '../common/common.service';
-import { firebaseConfig } from '../firebase.config';
+import { sortTeamsByPoints, urlToFile } from '../../utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamsService {
-  private readonly db;
-  private readonly storage;
   private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "teams";
 
   constructor(
-    private readonly commonService: CommonService,
-  ) {
-    const app = initializeApp(firebaseConfig);  // Initialize Firebase
-    this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
-    this.storage = getStorage(app);
-  }
+    private readonly imageService: ImageService
+  ) { }
 
   /*
    * Create Team
    */
   public async create(team: ITeam): Promise<boolean> {
     try {
-      const docRef = await addDoc(collection(this.db, TeamsService.COLLECTION_NAME), {
+      const docRef = await addDoc(collection(firestore, TeamsService.COLLECTION_NAME), {
         name: team.name,
         fullName: team.fullName,
         teamPrincipal: team.teamPrincipal,
         titles: team.titles,
         points: team.points,
         colorCode: team.colorCode,
-        driver1: doc(this.db, `drivers/${team.driver1}`),
-        driver2: doc(this.db, `drivers/${team.driver2}`),
+        driver1: doc(firestore, `drivers/${team.driver1}`),
+        driver2: doc(firestore, `drivers/${team.driver2}`),
         description: team.description,
       });
 
+      const updateTeam: Partial<ITeam> = {};
+      const uploads: Promise<void>[] = [];
+
       if (team.carImage) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, team.carImage, TeamsService.COLLECTION_NAME, 'carImageUrl');
-        if (!imageUploadSuccess) {
-          console.error('Error uploading image');
-          return false;
-        }
+        uploads.push(
+          this.imageService.uploadImage(TeamsService.COLLECTION_NAME, docRef.id, team.carImage)
+            .then(url => { updateTeam.carImageUrl = url; })
+        );
       }
 
       if (team.logoImage) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, team.logoImage, TeamsService.COLLECTION_NAME, 'logoImageUrl');
-        if (!imageUploadSuccess) {
-          console.error('Error uploading image');
-          return false;
-        }
+        uploads.push(
+          this.imageService.uploadImage(TeamsService.COLLECTION_NAME, docRef.id, team.logoImage)
+            .then(url => { updateTeam.logoImageUrl = url; })
+        );
+      }
+
+      await Promise.all(uploads);
+
+      if (Object.keys(updateTeam).length > 0) {
+        await updateDoc(docRef, updateTeam);
       }
 
       console.log("Team written with ID: ", docRef.id);
@@ -71,39 +70,24 @@ export class TeamsService {
    */
   public async update(id: string, updatedData: Partial<ITeam>, carImageFile: File | null, logoImageFile: File | null): Promise<boolean> {
     try {
-      const teamDocRef = doc(this.db, TeamsService.COLLECTION_NAME, id);
+      const teamDocRef = doc(firestore, TeamsService.COLLECTION_NAME, id);
 
       if (carImageFile && logoImageFile) {
-        const folderRef = ref(this.storage, `${TeamsService.COLLECTION_NAME}_images/${id}`);
-
-        // List and delete all files in the folder
-        const files = await listAll(folderRef);
-        const deletePromises = files.items.map(fileRef => deleteObject(fileRef));
-        await Promise.all(deletePromises);
-
-        // Upload the car image
-        let imageRef = ref(this.storage, `${TeamsService.COLLECTION_NAME}_images/${id}/${carImageFile.name}`);
-        let snapshot = await uploadBytes(imageRef, carImageFile);
-        let downloadURL = await getDownloadURL(snapshot.ref);
-
+        let downloadURL = await this.imageService.replaceImage(TeamsService.COLLECTION_NAME, id, carImageFile);
         // Update the Firestore document with the car image URL
         updatedData.carImageUrl = downloadURL;
 
-        // Upload the logo image
-        imageRef = ref(this.storage, `${TeamsService.COLLECTION_NAME}_images/${id}/${logoImageFile.name}`);
-        snapshot = await uploadBytes(imageRef, logoImageFile);
-        downloadURL = await getDownloadURL(snapshot.ref);
-
+        downloadURL = await this.imageService.uploadImage(TeamsService.COLLECTION_NAME, id, logoImageFile);
         // Update the Firestore document with the logo image URL
         updatedData.logoImageUrl = downloadURL;
       }
 
       // Update drivers references
       if (updatedData.driver1 && typeof updatedData.driver1 === 'string') {
-        updatedData.driver1 = doc(this.db, `drivers/${updatedData.driver1}`);
+        updatedData.driver1 = doc(firestore, `drivers/${updatedData.driver1}`);
       }
       if (updatedData.driver2 && typeof updatedData.driver2 === 'string') {
-        updatedData.driver2 = doc(this.db, `drivers/${updatedData.driver2}`);
+        updatedData.driver2 = doc(firestore, `drivers/${updatedData.driver2}`);
       }
 
       await updateDoc(teamDocRef, updatedData);
@@ -120,9 +104,9 @@ export class TeamsService {
    */
   public async delete(id: string): Promise<boolean> {
     try {
-      const teamDocRef = doc(this.db, TeamsService.COLLECTION_NAME, id);
+      const teamDocRef = doc(firestore, TeamsService.COLLECTION_NAME, id);
 
-      await this.deleteImagesFromTeam(teamDocRef);
+      await this.imageService.deleteFolder(TeamsService.COLLECTION_NAME, id);
 
       await deleteDoc(teamDocRef);
       console.log("Team deleted with ID: ", id);
@@ -139,13 +123,13 @@ export class TeamsService {
    */
   public async getAll(): Promise<ITeam[]> {
     try {
-      const querySnapshot = await getDocs(collection(this.db, TeamsService.COLLECTION_NAME));
+      const querySnapshot = await getDocs(collection(firestore, TeamsService.COLLECTION_NAME));
       const teams: ITeam[] = [];
 
       // Wait for all async operations
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
-        
+
         // Get drivers
         data['driver1'] = await this.getDriverData(data['driver1']);
         data['driver2'] = await this.getDriverData(data['driver2']);
@@ -154,7 +138,7 @@ export class TeamsService {
         data['carImage'] = await urlToFile(data['carImageUrl']);
         data['logoImage'] = await urlToFile(data['logoImageUrl']);
 
-        teams.push({ id: doc.id, ...data } as ITeam);         
+        teams.push({ id: doc.id, ...data } as ITeam);
       }));
 
       sortTeamsByPoints(teams);
@@ -171,7 +155,7 @@ export class TeamsService {
    */
   public async getById(id: string): Promise<ITeam | null> {
     try {
-      const teamDocRef = doc(this.db, TeamsService.COLLECTION_NAME, id);
+      const teamDocRef = doc(firestore, TeamsService.COLLECTION_NAME, id);
       const docSnap = await getDoc(teamDocRef);
 
       if (docSnap.exists()) {
@@ -196,34 +180,10 @@ export class TeamsService {
     }
   }
 
-  // Delete the car and logo image from Firebase Storage
-  private async deleteImagesFromTeam(teamDocRef: DocumentReference) {
-    const docSnap = await getDoc(teamDocRef);
-
-    let carImageUrl = null;
-    let logoImageUrl = null;
-    if (docSnap.exists()) {
-      carImageUrl = docSnap.data()['carImageUrl'];
-      logoImageUrl = docSnap.data()['logoImageUrl'];
-    }
-
-    if (carImageUrl && logoImageUrl) {
-      let imageRef = ref(this.storage, carImageUrl);
-      await deleteObject(imageRef);
-      console.log('Image deleted: ', carImageUrl);
-
-      if (extractFilePart(carImageUrl) != extractFilePart(logoImageUrl)) {
-        imageRef = ref(this.storage, logoImageUrl);
-        await deleteObject(imageRef);
-        console.log('Image deleted: ', logoImageUrl);
-      }
-    }
-  }
-
   // Get driver data form a document reference
   private async getDriverData(driverId: DocumentReference) {
     if (!driverId) return null;
-  
+
     const driverDoc = await getDoc(driverId);
     if (driverDoc.exists()) {
       const driverData = driverDoc.data();

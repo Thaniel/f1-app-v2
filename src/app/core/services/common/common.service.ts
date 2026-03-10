@@ -17,7 +17,7 @@ export class CommonService {
     this.storage = getStorage(app);
   }
 
-  // Upload Image 
+  // TODO Unused - Upload Image 
   public async uploadImage(itemId: string, imageFile: File, collection: string, fieldName: string): Promise<boolean> {
     try {
       const storageRef = ref(this.storage, `${collection}_images/${itemId}/${imageFile.name}`);

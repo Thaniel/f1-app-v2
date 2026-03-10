@@ -1,36 +1,28 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
-import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, Timestamp, updateDoc } from 'firebase/firestore';
 import { Subject } from 'rxjs';
+import { ImageService } from '../../feature/image.service';
+import { firestore } from '../../firebase/firebase.provider';
 import { IRace } from '../../interfaces/race.interface';
 import { urlToFile } from '../../utils';
-import { CommonService } from '../common/common.service';
-import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RacesService {
-  private readonly db;
-  private readonly storage;
   private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "races";
 
   constructor(
-    private readonly commonService: CommonService
-  ) {
-    const app = initializeApp(firebaseConfig);  // Initialize Firebase
-    this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
-    this.storage = getStorage(app);
-  }
+    private readonly imageService: ImageService
+  ) { }
 
   /*
    * Create Race
    */
   public async create(race: IRace): Promise<boolean> {
     try {
-      const docRef = await addDoc(collection(this.db, RacesService.COLLECTION_NAME), {
+      const docRef = await addDoc(collection(firestore, RacesService.COLLECTION_NAME), {
         grandPrix: race.grandPrix,
         circuit: race.circuit,
         country: race.country,
@@ -47,14 +39,12 @@ export class RacesService {
         description: race.description,
       });
 
-      if (race.image) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, race.image, RacesService.COLLECTION_NAME, "imageUrl");
-        if (!imageUploadSuccess) {
-          console.error('Error uploading image');
-          return false;
-        }
+      if (race.image){
+        const updateRace: Partial<IRace> = {};
+        updateRace.imageUrl = await this.imageService.uploadImage(RacesService.COLLECTION_NAME, docRef.id, race.image);
+        await updateDoc(docRef, updateRace);
       }
-
+      
       console.log("Race written with ID: ", docRef.id);
       return true;
     } catch (error) {
@@ -68,20 +58,10 @@ export class RacesService {
    */
   public async update(id: string, updatedData: Partial<IRace>, raceImageFile: File | null): Promise<boolean> {
     try {
-      const raceDocRef = doc(this.db, RacesService.COLLECTION_NAME, id);
+      const raceDocRef = doc(firestore, RacesService.COLLECTION_NAME, id);
 
       if (raceImageFile) {
-        const folderRef = ref(this.storage, `${RacesService.COLLECTION_NAME}_images/${id}`);
-
-        // List and delete all files in the folder
-        const files = await listAll(folderRef);
-        const deletePromises = files.items.map(fileRef => deleteObject(fileRef));
-        await Promise.all(deletePromises);
-
-        // Upload the race image
-        const imageRef = ref(this.storage, `${RacesService.COLLECTION_NAME}_images/${id}/${raceImageFile.name}`);
-        const snapshot = await uploadBytes(imageRef, raceImageFile);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+         const downloadURL = await this.imageService.replaceImage(RacesService.COLLECTION_NAME, id, raceImageFile);
 
         // Update the Firestore document with the race image URL
         updatedData.imageUrl = downloadURL;
@@ -101,9 +81,9 @@ export class RacesService {
    */
   public async delete(id: string): Promise<boolean> {
     try {
-      const raceDocRef = doc(this.db, RacesService.COLLECTION_NAME, id);
+      const raceDocRef = doc(firestore, RacesService.COLLECTION_NAME, id);
 
-      await this.deleteImageFromRace(raceDocRef);
+      await this.imageService.deleteFolder(RacesService.COLLECTION_NAME, id);
 
       await deleteDoc(raceDocRef);
       console.log("Race deleted with ID: ", id);
@@ -120,7 +100,7 @@ export class RacesService {
    */
   public async getAll(): Promise<IRace[]> {
     try {
-      const querySnapshot = await getDocs(collection(this.db, RacesService.COLLECTION_NAME));
+      const querySnapshot = await getDocs(collection(firestore, RacesService.COLLECTION_NAME));
       const races: IRace[] = [];
 
       // Wait for all async operations
@@ -149,7 +129,7 @@ export class RacesService {
    */
   public async getById(id: string): Promise<IRace | null> {
     try {
-      const raceDocRef = doc(this.db, RacesService.COLLECTION_NAME, id);
+      const raceDocRef = doc(firestore, RacesService.COLLECTION_NAME, id);
       const docSnap = await getDoc(raceDocRef);
 
       if (docSnap.exists()) {
@@ -168,22 +148,6 @@ export class RacesService {
     } catch (error) {
       console.error("Error getting race:", error);
       return null;
-    }
-  }
-
-  // Delete the image from Firebase Storage
-  private async deleteImageFromRace(raceDocRef: DocumentReference) {
-    const docSnap = await getDoc(raceDocRef);
-
-    let imageUrl = null;
-    if (docSnap.exists()) {
-      imageUrl = docSnap.data()['imageUrl'];
-    }
-
-    if (imageUrl) {
-      const imageRef = ref(this.storage, imageUrl);
-      await deleteObject(imageRef);
-      console.log('Image deleted: ', imageUrl);
     }
   }
 

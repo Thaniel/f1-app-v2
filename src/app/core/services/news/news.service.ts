@@ -1,53 +1,44 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { DocumentReference, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from "firebase/firestore";
 import { Subject } from 'rxjs';
+import { ImageService } from '../../feature/image.service';
+import { firestore } from '../../firebase/firebase.provider';
 import { INew } from "../../interfaces/new.interface";
 import { convertTimestamp2Date, urlToFile } from '../../utils';
 import { CommentsService } from '../comments/comments.service';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
-  private readonly db;
-  private readonly storage;
   private readonly reloadSubject = new Subject<void>();
   private static readonly COLLECTION_NAME = "news";
 
   constructor(
     private readonly commentsService: CommentsService,
     private readonly commonService: CommonService,
-  ) {
-    const app = initializeApp(firebaseConfig);  // Initialize Firebase
-    this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
-    this.storage = getStorage(app);
-  }
+    private readonly imageService: ImageService
+  ) { }
 
   /*
    * Create New
    */
   public async create(n: INew): Promise<boolean> {
     try {
-      const docRef = await addDoc(collection(this.db, NewsService.COLLECTION_NAME), {
+      const docRef = await addDoc(collection(firestore, NewsService.COLLECTION_NAME), {
         title: n.title,
         summary: n.summary,
         text: n.text,
-        image: "",
         date: new Date(),
         commentsCount: 0,
-        author: doc(this.db, `users/${n.author!.id}`),
+        author: doc(firestore, `users/${n.author!.id}`),
       });
-
-      if (n.image) {
-        const imageUploadSuccess = await this.commonService.uploadImage(docRef.id, n.image, NewsService.COLLECTION_NAME, "imageUrl");
-        if (!imageUploadSuccess) {
-          console.error('Error uploading image');
-          return false;
-        }
+      
+      if (n.image){
+        const updateNew: Partial<INew> = {};
+        updateNew.imageUrl = await this.imageService.uploadImage(NewsService.COLLECTION_NAME, docRef.id, n.image);
+        await updateDoc(docRef, updateNew);
       }
 
       console.log("New written with ID: ", docRef.id);
@@ -63,20 +54,10 @@ export class NewsService {
    */
   public async update(id: string, updatedData: Partial<INew>, newImageFile: File | null): Promise<boolean> {
     try {
-      const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, id);
+      const newsDocRef = doc(firestore, NewsService.COLLECTION_NAME, id);
 
       if (newImageFile) {
-        const folderRef = ref(this.storage, `${NewsService.COLLECTION_NAME}_images/${id}`);
-
-        // List and delete all files in the folder
-        const files = await listAll(folderRef);
-        const deletePromises = files.items.map(fileRef => deleteObject(fileRef));
-        await Promise.all(deletePromises);
-
-        // Upload the new image
-        const imageRef = ref(this.storage, `${NewsService.COLLECTION_NAME}_images/${id}/${newImageFile.name}`);
-        const snapshot = await uploadBytes(imageRef, newImageFile);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+        const downloadURL = await this.imageService.replaceImage(NewsService.COLLECTION_NAME, id, newImageFile);
 
         // Update the Firestore document with the new image URL
         updatedData.imageUrl = downloadURL;
@@ -96,9 +77,9 @@ export class NewsService {
    */
   public async delete(id: string): Promise<boolean> {
     try {
-      const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, id);
+      const newsDocRef = doc(firestore, NewsService.COLLECTION_NAME, id);
 
-      await this.deleteImageFromNew(newsDocRef);
+      await this.imageService.deleteFolder(NewsService.COLLECTION_NAME, id);
 
       // Delete comments subcollection
       await this.commentsService.deleteCommentsFromDoc(newsDocRef);
@@ -118,7 +99,7 @@ export class NewsService {
    */
   public async getAll(): Promise<INew[]> {
     try {
-      const q = query(collection(this.db, NewsService.COLLECTION_NAME), orderBy('date', 'desc'));
+      const q = query(collection(firestore, NewsService.COLLECTION_NAME), orderBy('date', 'desc'));
       const querySnapshot = await getDocs(q);
 
 
@@ -146,7 +127,7 @@ export class NewsService {
    */
   public async getById(id: string): Promise<INew | null> {
     try {
-      const newsDocRef = doc(this.db, NewsService.COLLECTION_NAME, id);
+      const newsDocRef = doc(firestore, NewsService.COLLECTION_NAME, id);
       const docSnap = await getDoc(newsDocRef);
 
       if (docSnap.exists()) {
@@ -170,23 +151,6 @@ export class NewsService {
     } catch (error) {
       console.error("Error getting new:", error);
       return null;
-    }
-  }
-
-
-  // Delete the image from Firebase Storage
-  private async deleteImageFromNew(newsDocRef: DocumentReference) {
-    const docSnap = await getDoc(newsDocRef);
-
-    let imageUrl = null;
-    if (docSnap.exists()) {
-      imageUrl = docSnap.data()['imageUrl'];
-    }
-
-    if (imageUrl) {
-      const imageRef = ref(this.storage, imageUrl);
-      await deleteObject(imageRef);
-      console.log('Image deleted: ', imageUrl);
     }
   }
 

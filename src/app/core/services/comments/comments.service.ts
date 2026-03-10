@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, increment, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
+import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
+import { firestore } from '../../firebase/firebase.provider';
 import { IComment } from "../../interfaces/comment.interface";
 import { convertTimestamp2Date } from '../../utils';
 import { CommonService } from '../common/common.service';
-import { firebaseConfig } from "../firebase.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
-  private readonly db;
 
   constructor(
     private readonly commonService: CommonService,
-  ) {
-    const app = initializeApp(firebaseConfig);  // Initialize Firebase
-    this.db = getFirestore(app);                // Initialize Cloud Firestore and get a reference to the service
-  }
+  ) { }
 
   /*
    * Create Comment
    */
   public async create(collectionName: string, id: string, comment: IComment): Promise<boolean> {
     try {
-      const docRef = doc(this.db, collectionName, id);
+      const docRef = doc(firestore, collectionName, id);
       const commentsColRef = collection(docRef, "comments");
 
       const commentDocRef = await addDoc(commentsColRef, {
-        author: doc(this.db, `users/${comment.author!.id}`),
+        author: doc(firestore, `users/${comment.author!.id}`),
         text: comment.text,
         date: comment.date,
       });
@@ -50,7 +45,7 @@ export class CommentsService {
    */
   public async update(collectionName: string, id: string, commentId: string, updatedData: Partial<IComment>): Promise<boolean> {
     try {
-      const docRef = doc(this.db, collectionName, id);
+      const docRef = doc(firestore, collectionName, id);
       const commentDocRef = doc(collection(docRef, "comments"), commentId);
       await updateDoc(commentDocRef, updatedData);
 
@@ -67,7 +62,7 @@ export class CommentsService {
    */
   public async delete(collectionName: string, id: string, commentId: string): Promise<boolean> {
     try {
-      const docRef = doc(this.db, collectionName, id);
+      const docRef = doc(firestore, collectionName, id);
       const commentsColRef = doc(collection(docRef, "comments"), commentId);
       await deleteDoc(commentsColRef);
 
@@ -95,7 +90,7 @@ export class CommentsService {
       const commentData = doc.data();
 
       convertTimestamp2Date(commentData);
-      
+
       await this.commonService.getAuthor(commentData);
 
       commentData['isEditing'] = false;
@@ -114,7 +109,7 @@ export class CommentsService {
       const commentsColRef = collection(docRef, "comments");
       const commentsSnap = await getDocs(commentsColRef);
 
-      const batch = writeBatch(this.db);
+      const batch = writeBatch(firestore);
 
       commentsSnap.forEach((commentDoc) => {
         batch.delete(commentDoc.ref);
