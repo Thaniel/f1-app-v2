@@ -123,7 +123,6 @@ export class CreateEditDriverComponent implements OnInit {
   private async createDriver() {
     this.driversService.create(this.currentDriver).then(result => {
       this.showSnackBar(result, 0);
-      this.driversService.loadDrivers();
     });
   }
 
@@ -140,7 +139,6 @@ export class CreateEditDriverComponent implements OnInit {
 
     this.driversService.update(this.currentDriver.id, updatedData, this.selectedFile).then(result => {
       this.showSnackBar(result, 1);
-      this.driversService.loadDrivers();
     });
   }
 

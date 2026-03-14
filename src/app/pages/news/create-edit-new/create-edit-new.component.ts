@@ -89,7 +89,6 @@ export class CreateEditNewComponent {
 
     this.newsService.create(this.currentNew).then(result => {
       this.showSnackBar(result, 0);
-      this.newsService.loadNews();
     });
   }
 
@@ -102,7 +101,6 @@ export class CreateEditNewComponent {
 
     this.newsService.update(this.currentNew.id, updatedData, this.selectedFile).then(result => {
       this.showSnackBar(result, 1);
-      this.newsService.loadNews();
     });
   }
 

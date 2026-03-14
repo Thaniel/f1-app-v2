@@ -3,7 +3,7 @@ import { DocumentReference, addDoc, collection, deleteDoc, doc, getDocs, increme
 import { firestore } from '../../firebase/firebase.provider';
 import { IComment } from "../../interfaces/comment.interface";
 import { convertTimestamp2Date } from '../../utils';
-import { CommonService } from '../common/common.service';
+import { RelationResolverService } from '../relation-resolver.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { CommonService } from '../common/common.service';
 export class CommentsService {
 
   constructor(
-    private readonly commonService: CommonService,
+    private readonly relationResolverService: RelationResolverService
   ) { }
 
   /*
@@ -91,7 +91,8 @@ export class CommentsService {
 
       convertTimestamp2Date(commentData);
 
-      await this.commonService.getAuthor(commentData);
+      // Get author
+      commentData['author'] = await this.relationResolverService.resolve(commentData['author']);
 
       commentData['isEditing'] = false;
 

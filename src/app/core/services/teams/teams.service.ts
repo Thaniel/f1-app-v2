@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, DocumentReference, getDoc, getDocs, updateDoc } from 'firebase/firestore';
-import { Subject } from 'rxjs';
+import { ReloadableService } from '../../base/reloadable.service';
 import { ImageService } from '../../feature/image.service';
 import { firestore } from '../../firebase/firebase.provider';
 import { ITeam } from '../../interfaces/team.interface';
 import { sortTeamsByPoints, urlToFile } from '../../utils';
+import { RelationResolverService } from '../relation-resolver.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeamsService {
-  private readonly reloadSubject = new Subject<void>();
+export class TeamsService extends ReloadableService {
   private static readonly COLLECTION_NAME = "teams";
 
   constructor(
-    private readonly imageService: ImageService
-  ) { }
+    private readonly imageService: ImageService,
+    private readonly relationResolverService: RelationResolverService
+  ) {
+    super();
+  }
 
   /*
    * Create Team
@@ -57,6 +60,8 @@ export class TeamsService {
         await updateDoc(docRef, updateTeam);
       }
 
+      this.triggerReload();
+
       console.log("Team written with ID: ", docRef.id);
       return true;
     } catch (error) {
@@ -91,6 +96,9 @@ export class TeamsService {
       }
 
       await updateDoc(teamDocRef, updatedData);
+
+      this.triggerReload();
+
       console.log("Team updated with ID: ", id);
       return true;
     } catch (error) {
@@ -109,8 +117,10 @@ export class TeamsService {
       await this.imageService.deleteFolder(TeamsService.COLLECTION_NAME, id);
 
       await deleteDoc(teamDocRef);
-      console.log("Team deleted with ID: ", id);
+      
+      this.triggerReload();
 
+      console.log("Team deleted with ID: ", id);
       return true;
     } catch (error) {
       console.error("Error deleting team: ", error);
@@ -131,8 +141,8 @@ export class TeamsService {
         const data = doc.data();
 
         // Get drivers
-        data['driver1'] = await this.getDriverData(data['driver1']);
-        data['driver2'] = await this.getDriverData(data['driver2']);
+        data['driver1'] = await this.relationResolverService.resolve(data['driver1']);
+        data['driver2'] = await this.relationResolverService.resolve(data['driver2']);
 
         // Get images
         data['carImage'] = await urlToFile(data['carImageUrl']);
@@ -162,8 +172,8 @@ export class TeamsService {
         const data = docSnap.data();
 
         // Get drivers
-        data['driver1'] = await this.getDriverData(data['driver1']);
-        data['driver2'] = await this.getDriverData(data['driver2']);
+        data['driver1'] = await this.relationResolverService.resolve(data['driver1']);
+        data['driver2'] = await this.relationResolverService.resolve(data['driver2']);
 
         // Get images
         data['carImage'] = await urlToFile(data['carImageUrl']);
@@ -178,26 +188,5 @@ export class TeamsService {
       console.error("Error getting team:", error);
       return null;
     }
-  }
-
-  // Get driver data form a document reference
-  private async getDriverData(driverId: DocumentReference) {
-    if (!driverId) return null;
-
-    const driverDoc = await getDoc(driverId);
-    if (driverDoc.exists()) {
-      const driverData = driverDoc.data();
-      return driverData ? { id: driverDoc.id, ...driverData } : null;
-    } else {
-      return null;
-    }
-  }
-
-  loadTeams(): void {
-    this.reloadSubject.next();
-  }
-
-  get reload$() {
-    return this.reloadSubject.asObservable();
   }
 }

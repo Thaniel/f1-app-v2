@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, updateDoc } from 'firebase/firestore';
-import { Subject } from 'rxjs';
+import { ReloadableService } from '../../base/reloadable.service';
 import { ImageService } from '../../feature/image.service';
 import { firestore } from '../../firebase/firebase.provider';
 import { IDriver } from '../../interfaces/driver.interface';
 import { sortDriversByPoints, urlToFile } from '../../utils';
+import { RelationResolverService } from '../relation-resolver.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DriversService {
-  private readonly reloadSubject = new Subject<void>();
+export class DriversService extends ReloadableService {
   private static readonly COLLECTION_NAME = "drivers";
 
   constructor(
-    private readonly imageService: ImageService
-  ) { }
+    private readonly imageService: ImageService,
+    private readonly relationResolverService: RelationResolverService
+  ) {
+    super();
+  }
 
   /*
   * Create Driver
@@ -32,11 +35,13 @@ export class DriversService {
         team: doc(firestore, `teams/${driver.team}`),
       });
 
-      if (driver.image){
+      if (driver.image) {
         const updateDriver: Partial<IDriver> = {};
         updateDriver.imageUrl = await this.imageService.uploadImage(DriversService.COLLECTION_NAME, docRef.id, driver.image);
         await updateDoc(docRef, updateDriver);
       }
+
+      this.triggerReload();
 
       console.log("Driver written with ID: ", docRef.id);
       return true;
@@ -66,6 +71,9 @@ export class DriversService {
       }
 
       await updateDoc(driverDocRef, updatedData);
+
+      this.triggerReload();
+
       console.log("Driver updated with ID: ", id);
       return true;
     } catch (error) {
@@ -84,8 +92,10 @@ export class DriversService {
       await this.imageService.deleteFolder(DriversService.COLLECTION_NAME, id);
 
       await deleteDoc(driverDocRef);
-      console.log("Driver deleted with ID: ", id);
 
+      this.triggerReload();
+
+      console.log("Driver deleted with ID: ", id);
       return true;
     } catch (error) {
       console.error("Error deleting driver: ", error);
@@ -105,7 +115,8 @@ export class DriversService {
       await Promise.all(querySnapshot.docs.map(async (doc) => {
         const data = doc.data();
 
-        this.getTeam(data);
+        // Get team
+        data['team'] = await this.relationResolverService.resolve(data['team']);
 
         // Get driver image
         data['image'] = await urlToFile(data['imageUrl']);
@@ -133,7 +144,8 @@ export class DriversService {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
-        this.getTeam(data);
+        // Get team
+        data['team'] = await this.relationResolverService.resolve(data['team']);
 
         // Get driver image
         data['image'] = await urlToFile(data['imageUrl']);
@@ -147,26 +159,5 @@ export class DriversService {
       console.error("Error getting driver:", error);
       return null;
     }
-  }
-
-  // Get team info to set into driver
-  private async getTeam(data: DocumentData) {
-    if (data['team']) {
-      const teamDoc = await getDoc(data['team']);
-      if (teamDoc.exists()) {
-        const teamData = teamDoc.data();
-        data['team'] = teamData && typeof teamData === 'object' ? { id: teamDoc.id, ...teamData } : null;
-      } else {
-        data['team'] = null;
-      }
-    }
-  }
-
-  loadDrivers(): void {
-    this.reloadSubject.next();
-  }
-
-  get reload$() {
-    return this.reloadSubject.asObservable();
   }
 }

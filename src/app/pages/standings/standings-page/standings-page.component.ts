@@ -96,8 +96,6 @@ export class StandingsPageComponent implements OnInit {
       this.showSnackBar(allOk);
     });
 
-    this.teamsService.loadTeams();
-    this.driversService.loadDrivers();
     this.isEditingPoints = false;
   }
 

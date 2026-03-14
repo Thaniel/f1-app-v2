@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, Timestamp, updateDoc } from 'firebase/firestore';
-import { Subject } from 'rxjs';
+import { ReloadableService } from '../../base/reloadable.service';
 import { ImageService } from '../../feature/image.service';
 import { firestore } from '../../firebase/firebase.provider';
 import { IRace } from '../../interfaces/race.interface';
@@ -9,13 +9,14 @@ import { urlToFile } from '../../utils';
 @Injectable({
   providedIn: 'root'
 })
-export class RacesService {
-  private readonly reloadSubject = new Subject<void>();
+export class RacesService extends ReloadableService {
   private static readonly COLLECTION_NAME = "races";
 
   constructor(
     private readonly imageService: ImageService
-  ) { }
+  ) {
+    super();
+  }
 
   /*
    * Create Race
@@ -39,12 +40,14 @@ export class RacesService {
         description: race.description,
       });
 
-      if (race.image){
+      if (race.image) {
         const updateRace: Partial<IRace> = {};
         updateRace.imageUrl = await this.imageService.uploadImage(RacesService.COLLECTION_NAME, docRef.id, race.image);
         await updateDoc(docRef, updateRace);
       }
       
+      this.triggerReload();
+
       console.log("Race written with ID: ", docRef.id);
       return true;
     } catch (error) {
@@ -61,13 +64,16 @@ export class RacesService {
       const raceDocRef = doc(firestore, RacesService.COLLECTION_NAME, id);
 
       if (raceImageFile) {
-         const downloadURL = await this.imageService.replaceImage(RacesService.COLLECTION_NAME, id, raceImageFile);
+        const downloadURL = await this.imageService.replaceImage(RacesService.COLLECTION_NAME, id, raceImageFile);
 
         // Update the Firestore document with the race image URL
         updatedData.imageUrl = downloadURL;
       }
 
       await updateDoc(raceDocRef, updatedData);
+
+      this.triggerReload();
+
       console.log("Race updated with ID: ", id);
       return true;
     } catch (error) {
@@ -86,8 +92,10 @@ export class RacesService {
       await this.imageService.deleteFolder(RacesService.COLLECTION_NAME, id);
 
       await deleteDoc(raceDocRef);
-      console.log("Race deleted with ID: ", id);
 
+      this.triggerReload();
+      
+      console.log("Race deleted with ID: ", id);
       return true;
     } catch (error) {
       console.error("Error deleting race: ", error);
@@ -172,13 +180,5 @@ export class RacesService {
     if (data['date'] instanceof Timestamp) {
       data['date'] = data['date'].toDate();
     }
-  }
-
-  loadRaces(): void {
-    this.reloadSubject.next();
-  }
-
-  get reload$() {
-    return this.reloadSubject.asObservable();
   }
 }

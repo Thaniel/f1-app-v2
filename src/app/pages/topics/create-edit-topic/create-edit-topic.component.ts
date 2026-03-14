@@ -74,7 +74,6 @@ export class CreateEditTopicComponent {
 
     this.topicsService.create(this.currentTopic).then(result => {
       this.showSnackBar(result, 0);
-      this.topicsService.loadTopics();
     });
   }
 
@@ -85,7 +84,6 @@ export class CreateEditTopicComponent {
 
     this.topicsService.update(this.currentTopic.id, updatedData).then(result => {
       this.showSnackBar(result, 1);
-      this.topicsService.loadTopics();
     });
   }
 

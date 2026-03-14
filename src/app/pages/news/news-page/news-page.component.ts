@@ -86,7 +86,6 @@ export class NewsPageComponent implements OnInit {
   private async deleteNew(notice: INew) {
     const result = await this.newsService.delete(notice.id);
     this.showSnackBar(result);
-    this.newsService.loadNews();
   }
 
   public isCurrentUserAuthor(notice: INew): boolean {

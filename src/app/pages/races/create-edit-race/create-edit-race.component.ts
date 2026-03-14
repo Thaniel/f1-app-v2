@@ -102,7 +102,6 @@ export class CreateEditRaceComponent {
   private async createRace() {
     this.racesService.create(this.currentRace).then(result => {
       this.showSnackBar(result, 0);
-      this.racesService.loadRaces();
     });
   }
 
@@ -126,7 +125,6 @@ export class CreateEditRaceComponent {
 
     this.racesService.update(this.currentRace.id, updatedData, this.selectedFile).then(result => {
       this.showSnackBar(result, 1);
-      this.racesService.loadRaces();
     });
   }
 

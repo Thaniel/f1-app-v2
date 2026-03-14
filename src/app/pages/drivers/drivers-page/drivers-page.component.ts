@@ -68,7 +68,6 @@ export class DriversPageComponent implements OnInit {
   private async deleteDriver(driver: IDriver) {
     const result = await this.driversService.delete(driver.id);
     this.showSnackBar(result);
-    this.driversService.loadDrivers();
   }
 
   private showSnackBar(isOk: boolean): void {

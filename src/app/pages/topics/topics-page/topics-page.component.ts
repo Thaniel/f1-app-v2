@@ -85,7 +85,6 @@ export class TopicsPageComponent implements OnInit {
   private async deleteTopic(topic: ITopic) {
     const result = await this.topicsService.delete(topic.id);
     this.showSnackBar(result);
-    this.topicsService.loadTopics();
   }
 
   public isCurrentUserAuthor(topic: ITopic): boolean {

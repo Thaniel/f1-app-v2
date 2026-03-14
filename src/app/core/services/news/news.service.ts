@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from "firebase/firestore";
-import { Subject } from 'rxjs';
+import { ReloadableService } from '../../base/reloadable.service';
 import { ImageService } from '../../feature/image.service';
 import { firestore } from '../../firebase/firebase.provider';
 import { INew } from "../../interfaces/new.interface";
 import { convertTimestamp2Date, urlToFile } from '../../utils';
 import { CommentsService } from '../comments/comments.service';
-import { CommonService } from '../common/common.service';
+import { RelationResolverService } from '../relation-resolver.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NewsService {
-  private readonly reloadSubject = new Subject<void>();
+export class NewsService extends ReloadableService {
   private static readonly COLLECTION_NAME = "news";
 
   constructor(
     private readonly commentsService: CommentsService,
-    private readonly commonService: CommonService,
-    private readonly imageService: ImageService
-  ) { }
+    private readonly imageService: ImageService,
+    private readonly relationResolverService: RelationResolverService
+  ) { 
+    super();
+  }
 
   /*
    * Create New
@@ -40,6 +41,8 @@ export class NewsService {
         updateNew.imageUrl = await this.imageService.uploadImage(NewsService.COLLECTION_NAME, docRef.id, n.image);
         await updateDoc(docRef, updateNew);
       }
+
+      this.triggerReload();
 
       console.log("New written with ID: ", docRef.id);
       return true;
@@ -64,6 +67,9 @@ export class NewsService {
       }
 
       await updateDoc(newsDocRef, updatedData);
+
+      this.triggerReload();
+
       console.log("New updated with ID: ", id);
       return true;
     } catch (error) {
@@ -85,8 +91,10 @@ export class NewsService {
       await this.commentsService.deleteCommentsFromDoc(newsDocRef);
 
       await deleteDoc(newsDocRef);
-      console.log("New deleted with ID: ", id);
 
+      this.triggerReload();
+
+      console.log("New deleted with ID: ", id);
       return true;
     } catch (error) {
       console.error("Error deleting new: ", error);
@@ -135,7 +143,8 @@ export class NewsService {
 
         convertTimestamp2Date(data);
 
-        this.commonService.getAuthor(data);
+        // Get author
+        data['author'] = this.relationResolverService.resolve(data['author']);
 
         // Get comments
         data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
@@ -152,13 +161,5 @@ export class NewsService {
       console.error("Error getting new:", error);
       return null;
     }
-  }
-
-  loadNews(): void {
-    this.reloadSubject.next();
-  }
-
-  get reload$() {
-    return this.reloadSubject.asObservable();
   }
 }

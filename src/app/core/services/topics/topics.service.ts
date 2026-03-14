@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
-import { Subject } from 'rxjs';
+import { ReloadableService } from '../../base/reloadable.service';
 import { firestore } from '../../firebase/firebase.provider';
 import { ITopic } from '../../interfaces/topic.interface';
 import { convertTimestamp2Date } from '../../utils';
 import { CommentsService } from '../comments/comments.service';
-import { CommonService } from '../common/common.service';
+import { RelationResolverService } from '../relation-resolver.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TopicsService {
-  private readonly reloadSubject = new Subject<void>();
+export class TopicsService extends ReloadableService{
   private static readonly COLLECTION_NAME = "topics";
 
   constructor(
     private readonly commentsService: CommentsService,
-    private readonly commonService: CommonService,
-  ) { }
+    private readonly relationResolverService: RelationResolverService
+  ) {
+    super();
+   }
 
   /*
    * Create Topic
@@ -30,6 +31,8 @@ export class TopicsService {
         commentsCount: 0,
         author: doc(firestore, `users/${n.author!.id}`),
       });
+
+      this.triggerReload();
 
       console.log("Topic written with ID: ", docRef.id);
       return true;
@@ -47,6 +50,9 @@ export class TopicsService {
       const topicsDocRef = doc(firestore, TopicsService.COLLECTION_NAME, id);
 
       await updateDoc(topicsDocRef, updatedData);
+
+      this.triggerReload();
+
       console.log("Topic updated with ID: ", id);
       return true;
     } catch (error) {
@@ -66,8 +72,10 @@ export class TopicsService {
       await this.commentsService.deleteCommentsFromDoc(topicsDocRef);
 
       await deleteDoc(topicsDocRef);
-      console.log("Topic deleted with ID: ", id);
+      
+      this.triggerReload();
 
+      console.log("Topic deleted with ID: ", id);
       return true;
     } catch (error) {
       console.error("Error deleting topic: ", error);
@@ -89,7 +97,8 @@ export class TopicsService {
 
         convertTimestamp2Date(data);
 
-        await this.commonService.getAuthor(data);
+        // Get author
+        data["author"] = await this.relationResolverService.resolve(data['author']);
 
         return { id: document.id, ...data } as ITopic;
       }));
@@ -115,7 +124,8 @@ export class TopicsService {
 
         convertTimestamp2Date(data);
 
-        this.commonService.getAuthor(data);
+        // Get author
+        data["author"] = await this.relationResolverService.resolve(data['author']);
 
         // Get comments
         data['comments'] = await this.commentsService.getCommentsFromDoc(topicsDocRef);
@@ -129,13 +139,5 @@ export class TopicsService {
       console.error("Error getting topic:", error);
       return null;
     }
-  }
-
-  loadTopics(): void {
-    this.reloadSubject.next();
-  }
-
-  get reload$() {
-    return this.reloadSubject.asObservable();
   }
 }

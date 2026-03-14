@@ -67,7 +67,6 @@ export class TeamsPageComponent implements OnInit {
   private async deleteTeam(team: ITeam) {
     const result = await this.teamsService.delete(team.id);
     this.showSnackBar(result);
-    this.teamsService.loadTeams();
   }
 
   private showSnackBar(isOk: boolean): void {

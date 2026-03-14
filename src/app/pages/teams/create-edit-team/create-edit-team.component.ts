@@ -139,7 +139,6 @@ export class CreateEditTeamComponent implements OnInit {
   private async createTeam() {
     this.teamsService.create(this.currentTeam).then(result => {
       this.showSnackBar(result, 0);
-      this.teamsService.loadTeams();
     });
   }
 
@@ -158,7 +157,6 @@ export class CreateEditTeamComponent implements OnInit {
     
     this.teamsService.update(this.currentTeam.id, updatedData, this.selectedCarFile, this.selectedLogoFile).then(result => {
       this.showSnackBar(result, 1);
-      this.teamsService.loadTeams();
     });
   }
 
