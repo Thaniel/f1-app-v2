@@ -144,7 +144,7 @@ export class NewsService extends ReloadableService {
         convertTimestamp2Date(data);
 
         // Get author
-        data['author'] = this.relationResolverService.resolve(data['author']);
+        data['author'] = await this.relationResolverService.resolve(data['author']);
 
         // Get comments
         data['comments'] = await this.commentsService.getCommentsFromDoc(newsDocRef);
